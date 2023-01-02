@@ -2,17 +2,18 @@ import { FaceMesh } from "@mediapipe/face_mesh";
 import React, { useRef, useEffect } from "react";
 import * as Facemesh from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
+import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
+import { getHeadPoseEst } from "./VisionAPI";
 
 function FaceMeshCam() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
-    const connect = window.drawConnectors;
-    
+    const headSpot = [33, 263, 1, 61, 291, 199]
+
     let camera = null;
 
     function onResults(results) {
-        // const video = webcamRef.current.video;
         const videoWidth = webcamRef.current.video.videoWidth;
         const videoHeight = webcamRef.current.video.videoHeight;
 
@@ -20,13 +21,18 @@ function FaceMeshCam() {
         canvasRef.current.width = videoWidth;
         canvasRef.current.height = videoHeight;
 
+        const face_3d = []
+        const face_2d = []
+        const nose_2d = []
+        const nose_3d = []
+
+        let p1_x = ""
+        let p1_y = ""
+        let p2_x = ""
+        let p2_y = ""
+
         const canvasElement = canvasRef.current;
         const canvasCtx = canvasElement.getContext("2d");
-
-        let face3dArray = [{x:1221122, y:12123}];
-        let face2dArray = [];
-        let nose2dArray = [];
-        let nose3dArray = [];
 
         canvasCtx.save();
         canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
@@ -37,47 +43,85 @@ function FaceMeshCam() {
             canvasElement.width,
             canvasElement.height
         );
+         // draw a line
+        const drawLine = (info, style = {}) => {
+            const { x, y, x1, y1 } = info;
+            const { color = 'blue', width = 3 } = style;
+        
+            canvasCtx.beginPath();
+            canvasCtx.moveTo(x, y);
+            canvasCtx.lineTo(x1, y1);
+            canvasCtx.strokeStyle = color;
+            canvasCtx.lineWidth = width;
+            canvasCtx.stroke();
+        }
     
         if (results.multiFaceLandmarks) {
             for (const landmarks of results.multiFaceLandmarks) {
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_TESSELATION, {
+    
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_TESSELATION, {
                     color: "#C0C0C070",
                     lineWidth: 1,
                 });
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_EYE, {
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_EYE, {
                     color: "#FF3030",
                 });
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_EYEBROW, {
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_EYEBROW, {
                     color: "#FF3030",
                 });
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_EYE, {
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_EYE, {
                     color: "#30FF30",
                 });
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_EYEBROW, {
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_EYEBROW, {
                     color: "#30FF30",
                 });
 
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_IRIS, {
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_IRIS, {
                     color: "#E0E0E0",
                     lineWidth: 2,
                 });
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_IRIS, {
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_IRIS, {
                     color: "#E0E0E0",
                     lineWidth: 2,
                 });
                 // connect(canvasCtx, landmarks, Facemesh.FACEMESH_FACE_OVAL, {
                 //     color: "#E0E0E0",
                 // });
-                connect(canvasCtx, landmarks, Facemesh.FACEMESH_LIPS, {
+                drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LIPS, {
                     color: "#E0E0E0",
                 });
-
-
-
-
+            
             }
+            for (let index of headSpot){
+                if (index === 1){
+                    nose_2d.push([results.multiFaceLandmarks[0][index].x * videoWidth, results.multiFaceLandmarks[0][index].y * videoHeight])
+                    nose_3d.push([results.multiFaceLandmarks[0][index].x * videoWidth, results.multiFaceLandmarks[0][index].y * videoHeight, results.multiFaceLandmarks[0][index].z * 3000])
+                }
+                let x = results.multiFaceLandmarks[0][index].x * videoWidth
+                let y = results.multiFaceLandmarks[0][index].y * videoHeight
+
+                face_2d.push([x, y])
+                face_3d.push([x, y, results.multiFaceLandmarks[0][index].z])
+            }
+            if (face_2d.length === 6 && face_3d.length === 6 && nose_2d.length === 1 && nose_2d.length === 1){
+
+                getHeadPoseEst(videoWidth, videoHeight, face_2d, face_3d, nose_2d, nose_3d)
+                .then(
+                    (res) => {
+                        p1_x = res.data[0][0]
+                        p1_y = res.data[0][1]
+                        p2_x = res.data[1][0]
+                        p2_y = res.data[1][1]
+                        console.log(p1_x, p1_y, p2_x, p2_y)
+                        drawLine({ x: p1_x, y: p1_y, x1: p2_x, y1: p2_y });
+                    }
+                )
+            }
+
         }
         canvasCtx.restore();
+
+
     }
 
     useEffect(() => {
@@ -92,6 +136,7 @@ function FaceMeshCam() {
             minDetectionConfidence: 0.5,
             minTrackingConfidence: 0.5,
             refineLandmarks: true,
+            selfieMode: true,
         });
 
         faceMesh.onResults(onResults);

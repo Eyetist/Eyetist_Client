@@ -4,14 +4,15 @@ import FaceMeshCam from "./components/faceMesh/FaseMeshCam";
 import { Canvas } from './components/canvas/Canvas'
 import { ClearCanvasButton } from './components/canvas/ClearCanvasButton';
 
-function App() {
+const App = () => {
   return (
     <div>
       <Canvas />
       <ClearCanvasButton />
       <FaceMeshCam />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+
