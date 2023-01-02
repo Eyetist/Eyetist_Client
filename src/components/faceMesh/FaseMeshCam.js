@@ -43,20 +43,51 @@ function FaceMeshCam() {
             canvasElement.width,
             canvasElement.height
         );
-         // draw a line
-        const drawLine = (info, style = {}) => {
-            const { x, y, x1, y1 } = info;
-            const { color = 'blue', width = 3 } = style;
-        
-            canvasCtx.beginPath();
-            canvasCtx.moveTo(x, y);
-            canvasCtx.lineTo(x1, y1);
-            canvasCtx.strokeStyle = color;
-            canvasCtx.lineWidth = width;
-            canvasCtx.stroke();
-        }
     
-        if (results.multiFaceLandmarks) {
+        if (results.multiFaceLandmarks[0]) {
+            for (let index of headSpot){
+                if (index === 1){
+                    nose_2d.push([results.multiFaceLandmarks[0][index].x * videoWidth, results.multiFaceLandmarks[0][index].y * videoHeight])
+                    nose_3d.push([results.multiFaceLandmarks[0][index].x * videoWidth, results.multiFaceLandmarks[0][index].y * videoHeight, results.multiFaceLandmarks[0][index].z * 3000])
+                }
+
+                let x = results.multiFaceLandmarks[0][index].x * videoWidth
+                let y = results.multiFaceLandmarks[0][index].y * videoHeight
+
+                face_2d.push([x, y])
+                face_3d.push([x, y, results.multiFaceLandmarks[0][index].z])
+            }
+            
+    
+            if (face_2d.length === 6 && face_3d.length === 6 && nose_2d.length === 1 && nose_2d.length === 1){
+                getHeadPoseEst(videoWidth, videoHeight, face_2d, face_3d, nose_2d, nose_3d)
+                .then(
+                    (res) => {
+                        p1_x = res.data[0][0]
+                        p1_y = res.data[0][1]
+                        p2_x = res.data[1][0]
+                        p2_y = res.data[1][1]
+
+                        const left_eye = [results.multiFaceLandmarks[0][145].y * videoHeight, results.multiFaceLandmarks[0][159].y * videoHeight]
+                        const right_eye = [results.multiFaceLandmarks[0][374].y * videoHeight, results.multiFaceLandmarks[0][386].y * videoHeight]
+
+                        canvasCtx.beginPath();
+                        canvasCtx.moveTo(p1_x, p1_y);
+                        canvasCtx.lineTo(p2_x, p2_y);
+                        canvasCtx.strokeStyle = 'blue';
+                        canvasCtx.lineWidth = 6;
+                    
+                        if (left_eye[0] - left_eye[1] < 5){ // 왼쪽 눈 클릭
+                            canvasCtx.strokeStyle = "#FF3030";
+                        }
+                        if (right_eye[0] - right_eye[1] < 5){ // 오른쪽 눈 클릭
+                            canvasCtx.strokeStyle = "#30FF30";
+                        }
+            
+                        canvasCtx.stroke();
+                    }
+                )
+            }
             for (const landmarks of results.multiFaceLandmarks) {
     
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_TESSELATION, {
@@ -92,31 +123,7 @@ function FaceMeshCam() {
                 });
             
             }
-            for (let index of headSpot){
-                if (index === 1){
-                    nose_2d.push([results.multiFaceLandmarks[0][index].x * videoWidth, results.multiFaceLandmarks[0][index].y * videoHeight])
-                    nose_3d.push([results.multiFaceLandmarks[0][index].x * videoWidth, results.multiFaceLandmarks[0][index].y * videoHeight, results.multiFaceLandmarks[0][index].z * 3000])
-                }
-                let x = results.multiFaceLandmarks[0][index].x * videoWidth
-                let y = results.multiFaceLandmarks[0][index].y * videoHeight
-
-                face_2d.push([x, y])
-                face_3d.push([x, y, results.multiFaceLandmarks[0][index].z])
-            }
-            if (face_2d.length === 6 && face_3d.length === 6 && nose_2d.length === 1 && nose_2d.length === 1){
-
-                getHeadPoseEst(videoWidth, videoHeight, face_2d, face_3d, nose_2d, nose_3d)
-                .then(
-                    (res) => {
-                        p1_x = res.data[0][0]
-                        p1_y = res.data[0][1]
-                        p2_x = res.data[1][0]
-                        p2_y = res.data[1][1]
-                        console.log(p1_x, p1_y, p2_x, p2_y)
-                        drawLine({ x: p1_x, y: p1_y, x1: p2_x, y1: p2_y });
-                    }
-                )
-            }
+            
 
         }
         canvasCtx.restore();
