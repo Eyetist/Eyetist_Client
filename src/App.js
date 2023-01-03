@@ -1,18 +1,17 @@
 import './App.css';
-import React from "react";
-import FaceMeshCam from "./components/faceMesh/FaseMeshCam";
-import { Canvas } from './components/canvas/Canvas'
-import { ClearCanvasButton } from './components/canvas/ClearCanvasButton';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import MainPage from './pages/Main';
 
-const App = () => {
+
+function App() {
   return (
-    <div>
-      <Canvas />
-      <ClearCanvasButton />
-      <FaceMeshCam />
-    </div>
-  )
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={ <MainPage /> } />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
 }
-
-export default App
-
+export default App;
