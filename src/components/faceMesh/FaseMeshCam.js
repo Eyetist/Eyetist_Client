@@ -4,7 +4,7 @@ import * as Facemesh from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
 import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
-import { getHeadPoseEst } from "./VisionAPI";
+import { getHeadPoseEst } from "../../api/vision/VisionAPI";
 
 function FaceMeshCam() {
     const webcamRef = useRef(null);
@@ -83,7 +83,8 @@ function FaceMeshCam() {
                         if (right_eye[0] - right_eye[1] < 5){ // 오른쪽 눈 클릭
                             canvasCtx.strokeStyle = "#30FF30";
                         }
-            
+                        console.log(p2_x, p2_y)
+        
                         canvasCtx.stroke();
                     }
                 )
@@ -123,12 +124,8 @@ function FaceMeshCam() {
                 });
             
             }
-            
-
         }
         canvasCtx.restore();
-
-
     }
 
     useEffect(() => {
