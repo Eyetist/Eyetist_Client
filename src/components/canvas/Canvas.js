@@ -1,9 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useCanvas } from "./CanvasContext.js";
-import { CanvasProvider } from "./CanvasContext";
+import { useRecoilValue } from "recoil";
+import { IS_LEFT_EYE_BLINK, MOUSE_POS } from '../../recoil/Atoms';
 
-export function Canvas() {
+export function Canvas(props) {
+    let mousePos = useRecoilValue(MOUSE_POS)
+    let isStartDrawing = useRef(false);
+    let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
+    
     const {
+        contextRef,
         canvasRef,
         prepareCanvas,
         startDrawing,
@@ -15,17 +21,26 @@ export function Canvas() {
         prepareCanvas();
     }, []);
 
+    if(isLeftEyeBlink){
+        isStartDrawing.current = true;
+        contextRef.current.lineTo(mousePos.x, mousePos.y);
+        contextRef.current.stroke();
+    }
+    else{
+        if(isStartDrawing.current){
+            contextRef.current.beginPath();
+        }
+    }
+
     return (
-        // <div style={{width:'100px', height:'100px'}}>
-        <CanvasProvider>
+        <div>
             <canvas
                 onMouseDown={startDrawing}
-                width={"100px"}
                 onMouseUp={finishDrawing}
                 onMouseMove={draw}
+                draw={draw}
                 ref={canvasRef}
             />
-        </CanvasProvider>
-        // </div>
+        </div>
     );
 }
