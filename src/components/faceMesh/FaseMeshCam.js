@@ -6,6 +6,9 @@ import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
 import { getHeadPoseEst } from "../../api/vision/VisionAPI";
 
+const CAM_WIDTH = 360;
+const CAM_HEIGHT = 270;
+
 function FaceMeshCam() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
@@ -150,16 +153,15 @@ function FaceMeshCam() {
                 onFrame: async () => {
                 await faceMesh.send({ image: webcamRef.current.video });
                 },
-                width: 640,
-                height: 480,
+                width: CAM_WIDTH,
+                height: CAM_HEIGHT,
             });
             camera.start();
         }
     }, []);
 
     return (
-        <center>
-        <div className="App">
+        <div>
             <Webcam
             ref={webcamRef}
             style={{
@@ -170,8 +172,8 @@ function FaceMeshCam() {
                 right: 0,
                 textAlign: "right",
                 zindex: 9,
-                width: 640,
-                height: 480,
+                width: CAM_WIDTH,
+                height: CAM_HEIGHT,
             }}
             />{" "}
             <canvas
@@ -185,13 +187,12 @@ function FaceMeshCam() {
                     right: 0,
                     textAlign: "right",
                     zindex: 9,
-                    width: 640,
-                    height: 480,
+                    width: CAM_WIDTH,
+                    height: CAM_HEIGHT,
                 }}
             >
             </canvas>
         </div>
-        </center>
     );
 }
 

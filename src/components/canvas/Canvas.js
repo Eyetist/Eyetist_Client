@@ -15,7 +15,7 @@ export function Canvas() {
     }, []);
 
     return (
-        <div style={{width:'100px', height:'100px'}}>
+        <div>
             <canvas
                 onMouseDown={startDrawing}
                 onMouseUp={finishDrawing}
