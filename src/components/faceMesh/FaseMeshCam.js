@@ -1,5 +1,5 @@
 import { FaceMesh } from "@mediapipe/face_mesh";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as Facemesh from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
 import { drawConnectors } from '@mediapipe/drawing_utils';
@@ -8,7 +8,13 @@ import { getHeadPoseEst } from "../../api/vision/VisionAPI";
 import { useSetRecoilState } from "recoil";
 import { MOUSE_POS, IS_LEFT_EYE_BLINK} from '../../recoil/Atoms';
 
-function FaceMeshCam() {
+const faceMesh = new FaceMesh({
+    locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+    },
+});
+
+function FaceMeshCam(props) {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const headSpot = [33, 263, 1, 61, 291, 199]
@@ -17,9 +23,24 @@ function FaceMeshCam() {
 
     let camera = null;
 
+    useEffect( ()=> {
+        faceMesh.setOptions({
+            maxNumFaces: 1,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5,
+            refineLandmarks: true,
+            selfieMode: true,
+        });
+
+        faceMesh.onResults(onResults);
+    }, [props.sensitivity])
+
     function onResults(results) {
-        const videoWidth = webcamRef.current.video.videoWidth;
-        const videoHeight = webcamRef.current.video.videoHeight;
+        const videoWidth =  window.innerWidth * props.sensitivity;
+        const videoHeight = window.innerHeight * props.sensitivity;
+
+        // const videoWidth = webcamRef.current.video.offsetWidth;
+        // const videoHeight = webcamRef.current.video.offsetHeight;
 
         // Set canvas width
         canvasRef.current.width = videoWidth;
@@ -71,34 +92,34 @@ function FaceMeshCam() {
                         p2_x = res.data[1][0]
                         p2_y = res.data[1][1]
 
-                        const left_eye = [results.multiFaceLandmarks[0][145].y * videoHeight, results.multiFaceLandmarks[0][159].y * videoHeight]
-                        const right_eye = [results.multiFaceLandmarks[0][374].y * videoHeight, results.multiFaceLandmarks[0][386].y * videoHeight]
+                        // console.log(res.data[1])
 
-                        canvasCtx.beginPath();
-                        canvasCtx.moveTo(p1_x, p1_y);
-                        canvasCtx.lineTo(p2_x, p2_y);
-                        canvasCtx.strokeStyle = 'blue';
-                        canvasCtx.lineWidth = 6;
+                        const left_eye = [results.multiFaceLandmarks[0][145].y, results.multiFaceLandmarks[0][159].y]
+                        const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
+
+                        // canvasCtx.beginPath();
+                        // canvasCtx.moveTo(p1_x, p1_y);
+                        // canvasCtx.lineTo(p2_x, p2_y);
+                        // canvasCtx.strokeStyle = 'blue';
+                        // canvasCtx.lineWidth = ;
                     
-                        if (left_eye[0] - left_eye[1] < 5){ // 왼쪽 눈 클릭
-                            canvasCtx.strokeStyle = "#FF3030";
+                        // console.log(left_eye[0] - left_eye[1])
+                        if (left_eye[0] - left_eye[1] < 0.01){ // 왼쪽 눈 클릭
+                            // canvasCtx.strokeStyle = "#FF3030";
                             setIsLeftEyeBlink(true)
                         }
                         else{
                             setIsLeftEyeBlink(false)
                         }
-                        if (right_eye[0] - right_eye[1] < 5){ // 오른쪽 눈 클릭
-                            canvasCtx.strokeStyle = "#30FF30";
+
+                        if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
+                            // canvasCtx.strokeStyle = "#30FF30";
                         }
                         setMousePos({
-                            x: p2_x,
-                            y: p2_y
+                            x: p2_x / props.sensitivity,
+                            y: p2_y / props.sensitivity
                         })
 
-                        // props.setMousePosX(p2_x)
-                        // props.setMousePosY(p2_y)
-                        // console.log(p2_x, p2_y)
-        
                         canvasCtx.stroke();
                     }
                 )
@@ -107,7 +128,7 @@ function FaceMeshCam() {
     
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_TESSELATION, {
                     color: "#C0C0C070",
-                    lineWidth: 1,
+                    lineWidth: 2 * props.sensitivity,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_EYE, {
                     color: "#FF3030",
@@ -124,11 +145,11 @@ function FaceMeshCam() {
 
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_IRIS, {
                     color: "#E0E0E0",
-                    lineWidth: 2,
+                    lineWidth: 5 * props.sensitivity,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_IRIS, {
                     color: "#E0E0E0",
-                    lineWidth: 2,
+                    lineWidth: 5 * props.sensitivity,
                 });
                 // connect(canvasCtx, landmarks, Facemesh.FACEMESH_FACE_OVAL, {
                 //     color: "#E0E0E0",
@@ -143,11 +164,6 @@ function FaceMeshCam() {
     }
 
     useEffect(() => {
-        const faceMesh = new FaceMesh({
-            locateFile: (file) => {
-                return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
-            },
-        });
 
         faceMesh.setOptions({
             maxNumFaces: 1,
@@ -164,13 +180,14 @@ function FaceMeshCam() {
                 onFrame: async () => {
                 await faceMesh.send({ image: webcamRef.current.video });
                 },
-                width: 640,
-                height: 480,
+                width: window.innerWidth,
+                height: window.innerHeight,
             });
             camera.start();
         }
 
     }, []);
+
 
     return (
         <div style={{position:"relative"}}>
@@ -183,7 +200,7 @@ function FaceMeshCam() {
                 textAlign: "right",
                 zindex: 9,
                 width: "100%",
-                height: "auto",
+                height: 0,
             }}
             />{" "}
             <canvas

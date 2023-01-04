@@ -21,9 +21,13 @@ export function Canvas(props) {
         prepareCanvas();
     }, []);
 
+    // console.log(`${window.innerWidth}px`)
+    // console.log(mousePos)
     if(isLeftEyeBlink){
         isStartDrawing.current = true;
-        contextRef.current.lineTo(mousePos.x, mousePos.y);
+        let posX = (mousePos.x - (window.innerWidth / 10)) * 2 + 25 * 2
+        let posY = (mousePos.y - 70) * 2 + 25 * 2
+        contextRef.current.lineTo(posX, posY);
         contextRef.current.stroke();
     }
     else{

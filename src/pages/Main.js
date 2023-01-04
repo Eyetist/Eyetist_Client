@@ -2,26 +2,38 @@ import React, { useEffect, useState } from "react";
 import "./Main.css"
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { MOUSE_POS } from '../recoil/Atoms';
-
-import { useRef } from "react";
 import { ClearCanvasButton } from '../components/canvas/ClearCanvasButton';
+import CustomSlider from "../components/atoms/CustomSlider";
 
 const Main = () => {
     let mousePos = useRecoilValue(MOUSE_POS)
-    // console.log(mousePos)
+    let [sensitivity, SetSensitivity] = useState(3);
+
     return (
         <div className="whole-container">
             <img
                 src='https://www.pngarts.com/files/10/Circle-PNG-Image-Background.png'
-                alt="My Image"
-                style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "100px", height : "100px"}}
+                alt="cursor"
+                style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px"}}
             />
             <div className="top-bar"> {/*상단 바 div*/}
                 <div className="eyetist-font">
                     EyeTist
                 </div>
+                
+                <div style={{marginTop: "30px"}}>
+                    <CustomSlider 
+                        title = "Sensitivity"
+                        progress = {sensitivity}
+                        setProgress = {SetSensitivity}
+                        maxRange = {10}
+                        width = "200px"
+                        height = "10px"
+                    />
+                </div>
+
             </div>
 
             <div className="components-container">
@@ -36,7 +48,9 @@ const Main = () => {
                 </div>
 
                 <div className="detail-container">
-                    <FaceMeshCam/>
+                    <FaceMeshCam
+                        sensitivity = {sensitivity}
+                    />
                 </div>
             </div>
             {/* <Canvas />
