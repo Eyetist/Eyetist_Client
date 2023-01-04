@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useRecoilValue } from "recoil";
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK } from '../../recoil/Atoms';
 
@@ -9,14 +9,16 @@ const EyeButton = (props) => {
     let buttonStyle = props.style
 
     function isOverlap(){
-        const { offsetTop, offsetLeft, offsetWidth, offsetHeight} = buttonRef.current;
-        let posX = mousePos.x + 25 // 25 is mouseCursorSize / 2
-        let posY = mousePos.y + 25
-
-        if ((offsetLeft <= posX && posX <= offsetLeft + offsetWidth) && (offsetTop <= posY && posY <= offsetTop + offsetHeight)){
-            return true
+        if (buttonRef.current){
+            const { offsetTop, offsetLeft, offsetWidth, offsetHeight} = buttonRef.current;
+            let posX = mousePos.x + 25 // 25 is mouseCursorSize / 2
+            let posY = mousePos.y + 25
+    
+            if ((offsetLeft <= posX && posX <= offsetLeft + offsetWidth) && (offsetTop <= posY && posY <= offsetTop + offsetHeight)){
+                return true
+            }
+            return false
         }
-        return false
     }
 
     if (isOverlap()){
