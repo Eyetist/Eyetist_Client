@@ -5,6 +5,7 @@ import { Canvas } from '../components/canvas/Canvas'
 import { useRecoilValue } from "recoil";
 import { MOUSE_POS, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK } from '../recoil/Atoms';
 import { ClearCanvasButton } from '../components/canvas/ClearCanvasButton';
+import EyeButton from "../components/atoms/EyeButton";
 import CustomSlider from "../components/atoms/CustomSlider";
 
 const cursorImage = {
@@ -64,6 +65,14 @@ const Main = () => {
                 
                 <div className="functions-container">
                     <ClearCanvasButton />
+
+                    <EyeButton 
+                        style={{width:"200px", height:"50px", borderRadius:"5px", backgroundColor:"white"}}
+                        title="test"
+                        hoverColor="gray"
+                        clickColor="black"
+                        onClick={() => {console.log("눌렸어용")}}
+                    />
                 </div>
 
                 <div className="canvas-container">
