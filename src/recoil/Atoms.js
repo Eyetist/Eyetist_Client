@@ -12,3 +12,8 @@ export const IS_LEFT_EYE_BLINK = atom({
 	key : 'isLeftEyeBlink',
     default : false
 });
+
+export const IS_RIGHT_EYE_BLINK = atom({
+	key : 'isRightEyeBlink',
+    default : false
+});

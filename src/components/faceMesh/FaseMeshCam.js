@@ -6,7 +6,7 @@ import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
 import { getHeadPoseEst } from "../../api/vision/VisionAPI";
 import { useSetRecoilState } from "recoil";
-import { MOUSE_POS, IS_LEFT_EYE_BLINK} from '../../recoil/Atoms';
+import { MOUSE_POS, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK} from '../../recoil/Atoms';
 
 const faceMesh = new FaceMesh({
     locateFile: (file) => {
@@ -20,6 +20,7 @@ function FaceMeshCam(props) {
     const headSpot = [33, 263, 1, 61, 291, 199]
     let setMousePos = useSetRecoilState(MOUSE_POS)
     let setIsLeftEyeBlink = useSetRecoilState(IS_LEFT_EYE_BLINK)
+    let setIsRightEyeBlick = useSetRecoilState(IS_RIGHT_EYE_BLINK)
 
     let camera = null;
 
@@ -114,6 +115,10 @@ function FaceMeshCam(props) {
 
                         if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
                             // canvasCtx.strokeStyle = "#30FF30";
+                            setIsRightEyeBlick(true)
+                        }
+                        else{
+                            setIsRightEyeBlick(false)
                         }
                         setMousePos({
                             x: p2_x / props.sensitivity,
