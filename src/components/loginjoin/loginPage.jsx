@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useRef, useEffect} from "react";
 import './join.css'
 
 const loginPage = () =>{
+
+
     return(
         <div className = "container">
             <div className = "loginJoinContainer">
@@ -20,6 +22,7 @@ const loginPage = () =>{
                             <div className = "password-text">PW</div>
                             <input type="password" className="password" />
                         </div>
+                        
 
                         <div id = "loginButtonContainer">
                             <button id = "loginButton">Login</button>

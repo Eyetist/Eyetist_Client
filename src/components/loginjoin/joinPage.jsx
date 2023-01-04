@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useRef } from 'react';
+import { Checkbox, Radio, Switch } from 'pretty-checkbox-react';
+import '@djthoms/pretty-checkbox';
 import './login.css'
 
 const joinPage = () =>{
@@ -19,7 +21,7 @@ const joinPage = () =>{
                         <div id = "pwContainer">
                             <div className = "password-text">Pw</div>
                             <input type="text" className="join-password"/>
-                            <button className = "check-button"></button>
+                            <Checkbox shape="round" animation="pulse"></Checkbox>
                         </div>
 
                         <div id = "loginButtonContainer">
