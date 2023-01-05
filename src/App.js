@@ -11,7 +11,9 @@ function App() {
     <BrowserRouter>
       <span className="App">
         <Routes>
-          <Route path="/" element={ <JoinPage /> } />
+          <Route path="/" element={ <BeginPage /> } />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/join" element={<JoinPage />} />
         </Routes>
       </span>
     </BrowserRouter>

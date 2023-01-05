@@ -1,4 +1,5 @@
 import React, {useRef, useEffect} from "react";
+import {Link} from "react-router-dom";
 import './join.css'
 
 const loginPage = () =>{
@@ -7,7 +8,7 @@ const loginPage = () =>{
     return(
         <div className = "container">
             <div className = "loginJoinContainer">
-                <div className = "login-join-title">EyeTist</div>
+                <Link to = {`/`} className = "login-join-title">EyeTist</Link>
 
                 <div className = "login-container">
 

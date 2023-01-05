@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Checkbox, Radio, Switch } from 'pretty-checkbox-react';
+import {Link} from "react-router-dom";
 import '@djthoms/pretty-checkbox';
 import './login.css'
 
@@ -7,11 +8,11 @@ const joinPage = () =>{
     return(
         <div className = "container">
             <div className = "loginJoinContainer">
-                <div className = "login-join-title">EyeTist</div>
+                <Link to = {`/`} className = "login-join-title">EyeTist</Link>
 
                 <div className = "login-container">
 
-                    <div id = "loginContainerText">Join</div>
+                    <div id = "loginContainerText">Join</div> 
                     
                         <div id = "idContainer">
                             <div className = "id-text">Id</div>
