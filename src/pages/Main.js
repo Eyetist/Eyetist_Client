@@ -60,7 +60,7 @@ const Main = () => {
                         height = "10px"
                     />
                 </div>
-                <EyeKeyboard />
+                {/* <EyeKeyboard /> */}
             </div>
 
             <div className="components-container">
