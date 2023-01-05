@@ -126,3 +126,50 @@ font-style: normal;
     margin-top:20px;
     margin-left: 8px;
 }
+#pwcheck{
+    width : 300px;
+    height : 15px;
+}
+.checkbox{
+    width : 50px;
+    height : 50px;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    outline: none !important;
+    border: 1px solid #eeeeee;
+    border-radius: 2px;
+    background: #fbfbfb;
+}
+
+input[type="checkbox"]::before {
+    content: "\2713";
+    font-size:50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: hidden;
+    transform: scale(0) translate(-50%, -50%);
+    line-height: 1;
+}
+
+input[type="checkbox"]:hover {
+    border-color: rgba(170, 170, 170, 0.5);
+}
+
+input[type="checkbox"]:checked {
+    transition: all 2s;
+    background-color: black;
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+input[type="checkbox"]:checked::before {
+    border-radius: 2px;
+    transform: scale(1) translate(-50%, -50%)
+}

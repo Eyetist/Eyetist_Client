@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/Main';
-import BeginPage from './components/begin/startPage';
-import LoginPage from './components/loginjoin/loginPage'
-import JoinPage from './components/loginjoin/joinPage'
+import BeginPage from './components/begin/StartPage';
+import LoginPage from './components/loginjoin/LoginPage'
+import JoinPage from './components/loginjoin/JoinPage'
 
 
 function App() {
@@ -11,9 +11,9 @@ function App() {
     <BrowserRouter>
       <span className="App">
         <Routes>
-          <Route path="/" element={ <BeginPage /> } />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/join" element={<JoinPage />} />
+          <Route path="/" element={<BeginPage />}/>
+          <Route path="/login" element={<LoginPage />}/>
+          <Route path="/join" element={<JoinPage />}/>
         </Routes>
       </span>
     </BrowserRouter>

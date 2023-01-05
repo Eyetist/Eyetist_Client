@@ -1,8 +1,8 @@
 import React, {useRef, useEffect} from "react";
 import {Link} from "react-router-dom";
-import './join.css'
+import './Join.css'
 
-const loginPage = () =>{
+const LoginPage = () =>{
 
 
     return(
@@ -38,4 +38,4 @@ const loginPage = () =>{
 
     );
 }
-export default loginPage;
+export default LoginPage;

@@ -1,10 +1,21 @@
-import React, { useState, useRef } from 'react';
+import React, {useCallback, useState} from 'react';
 import { Checkbox, Radio, Switch } from 'pretty-checkbox-react';
 import {Link} from "react-router-dom";
 import '@djthoms/pretty-checkbox';
-import './login.css'
+import './Login.css'
 
-const joinPage = () =>{
+const JoinPage = () =>{
+
+    // const [checked, setChecked] = useState(false);
+    
+    const [checked, setChecked] = useState(false);
+
+
+    const onChange = useCallback(() => {
+        setChecked(prev => !prev);
+    }, []);
+
+
     return(
         <div className = "container">
             <div className = "loginJoinContainer">
@@ -22,7 +33,7 @@ const joinPage = () =>{
                         <div id = "pwContainer">
                             <div className = "password-text">Pw</div>
                             <input type="text" className="join-password"/>
-                            <Checkbox shape="round" animation="pulse"></Checkbox>
+                            <input type="checkbox" className = "checkbox"></input>
                         </div>
 
                         <div id = "loginButtonContainer">
@@ -38,4 +49,4 @@ const joinPage = () =>{
 
     );
 }
-export default joinPage;
+export default JoinPage;
