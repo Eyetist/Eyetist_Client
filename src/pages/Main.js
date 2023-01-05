@@ -29,20 +29,20 @@ const Main = () => {
                     <img
                         src={cursorImage.checkCursor}
                         alt="cursor"
-                        style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px"}}
+                        style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
                     />
                 :
                     isLeftEyeBlink ? 
                         <img
                             src={cursorImage.leftEyeClickCursor}
                             alt="cursor"
-                            style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px"}}
+                            style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
                         />
                     :
                         <img
                             src={cursorImage.defaultCursor}
                             alt="cursor"
-                            style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px"}}
+                            style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
                         />
             }
             <div className="top-bar"> {/*상단 바 div*/}

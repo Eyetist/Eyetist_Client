@@ -1,6 +1,5 @@
 .eye-keyboard{
-    /* z-index: 5;    */
+    z-index: 10;   
     background-color: pink;
     border-radius: 5px;
-    /* display: flex; */
 }
