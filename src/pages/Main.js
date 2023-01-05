@@ -5,6 +5,7 @@ import { Canvas } from '../components/canvas/Canvas'
 import { useRecoilValue } from "recoil";
 import { MOUSE_POS, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK } from '../recoil/Atoms';
 import { ClearCanvasButton } from '../components/canvas/ClearCanvasButton';
+import { useCanvas } from "../components/canvas/CanvasContext";
 import EyeButton from "../components/atoms/EyeButton";
 import CustomSlider from "../components/atoms/CustomSlider";
 
@@ -19,6 +20,7 @@ const Main = () => {
     let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let [sensitivity, SetSensitivity] = useState(3);
+    const { clearCanvas } = useCanvas()
 
     return (
         <div className="whole-container">
@@ -64,14 +66,12 @@ const Main = () => {
             <div className="components-container">
                 
                 <div className="functions-container">
-                    <ClearCanvasButton />
-
                     <EyeButton 
-                        style={{width:"200px", height:"50px", borderRadius:"5px", backgroundColor:"white"}}
-                        title="test"
+                        style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
+                        title="clear"
                         hoverColor="gray"
                         clickColor="black"
-                        onClick={() => {console.log("눌렸어용")}}
+                        onClick={() => {clearCanvas()}}
                     />
                 </div>
 
@@ -86,9 +86,6 @@ const Main = () => {
                     />
                 </div>
             </div>
-            {/* <Canvas />
-            <ClearCanvasButton />
-            <FaceMeshCam /> */}
         </div>
     )
 }

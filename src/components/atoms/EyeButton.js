@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useRecoilValue } from "recoil";
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK } from '../../recoil/Atoms';
+import "./EyeButton.css"
 
 const EyeButton = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
@@ -30,7 +31,7 @@ const EyeButton = (props) => {
     }
 
     return(
-        <div ref={buttonRef} style={buttonStyle}>
+        <div className="eye-button" ref={buttonRef} style={buttonStyle}>
             {props.title}
         </div>
     )
