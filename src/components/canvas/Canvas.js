@@ -28,6 +28,7 @@ export function Canvas(props) {
         isStartDrawing.current = true;
         let posX = (mousePos.x - (window.innerWidth / 10)) * 2 + 25 * 2
         let posY = (mousePos.y - 70) * 2 + 25 * 2
+
         contextRef.current.lineTo(posX, posY);
         contextRef.current.stroke();
     }
