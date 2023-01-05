@@ -1,7 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import { Checkbox, Radio, Switch } from 'pretty-checkbox-react';
 import {Link} from "react-router-dom";
-import '@djthoms/pretty-checkbox';
 import './Login.css'
 
 const JoinPage = () =>{

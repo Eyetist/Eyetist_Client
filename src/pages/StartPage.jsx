@@ -18,10 +18,10 @@ const startPage = () =>{
                         <div to = {`/login`} className = "box-in-title">Login</div>
                         <div className = "box-in-content">Please login<br/>to use all the<br/>functions.</div>
                     </Link>
-                    <div className = "box">
+                    <Link to = {`/paint`} className = "box">
                         <div className = "box-in-title">Toturial</div>
                         <div className = "box-in-content">Before we get <br/>started,<br/>We provide a <br/>tutorial</div>
-                    </div>
+                        </Link>
                 </div>
             </div>
         </div>
