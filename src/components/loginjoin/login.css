@@ -1,0 +1,124 @@
+.loginJoinContainer{
+    height:100%;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+}
+.container {
+    width: 100%;
+    height: 100%;
+    background: #1E1E1E;
+}
+.login-join-title{
+    width: 100%;
+    height: 81px;
+    text-align: center;
+    font-family: 'Liu Jian Mao Cao';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 100px;
+    line-height: 64px;
+    color: #FFAFAF;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom:50px;
+}
+.login-container{
+    width: 400px;
+    height: 500px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #FFC7C7;
+    border-radius: 20px;
+    margin-top: 4%;
+}
+#idContainer{
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    width : 100%;
+    height: 20%;
+}
+#pwContainer{
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    width : 100%;
+    height: 20%;
+}
+#loginContainerText{
+    width : 100%;
+    text-align: center;
+    height: 50px;
+    font-size: 45px;
+    padding-top: 35px;
+    font-family: 'Liu Jian Mao Cao';
+    font-style: normal;
+    margin-bottom:15px;
+}
+.id{
+    height : 50%;
+    width: 70%;
+    background: #FFFFFF;
+    border: 1px solid #B4A5A5;
+    border-radius: 24px;
+}
+.password{
+    height : 50%;
+    width: 70%;
+    background: #FFFFFF;
+    border: 1px solid #B4A5A5;
+    border-radius: 24px;
+}
+.id-text{
+    font-size: 35px;
+    margin-right: 15px;
+    margin-right: 5px;
+    letter-spacing: 7px;
+    font-family: 'Liu Jian Mao Cao';
+font-style: normal;
+}
+.password-text{
+    font-size: 30px;
+    margin-left: 3px;
+    margin-right: 8px;
+    letter-spacing: 7px;
+    font-family: 'Liu Jian Mao Cao';
+font-style: normal;
+}
+#loginButtonContainer{
+    width: 95%;
+    height: 10%;
+    margin-top: 30px;
+    margin-left:5px;
+    margin-right:10px;
+    height: 11%;
+    margin-left: 28px;
+}
+#loginButton{
+    width : 100%;
+    color:white;
+    background: #000000;
+    border: 1px solid #A4A4A4;
+    border-radius: 30px;
+    text-align: center;
+    width: 90%;
+    height: 100%;
+    margin-left: 4px;
+    font-size: 25px;
+}
+#joinDescription{
+    width : 100%;
+    display : flex;
+    justify-items: center;
+    font-size: 25px;
+    color : white;
+}
+#joinText{
+    font-size:30px;
+}
+#textContainer{
+    margin-top:20px;
+    margin-left: 8px;
+}

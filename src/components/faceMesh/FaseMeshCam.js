@@ -5,11 +5,15 @@ import * as cam from "@mediapipe/camera_utils";
 import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
 import { getHeadPoseEst } from "../../api/vision/VisionAPI";
+import { useSetRecoilState } from "recoil";
+import { MOUSE_POS, IS_LEFT_EYE_BLINK} from '../../recoil/Atoms';
 
 function FaceMeshCam() {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const headSpot = [33, 263, 1, 61, 291, 199]
+    let setMousePos = useSetRecoilState(MOUSE_POS)
+    let setIsLeftEyeBlink = useSetRecoilState(IS_LEFT_EYE_BLINK)
 
     let camera = null;
 
@@ -57,38 +61,48 @@ function FaceMeshCam() {
                 face_2d.push([x, y])
                 face_3d.push([x, y, results.multiFaceLandmarks[0][index].z])
             }
-            
     
-            // if (face_2d.length === 6 && face_3d.length === 6 && nose_2d.length === 1 && nose_2d.length === 1){
-            //     getHeadPoseEst(videoWidth, videoHeight, face_2d, face_3d, nose_2d, nose_3d)
-            //     .then(
-            //         (res) => {
-            //             p1_x = res.data[0][0]
-            //             p1_y = res.data[0][1]
-            //             p2_x = res.data[1][0]
-            //             p2_y = res.data[1][1]
+            if (face_2d.length === 6 && face_3d.length === 6 && nose_2d.length === 1 && nose_2d.length === 1){
+                getHeadPoseEst(videoWidth, videoHeight, face_2d, face_3d, nose_2d, nose_3d)
+                .then(
+                    (res) => {
+                        p1_x = res.data[0][0]
+                        p1_y = res.data[0][1]
+                        p2_x = res.data[1][0]
+                        p2_y = res.data[1][1]
 
-            //             const left_eye = [results.multiFaceLandmarks[0][145].y * videoHeight, results.multiFaceLandmarks[0][159].y * videoHeight]
-            //             const right_eye = [results.multiFaceLandmarks[0][374].y * videoHeight, results.multiFaceLandmarks[0][386].y * videoHeight]
+                        const left_eye = [results.multiFaceLandmarks[0][145].y * videoHeight, results.multiFaceLandmarks[0][159].y * videoHeight]
+                        const right_eye = [results.multiFaceLandmarks[0][374].y * videoHeight, results.multiFaceLandmarks[0][386].y * videoHeight]
 
-            //             canvasCtx.beginPath();
-            //             canvasCtx.moveTo(p1_x, p1_y);
-            //             canvasCtx.lineTo(p2_x, p2_y);
-            //             canvasCtx.strokeStyle = 'blue';
-            //             canvasCtx.lineWidth = 6;
+                        canvasCtx.beginPath();
+                        canvasCtx.moveTo(p1_x, p1_y);
+                        canvasCtx.lineTo(p2_x, p2_y);
+                        canvasCtx.strokeStyle = 'blue';
+                        canvasCtx.lineWidth = 6;
                     
-            //             if (left_eye[0] - left_eye[1] < 5){ // 왼쪽 눈 클릭
-            //                 canvasCtx.strokeStyle = "#FF3030";
-            //             }
-            //             if (right_eye[0] - right_eye[1] < 5){ // 오른쪽 눈 클릭
-            //                 canvasCtx.strokeStyle = "#30FF30";
-            //             }
-            //             console.log(p2_x, p2_y)
+                        if (left_eye[0] - left_eye[1] < 5){ // 왼쪽 눈 클릭
+                            canvasCtx.strokeStyle = "#FF3030";
+                            setIsLeftEyeBlink(true)
+                        }
+                        else{
+                            setIsLeftEyeBlink(false)
+                        }
+                        if (right_eye[0] - right_eye[1] < 5){ // 오른쪽 눈 클릭
+                            canvasCtx.strokeStyle = "#30FF30";
+                        }
+                        setMousePos({
+                            x: p2_x,
+                            y: p2_y
+                        })
+
+                        // props.setMousePosX(p2_x)
+                        // props.setMousePosY(p2_y)
+                        // console.log(p2_x, p2_y)
         
-            //             canvasCtx.stroke();
-            //         }
-            //     )
-            // }
+                        canvasCtx.stroke();
+                    }
+                )
+            }
             for (const landmarks of results.multiFaceLandmarks) {
     
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_TESSELATION, {
@@ -136,7 +150,7 @@ function FaceMeshCam() {
         });
 
         faceMesh.setOptions({
-            maxNumFaces: 2,
+            maxNumFaces: 1,
             minDetectionConfidence: 0.5,
             minTrackingConfidence: 0.5,
             refineLandmarks: true,
@@ -155,6 +169,7 @@ function FaceMeshCam() {
             });
             camera.start();
         }
+
     }, []);
 
     return (

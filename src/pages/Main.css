@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Liu Jian Mao Cao";         
-    src: url("/Users/johyeongjun/Desktop/Develop/eyetist/Eyetist_Client/src/font/LiuJianMaoCao-Regular.ttf");
+    src: url("../font/LiuJianMaoCao-Regular.ttf");
 }
 
 .whole-container{

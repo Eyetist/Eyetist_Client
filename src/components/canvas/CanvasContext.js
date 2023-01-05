@@ -1,11 +1,17 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { MOUSE_POS, IS_LEFT_EYE_BLINK } from '../../recoil/Atoms';
 
 const CanvasContext = React.createContext();
 
 export const CanvasProvider = ({ children }) => {
+    let [mousePos, setMousePos] = useRecoilState(MOUSE_POS)
+    let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
+
     const [isDrawing, setIsDrawing] = useState(false)
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
+
 
     const prepareCanvas = () => {
         const canvas = canvasRef.current
@@ -25,7 +31,8 @@ export const CanvasProvider = ({ children }) => {
     const startDrawing = ({ nativeEvent }) => {
         const { offsetX, offsetY } = nativeEvent;
         contextRef.current.beginPath();
-        contextRef.current.moveTo(offsetX, offsetY);
+        // contextRef.current.moveTo(offsetX, offsetY);
+        contextRef.current.moveTo(mousePos.x, mousePos.y);
         setIsDrawing(true);
     };
 
@@ -35,11 +42,12 @@ export const CanvasProvider = ({ children }) => {
     };
 
     const draw = ({ nativeEvent }) => {
-        if (!isDrawing) {
+        if (!isLeftEyeBlink) {
         return;
         }
-        const { offsetX, offsetY } = nativeEvent;
-        contextRef.current.lineTo(offsetX, offsetY);
+        // const { offsetX, offsetY } = nativeEvent;
+        // contextRef.current.lineTo(offsetX, offsetY);
+        contextRef.current.lineTo(mousePos.x, mousePos.y);
         contextRef.current.stroke();
     };
 

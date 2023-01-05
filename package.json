@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://127.0.0.1:5000",
   "dependencies": {
+    "@djthoms/pretty-checkbox": "^3.1.0",
     "@mediapipe/camera_utils": "^0.3.1640029074",
     "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/face_mesh": "^0.4.1633559619",
@@ -11,11 +12,15 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.2",
+    "pretty-checkbox": "^3.0.3",
+    "pretty-checkbox-react": "^3.2.0",
     "react": "^18.2.0",
+    "react-animated-cursor": "^2.5.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "react-webcam": "^7.0.1",
+    "recoil": "^0.7.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
