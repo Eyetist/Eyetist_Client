@@ -6,6 +6,7 @@ import "./EyeButton.css"
 const EyeButton = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
+    let clickRef = useRef(false);
     const buttonRef = useRef(null);
     let buttonStyle = props.style
 
@@ -25,8 +26,15 @@ const EyeButton = (props) => {
     if (isOverlap()){
         buttonStyle.backgroundColor = props.hoverColor
         if (isRightEyeBlink){
+            clickRef.current = true
             buttonStyle.backgroundColor = props.clickColor
-            props.onClick()
+        }
+    }
+
+    if (clickRef.current){
+        if (!isRightEyeBlink){
+            props.onClick() 
+            clickRef.current = false
         }
     }
 
