@@ -21,10 +21,10 @@ export const CanvasProvider = ({ children }) => {
         canvas.style.height = `${window.innerHeight}px`;
 
         const context = canvas.getContext("2d")
-        context.scale(2, 2);
         context.lineCap = "round";
         context.strokeStyle = "black";
-        context.lineWidth = 5;
+        context.lineWidth = 30;
+        context.scale(1, 1)
         contextRef.current = context;
     };
 
