@@ -4,7 +4,7 @@ import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
 import { useRecoilValue } from "recoil";
 import { MOUSE_POS, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK } from '../recoil/Atoms';
-import { ClearCanvasButton } from '../components/canvas/ClearCanvasButton';
+import EyeKeyboard from "../components/keyboard/EyeKeyboard";
 import { useCanvas } from "../components/canvas/CanvasContext";
 import EyeButton from "../components/atoms/EyeButton";
 import CustomSlider from "../components/atoms/CustomSlider";
@@ -60,7 +60,7 @@ const Main = () => {
                         height = "10px"
                     />
                 </div>
-
+                <EyeKeyboard />
             </div>
 
             <div className="components-container">
@@ -68,7 +68,7 @@ const Main = () => {
                 <div className="functions-container">
                     <EyeButton 
                         style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
-                        title="clear"
+                        text="clear"
                         hoverColor="gray"
                         clickColor="black"
                         onClick={() => {clearCanvas()}}

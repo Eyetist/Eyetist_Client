@@ -32,7 +32,7 @@ const EyeButton = (props) => {
 
     return(
         <div className="eye-button" ref={buttonRef} style={buttonStyle}>
-            {props.title}
+            {props.text}
         </div>
     )
 }
