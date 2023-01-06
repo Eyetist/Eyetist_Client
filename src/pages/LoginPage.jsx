@@ -25,6 +25,11 @@ const LoginPage = () =>{
     const onPwFocus = () => setPwFocused(true)
     const onPwBlur = () => setPwFocused(false)
 
+    function login(){
+        // sendLogin(inputId, inputPw)
+        navigate('/paint')
+    }
+
     return(
         <div className = "main-container">
             <EyeMouse />
@@ -136,7 +141,7 @@ const LoginPage = () =>{
                             text="Login"
                             hoverColor="gray"
                             clickColor="black"
-                            onClick={() => {sendLogin(inputId, inputPw)}}
+                            onClick={() => login()}
                         />
                         <div id = "textContainer">
                             <div id = "joinDescription">Don't have an account?</div>
