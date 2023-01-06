@@ -2,7 +2,7 @@ import React from "react";
 import Key from "./Key";
 import './EyeKeyboard.css'
 
-const EyeKeyboard = (props) => {
+const EyeKeyboard = () => {
     return(
         <div className="eye-keyboard">
             <div>

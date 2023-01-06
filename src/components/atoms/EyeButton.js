@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK } from '../../recoil/Atoms';
 import "./EyeButton.css"
@@ -7,8 +7,8 @@ const EyeButton = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let clickRef = useRef(false);
+    let [buttonStyle, setButtonStyle] =useState(props.style);
     const buttonRef = useRef(null);
-    let buttonStyle = props.style
 
     function isOverlap(){
         if (buttonRef.current){
@@ -23,20 +23,25 @@ const EyeButton = (props) => {
         }
     }
 
-    if (isOverlap()){
-        buttonStyle.backgroundColor = props.hoverColor
-        if (isRightEyeBlink){
-            clickRef.current = true
-            buttonStyle.backgroundColor = props.clickColor
+    useEffect( () => {
+        if (isOverlap()){
+            setButtonStyle({...buttonStyle, backgroundColor: props.hoverColor})
+            if (isRightEyeBlink){
+                clickRef.current = true
+                setButtonStyle({...buttonStyle, backgroundColor: props.clickColor})
+            }
         }
-    }
-
-    if (clickRef.current){
-        if (!isRightEyeBlink){
-            props.onClick() 
-            clickRef.current = false
+        else{
+            setButtonStyle(props.style)
         }
-    }
+    
+        if (clickRef.current){
+            if (!isRightEyeBlink){
+                props.onClick() 
+                clickRef.current = false
+            }
+        }
+    }, [mousePos])
 
     return(
         <div className="eye-button" ref={buttonRef} style={buttonStyle}>
