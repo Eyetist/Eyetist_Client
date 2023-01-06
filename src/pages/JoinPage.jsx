@@ -7,6 +7,7 @@ import EyeMouse from '../components/mouse/EyeMouse';
 import FaceMeshCam from '../components/faceMesh/FaseMeshCam';
 import EyeButton from '../components/atoms/EyeButton';
 import EyeKeyboard from '../components/keyboard/EyeKeyboard';
+import { useNavigate } from 'react-router-dom';
 import './LoginJoin.css';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -19,7 +20,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const JoinPage = () =>{
-
+    let navigate = useNavigate();
     const [checked, setChecked] = useState(false);
 
     {/**회원가입 아이디 입력*/}
@@ -204,7 +205,19 @@ const JoinPage = () =>{
                             >Please check the <br/>password checkbox.</BootstrapDialog>
                             <div id = "textContainer">
                                 <div id = "joinDescription">have you an account?</div>
-                                <div id = "joinText">Go Login.</div>
+                                <EyeButton 
+                                    style={{    
+                                        width : "32%",
+                                        color: "black",
+                                        backgroundColor: "inherit",
+                                        fontSize: "30px",
+                                    }}
+                                    text="Go Login."
+                                    hoverFontColor="white"
+                                    hoverColor="inherit"
+                                    clickColor="inherit"
+                                    onClick={() => {navigate('/login')}}
+                                />
                             </div>
                         </div>
                     </div>

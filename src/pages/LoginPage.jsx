@@ -4,10 +4,12 @@ import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeKeyboard from "../components/keyboard/EyeKeyboard";
 import EyeButton from "../components/atoms/EyeButton";
+import { useNavigate } from "react-router-dom";
 import { sendLogin } from "../api/member/MemberAPI";
 import './LoginJoin.css'
 
 const LoginPage = () =>{
+    let navigate = useNavigate();
     {/**로그인 아이디 입력*/}
     const [inputId, setInputId] = useState('');
     const idRef = useRef(null);
@@ -138,7 +140,20 @@ const LoginPage = () =>{
                         />
                         <div id = "textContainer">
                             <div id = "joinDescription">Don't have an account?</div>
-                            <div id = "joinText">Sign up for free.</div>
+
+                            <EyeButton 
+                                style={{    
+                                    width : "52%",
+                                    color: "black",
+                                    backgroundColor: "inherit",
+                                    fontSize: "30px",
+                                }}
+                                text="Sign up for free."
+                                hoverFontColor="white"
+                                hoverColor="inherit"
+                                clickColor="inherit"
+                                onClick={() => {navigate('/join')}}
+                            />
                         </div>
                     </div>                    
                 </div>

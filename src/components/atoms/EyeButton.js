@@ -25,7 +25,13 @@ const EyeButton = (props) => {
 
     useEffect( () => {
         if (isOverlap()){
-            setButtonStyle({...buttonStyle, backgroundColor: props.hoverColor})
+            if (props.hoverFontColor){
+                setButtonStyle({...buttonStyle, color: props.hoverFontColor})
+            }
+            else{
+                setButtonStyle({...buttonStyle, backgroundColor: props.hoverColor})
+            }
+
             if (isRightEyeBlink){
                 clickRef.current = true
                 setButtonStyle({...buttonStyle, backgroundColor: props.clickColor})
