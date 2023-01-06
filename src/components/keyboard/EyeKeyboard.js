@@ -49,7 +49,7 @@ const EyeKeyboard = (props) => {
                 <Key text="b" inputState={props.inputState} setInputState={props.setInputState}/>
                 <Key text="n" inputState={props.inputState} setInputState={props.setInputState}/>
                 <Key text="m" inputState={props.inputState} setInputState={props.setInputState}/>
-                <Key text="⇠" inputState={props.inputState} setInputState={props.setInputState} setShow={props.setShow} inputRef={props.inputRef}/>            
+                <Key text="⌨" inputState={props.inputState} setInputState={props.setInputState} setShow={props.setShow} inputRef={props.inputRef}/>            
             </div>
 
         </div>

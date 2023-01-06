@@ -9,7 +9,7 @@ const Key = (props) => {
             case "⌫": //backspace
                 props.setInputState(props.inputState.slice(0, -1))
                 break;
-            case "⇠": //keyboard hide
+            case "⌨": //keyboard hide
                 props.setShow(false)
                 props.inputRef.current.blur()
                 break;
@@ -21,13 +21,24 @@ const Key = (props) => {
 
     return(
         <div className="key">
-            <EyeButton
-                style = {{width:"40px", height:"40px", borderRadius:"5px", backgroundColor:"white"}}
-                text = {props.text}
-                hoverColor = "gray"
-                clickColor = "black"
-                onClick={() => {keyPress()}}
-            />
+            {
+                props.text === "⌨" ?
+                <EyeButton
+                    style = {{width:"40px", height:"40px", borderRadius:"5px", backgroundColor:"white", fontSize:"30px"}}
+                    text = {props.text}
+                    hoverColor = "gray"
+                    clickColor = "black"
+                    onClick={() => {keyPress()}}
+                />
+                :
+                <EyeButton
+                    style = {{width:"40px", height:"40px", borderRadius:"5px", backgroundColor:"white"}}
+                    text = {props.text}
+                    hoverColor = "gray"
+                    clickColor = "black"
+                    onClick={() => {keyPress()}}
+                />
+            }
         </div>
     )
 }
