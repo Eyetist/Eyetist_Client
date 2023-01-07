@@ -59,6 +59,15 @@ export const CanvasProvider = ({ children }) => {
         context.fillRect(0, 0, canvas.width, canvas.height)
     }
 
+    const saveCanvas = () =>{
+        const canvas = canvasRef.current;
+        const image = canvas.toDataURL(); // default -> png
+        const link = document.createElement("a");
+        link.href = image;
+        link.download = "PaintJS[🎨]";
+        link.click();
+    }
+
     return (
         <CanvasContext.Provider
         value={{
@@ -68,6 +77,7 @@ export const CanvasProvider = ({ children }) => {
             startDrawing,
             finishDrawing,
             clearCanvas,
+            saveCanvas,
             draw,
         }}
         >

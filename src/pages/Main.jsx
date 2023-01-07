@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Main.css"
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
@@ -6,11 +6,10 @@ import { useCanvas } from "../components/canvas/CanvasContext";
 import EyeButton from "../components/atoms/EyeButton";
 import CustomSlider from "../components/atoms/SensitivitySlider";
 import EyeMouse from "../components/mouse/EyeMouse";
-import SensitivityController from "../components/mouse/SensitivityController";
 
 const Main = () => {
-    let [sensitivity, setSensitivity] = useState(3.0);
-    const { clearCanvas } = useCanvas()
+    const { clearCanvas, saveCanvas } = useCanvas()
+
     return (
         <div className="whole-container">
             <EyeMouse />
@@ -39,11 +38,18 @@ const Main = () => {
                         clickColor="black"
                         onClick={() => {clearCanvas()}}
                     />
+
+                    <EyeButton 
+                        style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
+                        text="save"
+                        hoverColor="gray"
+                        clickColor="black"
+                        onClick={() => {saveCanvas()}}
+                    />
                 </div>
 
                 <div className="canvas-container">
-                    <Canvas 
-                    />
+                    <Canvas />
                 </div>
 
                 <div className="detail-container">
