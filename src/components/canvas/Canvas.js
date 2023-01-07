@@ -13,13 +13,12 @@ export function Canvas(props) {
         contextRef,
         canvasRef,
         prepareCanvas,
-        startDrawing,
-        finishDrawing,
-        draw,
+        storeCanvas,
     } = useCanvas();
 
     useEffect(() => {
         prepareCanvas();
+        props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
     }, []);
 
     // console.log(`${window.innerWidth}px`)
@@ -34,17 +33,16 @@ export function Canvas(props) {
     }
     else{
         if(isStartDrawing.current){
+            console.log("A")
             contextRef.current.beginPath();
+            props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
         }
+        isStartDrawing.current=false;
     }
 
     return (
         <div>
             <canvas
-                // onMouseDown={startDrawing}
-                // onMouseUp={finishDrawing}
-                // onMouseMove={draw}
-                // draw={draw}
                 ref={canvasRef}
             />
         </div>
