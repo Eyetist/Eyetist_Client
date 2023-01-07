@@ -42,10 +42,6 @@ function FaceMeshCam(props) {
         const videoWidth =  window.innerWidth * mouseSensitivity;
         const videoHeight = window.innerHeight * mouseSensitivity;
 
-        // const videoWidth = webcamRef.current.video.offsetWidth;
-        // const videoHeight = webcamRef.current.video.offsetHeight;
-
-        // Set canvas width
         canvasRef.current.width = videoWidth;
         canvasRef.current.height = videoHeight;
 
@@ -95,20 +91,11 @@ function FaceMeshCam(props) {
                         p2_x = res.data[1][0]
                         p2_y = res.data[1][1]
 
-                        // console.log(res.data[1])
-
                         const left_eye = [results.multiFaceLandmarks[0][145].y, results.multiFaceLandmarks[0][159].y]
                         const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
                         const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
-                        // canvasCtx.beginPath();
-                        // canvasCtx.moveTo(p1_x, p1_y);
-                        // canvasCtx.lineTo(p2_x, p2_y);
-                        // canvasCtx.strokeStyle = 'blue';
-                        // canvasCtx.lineWidth = ;
-                    
-                        // console.log(left_eye[0] - left_eye[1])
+
                         if (left_eye[0] - left_eye[1] < 0.01){ // 왼쪽 눈 클릭
-                            // canvasCtx.strokeStyle = "#FF3030";
                             setIsLeftEyeBlink(true)
                         }
                         else{
@@ -116,7 +103,6 @@ function FaceMeshCam(props) {
                         }
 
                         if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
-                            // canvasCtx.strokeStyle = "#30FF30";
                             setIsRightEyeBlick(true)
                         }
                         else{
@@ -166,9 +152,6 @@ function FaceMeshCam(props) {
                     color: "#E0E0E0",
                     lineWidth: 5 * mouseSensitivity,
                 });
-                // connect(canvasCtx, landmarks, Facemesh.FACEMESH_FACE_OVAL, {
-                //     color: "#E0E0E0",
-                // });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LIPS, {
                     color: "#E0E0E0",
                 });
@@ -179,7 +162,6 @@ function FaceMeshCam(props) {
     }
 
     useEffect(() => {
-
         faceMesh.setOptions({
             maxNumFaces: 1,
             minDetectionConfidence: 0.5,
