@@ -1,6 +1,6 @@
 .eye-keyboard{
-    position: absolute;
-    z-index: 10;   
-    background-color: pink;
+    width: 440px;
+    height: 180px;
+    background-color: #1E1E1E;
     border-radius: 5px;
 }

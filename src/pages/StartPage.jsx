@@ -1,31 +1,75 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import EyeMouse from "../components/mouse/EyeMouse";
+import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
+import EyeCard from "../components/atoms/EyeCard";
+import { useNavigate } from "react-router-dom";
 import './StartPage.css'
 
-const startPage = () =>{
+const StartPage = () =>{
+    let navigate = useNavigate();
     return(
-        <div className = "container">
-            <div className = "total-container">
-                <Link to = {`/`} id = "title">
+        <div className = "main-container">
+            <EyeMouse />
+            <div className="start-page-top-container">
+                <Link to = {`/`} className = "login-join-title">
                     EyeTist
                 </Link>
+                <div className="login-join-cam">
+                    <FaceMeshCam />
+                </div>
+            </div>
+            <div className = "start-page-body-container">
                 <div className = "box-container">
-                    <Link to = {`/join`}  className = "box">
-                        <div to = {`/join`} className = "box-in-title">Signup</div>
-                        <div className = "box-in-content">Signup and<br/>Stay with us.</div>
-                    </Link>
-                    <Link to = {`/login`} className = "box">
-                        <div to = {`/login`} className = "box-in-title">Login</div>
-                        <div className = "box-in-content">Please login<br/>to use all the<br/>functions.</div>
-                    </Link>
-                    <Link to = {`/paint`} className = "box">
-                        <div className = "box-in-title">Toturial</div>
-                        <div className = "box-in-content">Before we get <br/>started,<br/>We provide a <br/>tutorial</div>
-                        </Link>
+                    <EyeCard 
+                        style={{
+                            width: "30%",
+                            height: "100%",
+                            backgroundColor: "#FFC7C7",
+                            borderRadius: "20px",
+                            marginLeft: "30px",
+                            marginRight: "30px"
+                        }}
+                        title="SignUp"
+                        content="Signup and Stay with us."
+                        hoverColor="#f79393"
+                        clickColor="#f46969"
+                        onClick={() => {navigate('/join')}}
+                    />
+                    <EyeCard 
+                        style={{
+                            width: "30%",
+                            height: "100%",
+                            backgroundColor: "#FFC7C7",
+                            borderRadius: "20px",
+                            marginLeft: "30px",
+                            marginRight: "30px"
+                        }}
+                        title="Login"
+                        content="Please login to use all the functions."
+                        hoverColor="#f79393"
+                        clickColor="#f46969"
+                        onClick={() => {navigate('/login')}}
+                    />
+                    <EyeCard 
+                        style={{
+                            width: "30%",
+                            height: "100%",
+                            backgroundColor: "#FFC7C7",
+                            borderRadius: "20px",
+                            marginLeft: "30px",
+                            marginRight: "30px"
+                        }}
+                        title="Toturial"
+                        content="Before we get started, We provide tutorial"
+                        hoverColor="#f79393"
+                        clickColor="#f46969"
+                        onClick={() => {navigate('/paint')}}
+                    />
                 </div>
             </div>
         </div>
 
     );
 }
-export default startPage;
+export default StartPage;
