@@ -12,7 +12,7 @@ const EyeButton = (props) => {
 
     function isOverlap(){
         if (buttonRef.current){
-            const { offsetTop, offsetLeft, offsetWidth, offsetHeight} = buttonRef.current;
+            const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = buttonRef.current;
             let posX = mousePos.x + 25 // 25 is mouseCursorSize / 2
             let posY = mousePos.y + 25
     
