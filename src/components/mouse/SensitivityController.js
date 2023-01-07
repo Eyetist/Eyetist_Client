@@ -12,7 +12,7 @@ const SensitivityController = (props) => {
     useEffect( () => {
         setTimeout(function(){
             if (isMouseOpen && isLeftEyeBlink){
-                if (props.sensitivity <= 1){
+                if (mouseSensitivity <= 1){
                     setMouseSensitivity(1)
                 }
                 else{
@@ -21,8 +21,8 @@ const SensitivityController = (props) => {
             }
 
             if (isMouseOpen && isRightEyeBlink){
-                if (props.sensitivity >= 10){
-                    props.setSensitivity(10)
+                if (mouseSensitivity >= 10){
+                    setMouseSensitivity(10)
                 }
                 else{
                     setMouseSensitivity(Number((mouseSensitivity + 0.1).toFixed(1)))
