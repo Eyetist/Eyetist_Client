@@ -84,6 +84,8 @@ export const CanvasProvider = ({ children }) => {
             value={{
                 canvasRef,
                 contextRef,
+                saveCanvas,
+                getImageUrl,
                 prepareCanvas,
                 clearCanvas,
                 setDrawMode,

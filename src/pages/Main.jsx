@@ -79,8 +79,11 @@ const Main = () => {
                         />
                     </div>
     
-                    <div className="detail-container">
-                        <FaceMeshCam />
+                    <div className="right-container">
+                        <div className="cam-container">
+                            <FaceMeshCam
+                            />
+                        </div>
                     </div>
                 </div>
                 :    
