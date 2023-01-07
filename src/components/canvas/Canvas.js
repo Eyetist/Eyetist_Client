@@ -14,10 +14,12 @@ export function Canvas(props) {
         contextRef,
         canvasRef,
         prepareCanvas,
+        storeCanvas,
     } = useCanvas();
 
     useEffect(() => {
         prepareCanvas();
+        props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
     }, []);
 
     useEffect( () => {
@@ -32,7 +34,9 @@ export function Canvas(props) {
         else{
             if(isStartDrawing.current){
                 contextRef.current.beginPath();
+                props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
             }
+            isStartDrawing.current=false;
         }
     }, [mousePos])
 

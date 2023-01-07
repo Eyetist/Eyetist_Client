@@ -24,8 +24,44 @@ export const CanvasProvider = ({ children }) => {
     const clearCanvas = () => {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d")
-        context.fillStyle = "white"
-        context.fillRect(0, 0, canvas.width, canvas.height)
+        context.clearRect(0, 0, canvas.width, canvas.height)
+    }
+
+    const setDrawMode=()=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.strokeStyle="black";
+    }
+
+    const setEraseMode=()=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.strokeStyle="white";
+    }
+
+    const setColor=(color)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.strokeStyle=color;
+    }
+
+    const setWidth=(width)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.lineWidth=width;
+    }
+
+    const undo=(url)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        const lastImg=new Image();
+        context.drawImage(lastImg,0,0,canvas.width,canvas.height);
+        lastImg.src=url;
+        lastImg.onload=function(){
+            console.log(lastImg.src);
+            context.clearRect(0,0,canvas.width,canvas.height);
+            context.drawImage(lastImg,0,0);
+        }
     }
 
     const saveCanvas = () => {
@@ -50,8 +86,11 @@ export const CanvasProvider = ({ children }) => {
                 contextRef,
                 prepareCanvas,
                 clearCanvas,
-                saveCanvas,
-                getImageUrl,
+                setDrawMode,
+                setEraseMode,
+                setColor,
+                setWidth,
+                undo,
             }}
         >
         {children}

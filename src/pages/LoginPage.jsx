@@ -44,7 +44,6 @@ const LoginPage = () =>{
             <div className = "login-join-body-container">
                 <div className = "login-container">
                     <div className="loginContainerText">Login</div>
-                    
                     <div className="id-container">
                         <div className="id-text">ID</div>
                         <div>

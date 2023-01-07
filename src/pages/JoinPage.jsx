@@ -37,7 +37,6 @@ const JoinPage = () =>{
     const [pwFocused, setPwFocused] = useState(false)
     const onPwFocus = () => setPwFocused(true)
     const onPwBlur = () => setPwFocused(false)
-
     // 비밀번호 확인 체크
     const check = () =>{
         if(checked === false){
@@ -65,6 +64,18 @@ const JoinPage = () =>{
         setOpen(false);
     };
 
+    const sendJoin = async() =>{
+        const { data } = await axios({
+            method: "POST",
+            url: `http://localhost:8080/user/join`,
+            mode: "cors",
+            headers: {
+              "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+            },
+            data : {"email" : inputId, "password" : inputPw}
+    });
+        console.log(data);
+    }
 
     return(
         <div className = "main-container">
