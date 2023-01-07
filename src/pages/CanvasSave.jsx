@@ -1,16 +1,19 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import EyeButton from "../components/atoms/EyeButton"
 import EyeKeyboard from "../components/keyboard/EyeKeyboard"
+import { useRecoilValue } from "recoil"
+import { MOUSE_POS } from "../recoil/Atoms"
 import './CanvasSave.css'
 
 const CanvasSave = ({setIsOpen,link}) => {
+    let mousePos = useRecoilValue(MOUSE_POS)
     const optionContainerRef = useRef("")
     const nameRef = useRef(null)
     const [inputName, setInputName] = useState("")
     const [nameFocused, setNameFocused] = useState(false)
     const onNameFocus = () => setNameFocused(true)
     const onNameBlur = () => setNameFocused(false)
-    
+        
     return(
         <div className="canvas-save-container">
             <div className="canvas-save-top-bar">
