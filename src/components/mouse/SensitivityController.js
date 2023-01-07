@@ -34,7 +34,7 @@ const SensitivityController = (props) => {
     return(
         isMouseOpen ?
         <div
-            style={{position: 'absolute', left: mousePos.x, top: mousePos.y - 30, width:"140px", height:"30px", borderRadius:"5px", backgroundColor:"none"}}
+            style={{position: 'absolute', left: mousePos.x, top: mousePos.y - 30, width:"140px", height:"30px", borderRadius:"5px", backgroundColor:"none", zIndex:999}}
         >
             {`sensitivity = ${mouseSensitivity}`}
         </div>
