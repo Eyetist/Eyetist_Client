@@ -12,10 +12,7 @@ export function Canvas(props) {
     const {
         contextRef,
         canvasRef,
-        prepareCanvas,
-        startDrawing,
-        finishDrawing,
-        draw,
+        prepareCanvas
     } = useCanvas();
 
     useEffect(() => {
@@ -34,17 +31,16 @@ export function Canvas(props) {
     }
     else{
         if(isStartDrawing.current){
-            contextRef.current.beginPath();
+            console.log("A")
         }
+        isStartDrawing.current=false;
+        contextRef.current.beginPath();
+        
     }
 
     return (
         <div>
             <canvas
-                // onMouseDown={startDrawing}
-                // onMouseUp={finishDrawing}
-                // onMouseMove={draw}
-                // draw={draw}
                 ref={canvasRef}
             />
         </div>

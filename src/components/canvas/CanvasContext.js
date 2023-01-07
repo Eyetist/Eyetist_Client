@@ -28,28 +28,6 @@ export const CanvasProvider = ({ children }) => {
         contextRef.current = context;
     };
 
-    const startDrawing = ({ nativeEvent }) => {
-        const { offsetX, offsetY } = nativeEvent;
-        contextRef.current.beginPath();
-        // contextRef.current.moveTo(offsetX, offsetY);
-        contextRef.current.moveTo(mousePos.x, mousePos.y);
-        setIsDrawing(true);
-    };
-
-    const finishDrawing = () => {
-        contextRef.current.closePath();
-        setIsDrawing(false);
-    };
-
-    const draw = ({ nativeEvent }) => {
-        if (!isLeftEyeBlink) {
-        return;
-        }
-        // const { offsetX, offsetY } = nativeEvent;
-        // contextRef.current.lineTo(offsetX, offsetY);
-        contextRef.current.lineTo(mousePos.x, mousePos.y);
-        contextRef.current.stroke();
-    };
 
     const clearCanvas = () => {
         const canvas = canvasRef.current;
@@ -58,16 +36,41 @@ export const CanvasProvider = ({ children }) => {
         context.fillRect(0, 0, canvas.width, canvas.height)
     }
 
+    const setDrawMode=()=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.strokeStyle="black";
+    }
+
+    const setEraseMode=()=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.strokeStyle="white";
+    }
+
+    const setColor=(color)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.strokeStyle=color;
+    }
+
+    const setWidth=(width)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.lineWidth=width;
+    }
+
     return (
         <CanvasContext.Provider
         value={{
             canvasRef,
             contextRef,
             prepareCanvas,
-            startDrawing,
-            finishDrawing,
             clearCanvas,
-            draw,
+            setDrawMode,
+            setEraseMode,
+            setColor,
+            setWidth,
         }}
         >
         {children}
