@@ -1,0 +1,52 @@
+.canvas-save-container{
+    width: 80%;
+    height: auto;
+    background-color: whitesmoke;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.canvas-save-top-bar{
+    width: 100%;
+    height: 30px;
+}
+
+.canvas-save-body-container{
+    width: 100%;
+    height: calc(100% - 30px);
+    justify-content: center;
+    align-items: center;
+}
+.canvas-save-image-container{
+    width: 50%;
+    height: auto;
+    border: 2px solid #A4A4A4;
+    margin-left: 2%;
+}
+
+.canvas-save-option-container{
+    width: 40%;
+    height: auto;
+    margin-left: 5%;
+}
+
+.option-container{
+    width : 100%;
+    height: 20%;
+}
+.option-text{
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 7px;
+    margin-left: 10px;
+    font-family: 'Liu Jian Mao Cao';
+    font-style: normal;
+    text-align: left;
+}
+.option{
+    width: 90%;
+    height : 50%;
+    background: #FFFFFF;
+    border: 1px solid #B4A5A5;
+    border-radius: 24px;
+}
