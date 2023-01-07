@@ -8,6 +8,11 @@ export const MOUSE_POS = atom({
     }],
 });
 
+export const MOUSE_SENSITIVITY = atom({
+	key : 'mouseSensitivity',
+    default : 3.0
+});
+
 export const IS_LEFT_EYE_BLINK = atom({
 	key : 'isLeftEyeBlink',
     default : false

@@ -26,6 +26,7 @@ export const CanvasProvider = ({ children }) => {
         context.lineWidth = 30;
         context.scale(1, 1)
         contextRef.current = context;
+        clearCanvas()
     };
 
     const startDrawing = ({ nativeEvent }) => {

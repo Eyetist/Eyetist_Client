@@ -16,9 +16,7 @@ const StartPage = () =>{
                     EyeTist
                 </Link>
                 <div className="login-join-cam">
-                    <FaceMeshCam
-                        sensitivity = {2}
-                    />
+                    <FaceMeshCam />
                 </div>
             </div>
             <div className = "start-page-body-container">

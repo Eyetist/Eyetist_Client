@@ -1,22 +1,24 @@
 import { Slider } from "@material-ui/core";
 import React from "react";
-import { useState } from "react";
+import { MOUSE_SENSITIVITY } from "../../recoil/Atoms";
+import { useRecoilState } from "recoil";
 
-const CustomSlider = (props) => {
+const SensitivitySlider = (props) => {
+    let [mouseSensitivity, setMouseSensitivity] = useRecoilState(MOUSE_SENSITIVITY)
 
     const handleSliderChange = (event, newValue) => {
-        props.setProgress(newValue);
+        setMouseSensitivity(newValue);
     };
 
     const handleInputChange = (event) => {
-        props.setProgress(event.target.value === '' ? '' : Number(event.target.value));
+        setMouseSensitivity(event.target.value === '' ? '' : Number(event.target.value));
     };
 
     const handleBlur = () => {
-        if (props.progress < 1) {
-            props.setProgress(1);
-        } else if (props.progress > props.maxRange) {
-            props.setProgress(props.maxRange);
+        if (mouseSensitivity < 1) {
+            setMouseSensitivity(1);
+        } else if (mouseSensitivity > props.maxRange) {
+            setMouseSensitivity(props.maxRange);
         }
     };
     return(
@@ -25,7 +27,7 @@ const CustomSlider = (props) => {
             <Slider
                 style={{float:"left", width: props.width, height: props.height, marginLeft: "10px"}}
 
-                value={typeof props.progress === 'number' ? props.progress : 1}
+                value={typeof mouseSensitivity === 'number' ? mouseSensitivity : 1}
                 onChange={handleSliderChange}
                 aria-labelledby="input-slider"
 
@@ -41,7 +43,7 @@ const CustomSlider = (props) => {
             />
             <input
                 style={{width:'50px', fontWeight:'500' , fontSize:'14px', border:'none', marginLeft:'5px', color:'red'}}
-                value={props.progress}
+                value={mouseSensitivity}
                 onChange={handleInputChange}
                 onBlur={handleBlur}
                 type="number"
@@ -51,4 +53,4 @@ const CustomSlider = (props) => {
 
 }
 
-export default CustomSlider;
+export default SensitivitySlider;

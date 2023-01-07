@@ -1,30 +1,31 @@
 import React, { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import { MOUSE_POS, IS_MOUSE_OPEN, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK} from '../../recoil/Atoms';
+import { useRecoilValue, useRecoilState } from "recoil";
+import { MOUSE_POS, MOUSE_SENSITIVITY, IS_MOUSE_OPEN, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK} from '../../recoil/Atoms';
 
 const SensitivityController = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
+    let [mouseSensitivity, setMouseSensitivity] = useRecoilState(MOUSE_SENSITIVITY)
 
     useEffect( () => {
         setTimeout(function(){
-            if (isMouseOpen && isLeftEyeBlink && props.sensitivity){
+            if (isMouseOpen && isLeftEyeBlink){
                 if (props.sensitivity <= 1){
-                    props.setSensitivity(1)
+                    setMouseSensitivity(1)
                 }
                 else{
-                    props.setSensitivity(Number((props.sensitivity - 0.1).toFixed(1)))
+                    setMouseSensitivity(Number((mouseSensitivity - 0.1).toFixed(1)))
                 }
             }
 
-            if (isMouseOpen && isRightEyeBlink && props.sensitivity){
+            if (isMouseOpen && isRightEyeBlink){
                 if (props.sensitivity >= 10){
                     props.setSensitivity(10)
                 }
                 else{
-                    props.setSensitivity(Number((props.sensitivity + 0.1).toFixed(1)))
+                    setMouseSensitivity(Number((mouseSensitivity + 0.1).toFixed(1)))
                 }
             }
         }, 100)
@@ -33,9 +34,9 @@ const SensitivityController = (props) => {
     return(
         isMouseOpen ?
         <div
-            style={{position: 'absolute', left: mousePos.x, top: mousePos.y - 30, width:"140px", height:"30px", borderRadius:"5px", backgroundColor:"inherit"}}
+            style={{position: 'absolute', left: mousePos.x, top: mousePos.y - 30, width:"140px", height:"30px", borderRadius:"5px", backgroundColor:"none"}}
         >
-            {`sensitivity = ${props.sensitivity}`}
+            {`sensitivity = ${mouseSensitivity}`}
         </div>
         :
         <></>

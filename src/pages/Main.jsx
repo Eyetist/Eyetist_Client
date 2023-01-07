@@ -4,20 +4,16 @@ import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
 import { useCanvas } from "../components/canvas/CanvasContext";
 import EyeButton from "../components/atoms/EyeButton";
-import CustomSlider from "../components/atoms/CustomSlider";
+import CustomSlider from "../components/atoms/SensitivitySlider";
 import EyeMouse from "../components/mouse/EyeMouse";
-import SensitivityController from "../components/atoms/SensitivityController";
+import SensitivityController from "../components/mouse/SensitivityController";
 
 const Main = () => {
-    let [sensitivity, setSensitivity] = useState(2.0);
+    let [sensitivity, setSensitivity] = useState(3.0);
     const { clearCanvas } = useCanvas()
     return (
         <div className="whole-container">
             <EyeMouse />
-            <SensitivityController 
-                sensitivity = {sensitivity}
-                setSensitivity = {setSensitivity}
-            />
             <div className="top-bar"> {/*상단 바 div*/}
                 <div className="eyetist-font">
                     EyeTist
@@ -26,8 +22,6 @@ const Main = () => {
                 <div style={{marginTop: "30px"}}>
                     <CustomSlider 
                         title = "Sensitivity"
-                        progress = {sensitivity}
-                        setProgress = {setSensitivity}
                         maxRange = {10}
                         width = "200px"
                         height = "10px"
@@ -53,9 +47,7 @@ const Main = () => {
                 </div>
 
                 <div className="detail-container">
-                    <FaceMeshCam
-                        sensitivity = {sensitivity}
-                    />
+                    <FaceMeshCam />
                 </div>
             </div>
         </div>

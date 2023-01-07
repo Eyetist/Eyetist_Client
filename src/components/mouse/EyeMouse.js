@@ -1,5 +1,6 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
+import SensitivityController from "./SensitivityController";
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_LEFT_EYE_BLINK, IS_MOUSE_OPEN} from '../../recoil/Atoms';
 
 const cursorImage = {
@@ -16,8 +17,10 @@ const EyeMouse = () => {
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     
-
     return(
+        <>
+        <SensitivityController />
+        {
         isMouseOpen ?
             isRightEyeBlink ? 
                 <img
@@ -59,6 +62,8 @@ const EyeMouse = () => {
                         alt="cursor"
                         style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
                     />
+        }
+        </>
     )
 }
 
