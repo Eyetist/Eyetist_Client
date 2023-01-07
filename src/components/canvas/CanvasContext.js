@@ -64,7 +64,7 @@ export const CanvasProvider = ({ children }) => {
         const image = canvas.toDataURL(); // default -> png
         const link = document.createElement("a");
         link.href = image;
-        link.download = "PaintJS[🎨]";
+        link.download = "EyeTist[🎨]";
         link.click();
     }
 
