@@ -6,15 +6,18 @@ import { useCanvas } from "../components/canvas/CanvasContext";
 import EyeButton from "../components/atoms/EyeButton";
 import CustomSlider from "../components/atoms/CustomSlider";
 import EyeMouse from "../components/mouse/EyeMouse";
-import EyeKeyboard from "../components/keyboard/EyeKeyboard";
+import SensitivityController from "../components/atoms/SensitivityController";
 
 const Main = () => {
-    let [sensitivity, SetSensitivity] = useState(3);
+    let [sensitivity, setSensitivity] = useState(2.0);
     const { clearCanvas } = useCanvas()
     return (
         <div className="whole-container">
             <EyeMouse />
-            {/* <EyeKeyboard /> */}
+            <SensitivityController 
+                sensitivity = {sensitivity}
+                setSensitivity = {setSensitivity}
+            />
             <div className="top-bar"> {/*상단 바 div*/}
                 <div className="eyetist-font">
                     EyeTist
@@ -24,13 +27,12 @@ const Main = () => {
                     <CustomSlider 
                         title = "Sensitivity"
                         progress = {sensitivity}
-                        setProgress = {SetSensitivity}
+                        setProgress = {setSensitivity}
                         maxRange = {10}
                         width = "200px"
                         height = "10px"
                     />
                 </div>
-                {/* <EyeKeyboard /> */}
             </div>
 
             <div className="components-container">

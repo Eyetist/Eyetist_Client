@@ -6,7 +6,7 @@ import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
 import { getHeadPoseEst } from "../../api/vision/VisionAPI";
 import { useSetRecoilState } from "recoil";
-import { MOUSE_POS, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK} from '../../recoil/Atoms';
+import { MOUSE_POS, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN} from '../../recoil/Atoms';
 
 const faceMesh = new FaceMesh({
     locateFile: (file) => {
@@ -21,6 +21,7 @@ function FaceMeshCam(props) {
     let setMousePos = useSetRecoilState(MOUSE_POS)
     let setIsLeftEyeBlink = useSetRecoilState(IS_LEFT_EYE_BLINK)
     let setIsRightEyeBlick = useSetRecoilState(IS_RIGHT_EYE_BLINK)
+    let setIsMouseOpen = useSetRecoilState(IS_MOUSE_OPEN)
 
     let camera = null;
 
@@ -97,7 +98,7 @@ function FaceMeshCam(props) {
 
                         const left_eye = [results.multiFaceLandmarks[0][145].y, results.multiFaceLandmarks[0][159].y]
                         const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
-
+                        const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
                         // canvasCtx.beginPath();
                         // canvasCtx.moveTo(p1_x, p1_y);
                         // canvasCtx.lineTo(p2_x, p2_y);
@@ -120,6 +121,14 @@ function FaceMeshCam(props) {
                         else{
                             setIsRightEyeBlick(false)
                         }
+
+                        if (mouse[0] - mouse[1] < 0.01){ //
+                            setIsMouseOpen(false)
+                        }
+                        else{
+                            setIsMouseOpen(true)
+                        }
+
                         setMousePos({
                             x: p2_x / props.sensitivity,
                             y: p2_y / props.sensitivity

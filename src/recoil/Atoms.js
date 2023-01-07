@@ -17,3 +17,8 @@ export const IS_RIGHT_EYE_BLINK = atom({
 	key : 'isRightEyeBlink',
     default : false
 });
+
+export const IS_MOUSE_OPEN = atom({
+	key : 'isMouseOpen',
+    default : false
+});
