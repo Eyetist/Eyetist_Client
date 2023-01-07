@@ -12,7 +12,6 @@ export const CanvasProvider = ({ children }) => {
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
 
-
     const prepareCanvas = () => {
         const canvas = canvasRef.current
         canvas.width = window.innerWidth * 2;
@@ -26,7 +25,6 @@ export const CanvasProvider = ({ children }) => {
         context.lineWidth = 30;
         context.scale(1, 1)
         contextRef.current = context;
-        clearCanvas()
     };
 
     const startDrawing = ({ nativeEvent }) => {
@@ -59,13 +57,19 @@ export const CanvasProvider = ({ children }) => {
         context.fillRect(0, 0, canvas.width, canvas.height)
     }
 
-    const saveCanvas = () =>{
+    const saveCanvas = () => {
         const canvas = canvasRef.current;
         const image = canvas.toDataURL(); // default -> png
         const link = document.createElement("a");
         link.href = image;
         link.download = "EyeTist[🎨]";
         link.click();
+    }
+
+    const getImageUrl = () => {
+        const canvas = canvasRef.current;
+        const image = canvas.toDataURL(); // default -> png
+        return image
     }
 
     return (
@@ -78,6 +82,7 @@ export const CanvasProvider = ({ children }) => {
             finishDrawing,
             clearCanvas,
             saveCanvas,
+            getImageUrl,
             draw,
         }}
         >

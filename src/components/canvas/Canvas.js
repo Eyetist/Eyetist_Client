@@ -17,35 +17,33 @@ export function Canvas(props) {
         startDrawing,
         finishDrawing,
         draw,
+        saveCanvas,
+        getImageUrl,
     } = useCanvas();
 
     useEffect(() => {
         prepareCanvas();
     }, []);
 
-    // console.log(`${window.innerWidth}px`)
-    // console.log(mousePos)
-    if(isLeftEyeBlink && !isRightEyeBlink && !isMouseOpen){
-        isStartDrawing.current = true;
-        let posX = (mousePos.x - (window.innerWidth / 10)) * 2 + 25 * 2
-        let posY = (mousePos.y - 70) * 2 + 25 * 2
-
-        contextRef.current.lineTo(posX, posY);
-        contextRef.current.stroke();
-    }
-    else{
-        if(isStartDrawing.current){
-            contextRef.current.beginPath();
+    useEffect( () => {
+        if(isLeftEyeBlink && !isRightEyeBlink && !isMouseOpen){
+            isStartDrawing.current = true;
+            let posX = (mousePos.x - (window.innerWidth / 10)) * 2 + 25 * 2
+            let posY = (mousePos.y - 70) * 2 + 25 * 2
+    
+            contextRef.current.lineTo(posX, posY);
+            contextRef.current.stroke();
         }
-    }
+        else{
+            if(isStartDrawing.current){
+                contextRef.current.beginPath();
+            }
+        }
+    }, [mousePos])
 
     return (
         <div>
             <canvas
-                // onMouseDown={startDrawing}
-                // onMouseUp={finishDrawing}
-                // onMouseMove={draw}
-                // draw={draw}
                 ref={canvasRef}
             />
         </div>
