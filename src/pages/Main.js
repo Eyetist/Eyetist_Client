@@ -1,4 +1,4 @@
-import React, { useEffect,   } from "react";
+import React, { useEffect, useState } from "react";
 import "./Main.css"
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
@@ -21,27 +21,33 @@ const Main = () => {
     let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let [sensitivity, SetSensitivity] = useState(3);
-    let [selectedButton,setSelectiedButton]=useState("draw");
-    const { clearCanvas,setDrawMode,setEraseMode,setColor,setWidth } = useCanvas()
+    let [selectedButton,setSelectedButton]=useState("draw");
+    let [imgBuffer,setImgBuffer]=useState([]);
+    var step=-1;
+    const { clearCanvas,setDrawMode,setEraseMode,undo } = useCanvas()
+
+    useEffect(()=>{
+        console.log(imgBuffer);
+    },[imgBuffer])
 
     function selectDraw(){
         setDrawMode();
-        setSelectiedButton("draw");
+        setSelectedButton("draw");
     }
 
     function selectErase(){
         setEraseMode();
-        setSelectiedButton("erase");
+        setSelectedButton("erase");
     }
 
     function selectColor(){
-        setSelectiedButton(
+        setSelectedButton(
             <ColorSelection/>
         )
     }
 
     function selectWidth(){
-        setSelectiedButton(
+        setSelectedButton(
             <WidthSelection/>
         )
     }
@@ -106,7 +112,7 @@ const Main = () => {
                         text="clear"
                         hoverColor="gray"
                         clickColor="black"
-                        onClick={() => {clearCanvas();setSelectiedButton("clear")}}
+                        onClick={() => {clearCanvas();setSelectedButton("clear")}}
                     />
 
                     <EyeButton id="draw"
@@ -140,10 +146,20 @@ const Main = () => {
                         clickColor="black"
                         onClick={() => {selectWidth()}}
                     />
+
+                    <EyeButton 
+                        style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
+                        text="undo"
+                        hoverColor="gray"
+                        clickColor="black"
+                        onClick={() => {undo(imgBuffer[imgBuffer.length-2])}}
+                    />
                 </div>
 
                 <div className="canvas-container">
                     <Canvas 
+                        imgBuffer={imgBuffer}
+                        setImgBuffer={setImgBuffer}
                     />
                 </div>
 

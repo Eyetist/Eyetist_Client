@@ -32,8 +32,7 @@ export const CanvasProvider = ({ children }) => {
     const clearCanvas = () => {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d")
-        context.fillStyle = "white"
-        context.fillRect(0, 0, canvas.width, canvas.height)
+        context.clearRect(0, 0, canvas.width, canvas.height)
     }
 
     const setDrawMode=()=>{
@@ -60,6 +59,19 @@ export const CanvasProvider = ({ children }) => {
         context.lineWidth=width;
     }
 
+    const undo=(url)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        const lastImg=new Image();
+        context.drawImage(lastImg,0,0,canvas.width,canvas.height);
+        lastImg.src=url;
+        lastImg.onload=function(){
+            console.log(lastImg.src);
+            context.clearRect(0,0,canvas.width,canvas.height);
+            context.drawImage(lastImg,0,0);
+        }
+    }
+
     return (
         <CanvasContext.Provider
         value={{
@@ -71,6 +83,7 @@ export const CanvasProvider = ({ children }) => {
             setEraseMode,
             setColor,
             setWidth,
+            undo,
         }}
         >
         {children}

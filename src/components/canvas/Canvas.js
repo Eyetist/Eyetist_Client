@@ -12,11 +12,13 @@ export function Canvas(props) {
     const {
         contextRef,
         canvasRef,
-        prepareCanvas
+        prepareCanvas,
+        storeCanvas,
     } = useCanvas();
 
     useEffect(() => {
         prepareCanvas();
+        props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
     }, []);
 
     // console.log(`${window.innerWidth}px`)
@@ -32,10 +34,10 @@ export function Canvas(props) {
     else{
         if(isStartDrawing.current){
             console.log("A")
+            contextRef.current.beginPath();
+            props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
         }
         isStartDrawing.current=false;
-        contextRef.current.beginPath();
-        
     }
 
     return (
