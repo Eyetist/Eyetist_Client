@@ -64,18 +64,9 @@ export const CanvasProvider = ({ children }) => {
         }
     }
 
-    const saveCanvas = () => {
+    const getImageUrl = (extension) => {
         const canvas = canvasRef.current;
-        const image = canvas.toDataURL(); // default -> png
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = "EyeTist[🎨]";
-        link.click();
-    }
-
-    const getImageUrl = () => {
-        const canvas = canvasRef.current;
-        const image = canvas.toDataURL(); // default -> png
+        const image = canvas.toDataURL(extension); // default -> png
         return image
     }
 
@@ -84,7 +75,6 @@ export const CanvasProvider = ({ children }) => {
             value={{
                 canvasRef,
                 contextRef,
-                saveCanvas,
                 getImageUrl,
                 prepareCanvas,
                 clearCanvas,

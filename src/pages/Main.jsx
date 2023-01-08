@@ -11,7 +11,7 @@ import ColorSelection from "../components/functionDetails/ColorSelection";
 import WidthSelection from "../components/functionDetails/WidthSelection";
 
 const Main = () => {
-    const { clearCanvas, saveCanvas, getImageUrl, setDrawMode, setEraseMode, undo } = useCanvas()
+    const { clearCanvas, getImageUrl, setDrawMode, setEraseMode, undo } = useCanvas()
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
     let [saveImageLink, setSaveImageLink] = useState("")
     let [imgBuffer,setImgBuffer] = useState([]);
