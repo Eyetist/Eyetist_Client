@@ -108,7 +108,7 @@ const CanvasSave = (props) => {
                                 <EyeButton 
                                     style={{  
                                         height : optionContainerRef.current && optionContainerRef.current.clientHeight / 2,
-                                        width: optionContainerRef.current && optionContainerRef.current.clientWidth * 0.9,
+                                        width: optionContainerRef.current && optionContainerRef.current.clientWidth,
                                         backgroundColor: "inherit",
                                         border: "none",
                                         position: "absolute"
@@ -219,7 +219,7 @@ const CanvasSave = (props) => {
                                         border: "none",
                                         borderRadius: "10px",
                                     }}
-                                    text="SAVE"
+                                    text="SAVE TO SERVER"
                                     hoverColor="gray"
                                     clickColor="black"
                                     onClick={() => sendCanvas("userId", inputName, props.link, visible, 0)}
