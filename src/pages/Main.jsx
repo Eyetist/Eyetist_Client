@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./Main.css"
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
@@ -11,12 +11,44 @@ import ColorSelection from "../components/functionDetails/ColorSelection";
 import WidthSelection from "../components/functionDetails/WidthSelection";
 
 const Main = () => {
-    const { clearCanvas, getImageUrl, setDrawMode, setEraseMode, undo } = useCanvas()
+    const { canvasRef, clearCanvas, getImageUrl, setDrawMode, setEraseMode, undo } = useCanvas()
+    let canvasSavePageTrigger = useRef(false)
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
     let [saveImageLink, setSaveImageLink] = useState("")
     let [imgBuffer,setImgBuffer] = useState([]);
     let [selectedButton,setSelectedButton]=useState("draw");
     let step = -1;
+
+    useEffect(()=>{
+        switch(selectedButton){
+            case "draw":
+                console.log("draw");
+                break;
+            case "erase":
+                console.log("erase");
+                break;
+        }
+    },[selectedButton])
+
+    useEffect( () => {
+        if (canvasSaveOpen){
+            canvasSavePageTrigger.current = true
+        }
+        else{
+            if (canvasSavePageTrigger.current){
+                const canvas = canvasRef.current;
+                const context = canvas.getContext("2d");
+                const image = new Image();
+
+                image.src = saveImageLink;
+                image.onload=function(){
+                    context.drawImage(image,0,0);
+                }
+
+                canvasSavePageTrigger.current = false;
+            }
+        }
+    }, [canvasSaveOpen])
 
     function selectDraw(){
         setDrawMode();
@@ -40,17 +72,6 @@ const Main = () => {
         )
     }
 
-    useEffect(()=>{
-        switch(selectedButton){
-            case "draw":
-                console.log("draw");
-                break;
-            case "erase":
-                console.log("erase");
-                break;
-        }
-    },[selectedButton])
-
     return (
         <div className="whole-container">
             <EyeMouse />
@@ -73,7 +94,7 @@ const Main = () => {
                 <div className="components-container">
                     <div className="functions-container"/>
                     <div className="canvas-container">
-                        <div style={{width: "100%", height:"100%", display:'flex', alignItems: "center", justifyContent: "center"}}>
+                        <div style={{width: "100%", height:"100%", display:'flex', alignItems: "center", justifyContent: "center"}}>{/* backgroundColor: "#313336"}}> */}
                             <CanvasSave 
                                 setIsOpen={setCanvasSaveOpen}
                                 link={saveImageLink}
