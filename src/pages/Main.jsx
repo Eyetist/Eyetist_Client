@@ -73,16 +73,17 @@ const Main = () => {
                 <div className="components-container">
                     <div className="functions-container"/>
                     <div className="canvas-container">
-                        <CanvasSave 
-                            setIsOpen={setCanvasSaveOpen}
-                            link={saveImageLink}
-                        />
+                        <div style={{width: "100%", height:"100%", display:'flex', alignItems: "center", justifyContent: "center"}}>
+                            <CanvasSave 
+                                setIsOpen={setCanvasSaveOpen}
+                                link={saveImageLink}
+                            />
+                        </div>
                     </div>
     
                     <div className="right-container">
                         <div className="cam-container">
-                            <FaceMeshCam
-                            />
+                            <FaceMeshCam />
                         </div>
                     </div>
                 </div>
