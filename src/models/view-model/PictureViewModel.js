@@ -11,10 +11,10 @@ export class PictureViewModel{
         return this.model.getModel();
     }
 
-    getPictures(userId){
+    getPictures(member, visibility){
         let pictures = [];
         this.getAll().map( (picture) => {
-            if(picture.userId === userId){
+            if(picture.member === member && picture.visibility === visibility){
                 pictures.push(picture)
             }
         })
