@@ -17,6 +17,7 @@ const Main = () => {
     let [imgBuffer,setImgBuffer] = useState([]);
     let [bufferIdx,setBufferIdx] = useState(0);
     let [selectedButton,setSelectedButton]=useState("draw");
+    let [currentFunction,setCurrentFunction]=useState("draw");
     let [ratio,setRatio]=useState(1);
 
     useEffect(()=>{
@@ -27,6 +28,7 @@ const Main = () => {
     function selectDraw(){
         setDrawMode();
         setSelectedButton("draw");
+        setCurrentFunction("draw");
     }
 
     function selectErase(){
@@ -196,6 +198,7 @@ const Main = () => {
                             setImgBuffer={setImgBuffer}
                             bufferIdx={bufferIdx}
                             setBufferIdx={setBufferIdx}
+                            currentFunction={currentFunction}
                         />
                     </div>
     

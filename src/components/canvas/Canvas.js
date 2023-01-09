@@ -25,7 +25,7 @@ export function Canvas(props) {
     useEffect( () => {
         let posX = (mousePos.x - (window.innerWidth / 10)) * 2 + 25 * 2
         let posY = (mousePos.y - 70) * 2 + 25 * 2
-        if(posX>0 && posY>0){
+        if(posX>0 && posY>0&&props.currentFunction==="draw"){
             if(isLeftEyeBlink && !isRightEyeBlink && !isMouseOpen){
                 isStartDrawing.current = true;
                 contextRef.current.lineTo(posX, posY);
