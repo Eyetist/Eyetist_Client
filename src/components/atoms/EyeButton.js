@@ -16,10 +16,7 @@ const EyeButton = (props) => {
             let posX = mousePos.x + 25 // 25 is mouseCursorSize / 2
             let posY = mousePos.y + 25
     
-            if ((offsetLeft <= posX && posX <= offsetLeft + offsetWidth) && (offsetTop <= posY && posY <= offsetTop + offsetHeight)){
-                return true
-            }
-            return false
+            return (offsetLeft <= posX && posX <= offsetLeft + offsetWidth) && (offsetTop <= posY && posY <= offsetTop + offsetHeight);
         }
     }
 

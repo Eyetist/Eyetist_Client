@@ -177,8 +177,7 @@ const JoinPage = () =>{
                         </div>
                         <div className="loginButtonContainer">
                             <EyeButton 
-                                style={{    
-                                    width : "100%",
+                                style={{
                                     color: "white",
                                     backgroundColor: "#000000",
                                     border: "1px solid #A4A4A4",
