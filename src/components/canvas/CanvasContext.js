@@ -51,16 +51,38 @@ export const CanvasProvider = ({ children }) => {
         context.lineWidth=width;
     }
 
-    const undo=(url)=>{
+    const ReDoAndUnDo=(url)=>{
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
         const lastImg=new Image();
-        context.drawImage(lastImg,0,0,canvas.width,canvas.height);
         lastImg.src=url;
         lastImg.onload=function(){
-            console.log(lastImg.src);
             context.clearRect(0,0,canvas.width,canvas.height);
             context.drawImage(lastImg,0,0);
+        }
+    }
+
+    const zoomIn=(url,ratio,setRatio)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        const lastImg=new Image();
+        lastImg.src=url
+        lastImg.onload=function(){
+            context.clearRect(0,0,canvas.width,canvas.height);
+            context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width*ratio*2,canvas.height*ratio*2);
+            setRatio(ratio*2)
+        }
+    }
+
+    const zoomOut=(url,ratio,setRatio)=>{
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        const lastImg=new Image();
+        lastImg.src=url;
+        lastImg.onload=function(){
+            context.clearRect(0,0,canvas.width,canvas.height);
+            context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width*ratio/2,canvas.height*ratio/2);
+            setRatio(ratio/2)
         }
     }
 
@@ -82,7 +104,9 @@ export const CanvasProvider = ({ children }) => {
                 setEraseMode,
                 setColor,
                 setWidth,
-                undo,
+                ReDoAndUnDo,
+                zoomIn,
+                zoomOut,
             }}
         >
         {children}
