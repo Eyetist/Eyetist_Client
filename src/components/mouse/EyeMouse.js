@@ -1,7 +1,8 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import SensitivityController from "./SensitivityController";
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_LEFT_EYE_BLINK, IS_MOUSE_OPEN} from '../../recoil/Atoms';
+import { BsCircle } from "react-icons/bs"
+import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_LEFT_EYE_BLINK, IS_MOUSE_OPEN, STROKE_COLOR } from '../../recoil/Atoms';
 
 const cursorImage = {
     defaultCursor: require('./defaultCursor.png'),
@@ -11,7 +12,8 @@ const cursorImage = {
     minusCursor: require('./minusCursor.png'),
 }
 
-const EyeMouse = () => {
+const EyeMouse = (props) => {
+    let strokeColor = useRecoilValue(STROKE_COLOR)
     let mousePos = useRecoilValue(MOUSE_POS)
     let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
@@ -36,10 +38,8 @@ const EyeMouse = () => {
                         style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
                     />
                 :
-                    <img
-                        src={cursorImage.defaultCursor}
-                        alt="cursor"
-                        style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
+                    <BsCircle 
+                        style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999', color:strokeColor}}
                     />
 
         :
@@ -57,10 +57,8 @@ const EyeMouse = () => {
                         style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
                     />
                 :
-                    <img
-                        src={cursorImage.defaultCursor}
-                        alt="cursor"
-                        style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
+                    <BsCircle 
+                        style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999', color:strokeColor}}
                     />
         }
         </>

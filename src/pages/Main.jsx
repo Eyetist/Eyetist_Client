@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./Main.css"
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
@@ -11,16 +11,57 @@ import ColorSelection from "../components/functionDetails/ColorSelection";
 import WidthSelection from "../components/functionDetails/WidthSelection";
 
 const Main = () => {
-    const { clearCanvas, saveCanvas, getImageUrl, setDrawMode, setEraseMode, undo } = useCanvas()
+
+    const { canvasRef, clearCanvas, getImageUrl, setDrawMode, setEraseMode, ReDoAndUnDo,zoomIn,zoomOut } = useCanvas()
+    let canvasSavePageTrigger = useRef(false)
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
     let [saveImageLink, setSaveImageLink] = useState("")
     let [imgBuffer,setImgBuffer] = useState([]);
+    let [bufferIdx,setBufferIdx] = useState(0);
     let [selectedButton,setSelectedButton]=useState("draw");
-    let step = -1;
+    let [currentFunction,setCurrentFunction]=useState("draw");
+    let [ratio,setRatio]=useState(1);
+
+    useEffect(()=>{
+        console.log("length="+imgBuffer.length);
+        console.log(bufferIdx);
+    },[bufferIdx])
+
+    useEffect(()=>{
+        switch(selectedButton){
+            case "draw":
+                console.log("draw");
+                break;
+            case "erase":
+                console.log("erase");
+                break;
+        }
+    },[selectedButton])
+
+    useEffect( () => {
+        if (canvasSaveOpen){
+            canvasSavePageTrigger.current = true
+        }
+        else{
+            if (canvasSavePageTrigger.current){
+                const canvas = canvasRef.current;
+                const context = canvas.getContext("2d");
+                const image = new Image();
+
+                image.src = saveImageLink;
+                image.onload=function(){
+                    context.drawImage(image,0,0);
+                }
+
+                canvasSavePageTrigger.current = false;
+            }
+        }
+    }, [canvasSaveOpen])
 
     function selectDraw(){
         setDrawMode();
         setSelectedButton("draw");
+        setCurrentFunction("draw");
     }
 
     function selectErase(){
@@ -40,6 +81,20 @@ const Main = () => {
         )
     }
 
+    function selectUndo(){
+        if(bufferIdx>0){
+            ReDoAndUnDo(imgBuffer[bufferIdx-1]);
+            setBufferIdx(bufferIdx-1);
+        }
+    }
+
+    function selectRedo(){
+        if(bufferIdx<imgBuffer.length-1){
+            ReDoAndUnDo(imgBuffer[bufferIdx+1]);
+            setBufferIdx(bufferIdx+1);
+        }
+    }
+
     useEffect(()=>{
         switch(selectedButton){
             case "draw":
@@ -50,7 +105,7 @@ const Main = () => {
                 break;
         }
     },[selectedButton])
-
+    
     return (
         <div className="whole-container">
             <EyeMouse />
@@ -73,14 +128,18 @@ const Main = () => {
                 <div className="components-container">
                     <div className="functions-container"/>
                     <div className="canvas-container">
-                        <CanvasSave 
-                            setIsOpen={setCanvasSaveOpen}
-                            link={saveImageLink}
-                        />
+                        <div style={{width: "100%", height:"100%", display:'flex', alignItems: "center", justifyContent: "center"}}>{/* backgroundColor: "#313336"}}> */}
+                            <CanvasSave 
+                                setIsOpen={setCanvasSaveOpen}
+                                link={saveImageLink}
+                            />
+                        </div>
                     </div>
     
-                    <div className="detail-container">
-                        <FaceMeshCam />
+                    <div className="right-container">
+                        <div className="cam-container">
+                            <FaceMeshCam />
+                        </div>
                     </div>
                 </div>
                 :    
@@ -131,7 +190,31 @@ const Main = () => {
                             text="undo"
                             hoverColor="gray"
                             clickColor="black"
-                            onClick={() => {undo(imgBuffer[imgBuffer.length-2])}}
+                            onClick={() => {selectUndo()}}
+                        />
+
+                        <EyeButton 
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
+                            text="redo"
+                            hoverColor="gray"
+                            clickColor="black"
+                            onClick={() => {selectRedo()}}
+                        />
+
+                        <EyeButton 
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
+                            text="zoom In"
+                            hoverColor="gray"
+                            clickColor="black"
+                            onClick={() => {zoomIn(imgBuffer[bufferIdx],ratio,setRatio)}}
+                        />
+
+                        <EyeButton 
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
+                            text="zoom Out"
+                            hoverColor="gray"
+                            clickColor="black"
+                            onClick={() => {zoomOut(imgBuffer[bufferIdx],ratio,setRatio)}}
                         />
     
                         <EyeButton 
@@ -150,6 +233,9 @@ const Main = () => {
                         <Canvas
                             imgBuffer={imgBuffer}
                             setImgBuffer={setImgBuffer}
+                            bufferIdx={bufferIdx}
+                            setBufferIdx={setBufferIdx}
+                            currentFunction={currentFunction}
                         />
                     </div>
     

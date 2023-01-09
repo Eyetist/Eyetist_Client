@@ -124,13 +124,12 @@ const LoginPage = () =>{
                     <div className="loginButtonContainer">
                         <EyeButton 
                             style={{    
-                                width : "100%",
+                                width : "90%",
                                 color: "white",
                                 backgroundColor: "#000000",
                                 border: "1px solid #A4A4A4",
                                 borderRadius: "30px",
                                 textAlign: "center",
-                                width: "90%",
                                 height: "100%",
                                 marginLeft: "4px",
                                 fontSize: "25px"

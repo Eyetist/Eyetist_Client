@@ -28,10 +28,10 @@ export const sendJoin = async(inputId, inputPw) =>{
     console.log(data);
 }
 
-export const saveCanvas = async(userId, paintName, paintUrl, visibility, likeCount) =>{
+export const sendCanvas = async(userId, paintName, paintUrl, visibility, likeCount) =>{
     const { data } = await axios({
         method: "POST",
-        url: BACK_BASE_URL + "/canvas/save",
+        url: BACK_BASE_URL + "/blob/storeImage",
         mode: "cors",
         headers: {
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.

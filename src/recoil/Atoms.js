@@ -27,3 +27,8 @@ export const IS_MOUSE_OPEN = atom({
 	key : 'isMouseOpen',
     default : false
 });
+
+export const STROKE_COLOR = atom({
+    key : 'strokeColor',
+    default : 'black'
+})
