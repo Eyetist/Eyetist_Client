@@ -36,6 +36,7 @@
 }
 .option-text{
     font-size: 20px;
+    font-weight: 700;
     line-height: 30px;
     letter-spacing: 7px;
     margin-left: 10px;
@@ -44,9 +45,10 @@
     text-align: left;
 }
 .option{
-    width: 90%;
+    width: 99%;
     height : 50%;
     background: #FFFFFF;
     border: 1px solid #B4A5A5;
-    border-radius: 24px;
+    border-radius: 20px;
+    font-size: 20px;
 }
