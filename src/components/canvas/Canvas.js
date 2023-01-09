@@ -23,28 +23,29 @@ export function Canvas(props) {
     }, []);
 
     useEffect( () => {
-        if(isLeftEyeBlink && !isRightEyeBlink && !isMouseOpen){
-            isStartDrawing.current = true;
-            let posX = (mousePos.x - (window.innerWidth / 10)) * 2 + 25 * 2
-            let posY = (mousePos.y - 70) * 2 + 25 * 2
-
-            contextRef.current.lineTo(posX, posY);
-            contextRef.current.stroke();
-        }
-        else{
-            if(isStartDrawing.current){
-                contextRef.current.beginPath();
-                props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
+        let posX = (mousePos.x - (window.innerWidth / 10)) * 2 + 25 * 2
+        let posY = (mousePos.y - 70) * 2 + 25 * 2
+        if(posX>0 && posY>0){
+            if(isLeftEyeBlink && !isRightEyeBlink && !isMouseOpen){
+                isStartDrawing.current = true;
+                contextRef.current.lineTo(posX, posY);
+                contextRef.current.stroke();
             }
-            isStartDrawing.current=false;
+            else{
+                if(isStartDrawing.current){
+                    contextRef.current.beginPath();
+                    props.setBufferIdx(props.bufferIdx+1);
+                    var buffer=[...props.imgBuffer].slice(0,props.bufferIdx+1);
+                    props.setImgBuffer([...buffer,canvasRef.current.toDataURL()]);
+                }
+                isStartDrawing.current=false;
+            }
         }
     }, [mousePos])
 
     return (
-        <div>
             <canvas
                 ref={canvasRef}
             />
-        </div>
     );
 }

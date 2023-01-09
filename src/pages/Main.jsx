@@ -11,12 +11,18 @@ import ColorSelection from "../components/functionDetails/ColorSelection";
 import WidthSelection from "../components/functionDetails/WidthSelection";
 
 const Main = () => {
-    const { clearCanvas, saveCanvas, getImageUrl, setDrawMode, setEraseMode, undo } = useCanvas()
+    const { clearCanvas, saveCanvas, getImageUrl, setDrawMode, setEraseMode, ReDoAndUnDo,zoomIn,zoomOut } = useCanvas()
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
     let [saveImageLink, setSaveImageLink] = useState("")
     let [imgBuffer,setImgBuffer] = useState([]);
+    let [bufferIdx,setBufferIdx] = useState(0);
     let [selectedButton,setSelectedButton]=useState("draw");
-    let step = -1;
+    let [ratio,setRatio]=useState(1);
+
+    useEffect(()=>{
+        console.log("length="+imgBuffer.length);
+        console.log(bufferIdx);
+    },[bufferIdx])
 
     function selectDraw(){
         setDrawMode();
@@ -38,6 +44,20 @@ const Main = () => {
         setSelectedButton(
             <WidthSelection/>
         )
+    }
+
+    function selectUndo(){
+        if(bufferIdx>0){
+            ReDoAndUnDo(imgBuffer[bufferIdx-1]);
+            setBufferIdx(bufferIdx-1);
+        }
+    }
+
+    function selectRedo(){
+        if(bufferIdx<imgBuffer.length-1){
+            ReDoAndUnDo(imgBuffer[bufferIdx+1]);
+            setBufferIdx(bufferIdx+1);
+        }
     }
 
     useEffect(()=>{
@@ -131,7 +151,31 @@ const Main = () => {
                             text="undo"
                             hoverColor="gray"
                             clickColor="black"
-                            onClick={() => {undo(imgBuffer[imgBuffer.length-2])}}
+                            onClick={() => {selectUndo()}}
+                        />
+
+                        <EyeButton 
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
+                            text="redo"
+                            hoverColor="gray"
+                            clickColor="black"
+                            onClick={() => {selectRedo()}}
+                        />
+
+                        <EyeButton 
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
+                            text="zoom In"
+                            hoverColor="gray"
+                            clickColor="black"
+                            onClick={() => {zoomIn(imgBuffer[bufferIdx],ratio,setRatio)}}
+                        />
+
+                        <EyeButton 
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
+                            text="zoom Out"
+                            hoverColor="gray"
+                            clickColor="black"
+                            onClick={() => {zoomOut(imgBuffer[bufferIdx],ratio,setRatio)}}
                         />
     
                         <EyeButton 
@@ -150,6 +194,8 @@ const Main = () => {
                         <Canvas
                             imgBuffer={imgBuffer}
                             setImgBuffer={setImgBuffer}
+                            bufferIdx={bufferIdx}
+                            setBufferIdx={setBufferIdx}
                         />
                     </div>
     
