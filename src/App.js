@@ -4,8 +4,7 @@ import MainPage from './pages/Main';
 import BeginPage from './pages/StartPage';
 import LoginPage from './pages/LoginPage'
 import JoinPage from './pages/JoinPage'
-
-
+import EyeGallery from "./pages/EyeGallery";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +14,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}/>
           <Route path="/join" element={<JoinPage />}/>
           <Route path="/paint" element={<MainPage />}/>
+          <Route path="/gallery" element={<EyeGallery />}/>
         </Routes>
       </span>
     </BrowserRouter>

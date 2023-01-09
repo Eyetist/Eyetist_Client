@@ -1,10 +1,11 @@
 export class Picture{
     #pictures = [{
-        userId : "",
-        paintName : "",
-        paintUrl : "",
+        member : "",
+        blobName : "",
+        title : "",
+        link : "",
+        likes : "",
         visibility : "",
-        likeCount : "",
     }]
 
     updateModel(updatedModel){
