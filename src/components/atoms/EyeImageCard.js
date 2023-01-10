@@ -4,7 +4,7 @@ import { motion, useAnimationControls } from "framer-motion"
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS } from '../../recoil/Atoms';
 import "./EyeImageCard.css"
 
-const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight * 0.23;
+const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight * 0.2;
 
 const EyeImageCard = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
@@ -83,8 +83,9 @@ const EyeImageCard = (props) => {
             }
         }
     }, [mousePos])
-
+    
     return(
+        thumbnailImageHeight ?
         <motion.div animate={controls} ref={buttonRef} className="eye-image-card">
             <img 
                 src={props.imageLink}
@@ -103,6 +104,8 @@ const EyeImageCard = (props) => {
                 Date: 2023/01/01
             </div>
         </motion.div>
+        :
+        <></>
     )
 
 }
