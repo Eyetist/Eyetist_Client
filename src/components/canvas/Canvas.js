@@ -28,8 +28,8 @@ export function Canvas(props) {
     }, []);
 
     useEffect( () => {
-        let posX = (mousePos.x - (window.innerWidth / 10));
-        let posY = (mousePos.y - 70)+25*2
+        let posX = (mousePos.x - (window.innerWidth / 10)) + 15;
+        let posY = (mousePos.y - 70) + 15
         // console.log(posX+","+posY);
         if(posX>0 && posY>0&&posX<canvasRef.current.width&&posY<canvasRef.current.height){
             if(currentFunction==="draw"||currentFunction==="erase"){

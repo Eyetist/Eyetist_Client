@@ -48,6 +48,6 @@ export const LINE_WIDTH=atom({
 
 export const CURRENT_FUNCTION=atom({
     key : 'currentFunction',
-    default : 'draw'
+    default : 'defalut'
 })
 

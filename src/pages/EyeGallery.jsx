@@ -4,7 +4,7 @@ import FaceMeshCam from '../components/faceMesh/FaseMeshCam';
 import MyGallery from '../components/gallery/MyGallery';
 import OthersGallery from '../components/gallery/OthersGallery';
 import { useSetRecoilState } from 'recoil';
-import { SCROLL_POS } from '../recoil/Atoms';
+import { SCROLL_POS, CURRENT_FUNCTION } from '../recoil/Atoms';
 import { motion, useAnimationControls } from "framer-motion"
 import EyeButton from '../components/atoms/EyeButton';
 import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
@@ -12,6 +12,7 @@ import './EyeGallery.css'
 
 const EyeGallery = () => {
     let [isMyGallery, setIsMyGallery] = useState(true);
+    let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
     let setScrollPos = useSetRecoilState(SCROLL_POS)
     let [MyGalleryButtonColor, setMyGalleryButtonColor] = useState("rgb(49, 51, 54)")
     let [OthersGalleryButtonColor, setOthersGalleryButtonColor] = useState("gainsboro")
@@ -46,6 +47,7 @@ const EyeGallery = () => {
     }
 
     useEffect( () => {
+        setCurrentFunction("default")
         handleScroll()
     },[])
 

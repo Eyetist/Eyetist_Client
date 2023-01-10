@@ -36,8 +36,8 @@ const EyeImageCard = (props) => {
             transTop.current = transTop.current - scrollPos.y
 
             
-            let posX = mousePos.x + 25 // 25 is mouseCursorSize / 2
-            let posY = mousePos.y + 25
+            let posX = mousePos.x + 15 // 15 is mouseCursorSize / 2
+            let posY = mousePos.y + 15
     
             return (transLeft.current <= posX && posX <= transLeft.current + offsetWidth) && (transTop.current <= posY && posY <= transTop.current + offsetHeight);
         }

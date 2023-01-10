@@ -13,8 +13,8 @@ const EyeCard = (props) => {
     function isOverlap(){
         if (buttonRef.current){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight} = buttonRef.current;
-            let posX = mousePos.x + 25 // 25 is mouseCursorSize / 2
-            let posY = mousePos.y + 25
+            let posX = mousePos.x + 15 // 15 is mouseCursorSize / 2
+            let posY = mousePos.y + 15
     
             return (offsetLeft <= posX && posX <= offsetLeft + offsetWidth) && (offsetTop <= posY && posY <= offsetTop + offsetHeight);
         }

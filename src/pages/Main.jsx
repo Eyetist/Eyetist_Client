@@ -23,6 +23,10 @@ const Main = () => {
     let [currentFunction,setCurrentFunction]=useRecoilState(CURRENT_FUNCTION)
     let [ratio,setRatio]=useState(1);
 
+    useEffect( () => {
+        setCurrentFunction("draw")
+    }, []) 
+
     useEffect(()=>{
         console.log("length="+imgBuffer.length);
         console.log(bufferIdx);
@@ -41,6 +45,7 @@ const Main = () => {
 
     useEffect( () => {
         if (canvasSaveOpen){
+            setCurrentFunction("default")
             canvasSavePageTrigger.current = true
         }
         else{
