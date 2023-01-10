@@ -1,0 +1,11 @@
+.picture-container{
+    background-color: rgb(49, 51, 54);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding-top: 2%;
+    padding-bottom: 6%;
+}

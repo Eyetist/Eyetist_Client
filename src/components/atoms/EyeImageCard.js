@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { motion, useAnimationControls } from "framer-motion"
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK } from '../../recoil/Atoms';
+import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS } from '../../recoil/Atoms';
 import "./EyeImageCard.css"
 
-const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight / 4;
-let isHover = false;
+const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight * 0.2;
 
 const EyeImageCard = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
+    let scrollPos = useRecoilValue(SCROLL_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let clickRef = useRef(false);
-    
+
     const buttonRef = useRef(null);
     const controls = useAnimationControls()
 
@@ -32,6 +32,10 @@ const EyeImageCard = (props) => {
                 transLeft.current = offsetLeft
             }
 
+            transLeft.current = transLeft.current - scrollPos.x
+            transTop.current = transTop.current - scrollPos.y
+
+            
             let posX = mousePos.x + 25 // 25 is mouseCursorSize / 2
             let posY = mousePos.y + 25
     
@@ -68,19 +72,42 @@ const EyeImageCard = (props) => {
                 clickRef.current = false
             }
         }
-    }, [mousePos])
 
+        if(!thumbnailImageHeight){
+            thumbnailImage.src = props.imageLink;
+            if (thumbnailImage.height < MAX_THUMBNAIL_IMAGE_HEIGHT){
+                setThumbnailImageHeight(thumbnailImage.height)
+            }
+            else{
+                setThumbnailImageHeight(MAX_THUMBNAIL_IMAGE_HEIGHT)
+            }
+        }
+    }, [mousePos])
+    
     return(
-        <motion.div animate={controls}>
+        thumbnailImageHeight ?
+        <motion.div animate={controls} ref={buttonRef} className="eye-image-card">
             <img 
-                src={props.imageLink} 
+                src={props.imageLink}
+                alt="image"
                 width="auto"
                 height={thumbnailImageHeight}
-                className="eye-image-card" 
-                ref={buttonRef} 
+                style={{borderTopLeftRadius:"10px", borderTopRightRadius:"10px"}}
             />
+            <div className="picture-information">
+                Title: Picture1
+            </div>
+            <div className="picture-information">
+                EyeTist: test1
+            </div>
+            <div className="picture-information">
+                Date: 2023/01/01
+            </div>
         </motion.div>
+        :
+        <></>
     )
+
 }
 
 export default EyeImageCard

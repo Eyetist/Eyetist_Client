@@ -120,7 +120,7 @@ const Main = () => {
                 <div style={{marginTop: "30px"}}>
                     <CustomSlider 
                         title = "Sensitivity"
-                        maxRange = {10}
+                        maxRange = {5}
                         width = "200px"
                         height = "10px"
                     />
@@ -252,7 +252,7 @@ const Main = () => {
                     </div>
     
                     <div className="right-container">
-                        <div className="cam-container">
+                        <div className="cam-container" style={{height:window.innerHeight * 0.2}}>
                             <FaceMeshCam
                             />
                         </div>
