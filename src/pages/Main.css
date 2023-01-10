@@ -58,7 +58,7 @@
 }
 
 .cam-container{
-    width: 100%;
+    width: auto;
     height: 200px;
     background-color: gray;
 }

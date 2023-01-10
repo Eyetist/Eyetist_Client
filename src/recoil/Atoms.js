@@ -32,3 +32,11 @@ export const STROKE_COLOR = atom({
     key : 'strokeColor',
     default : 'black'
 })
+
+export const SCROLL_POS = atom({
+	key : 'scrollPos',
+    default : [{
+        x: 0,
+        y: 0,
+    }],
+});

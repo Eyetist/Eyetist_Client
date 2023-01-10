@@ -1,34 +1,18 @@
-.picture-container{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 80%;
-    overflow-y: auto;
+.main-container {
+    background-color: #1E1E1E;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden
 }
 
-.picture-cam{
+.gallery-cam{
     width: 20%;
     height: 15%;
     /* height: auto; */
     margin-bottom: 10%;
 }
-.main-container {
-    background-color: #1E1E1E;
-    width: 100vw;
-    height: 100vh;
-}
 
-.picture-top-container{
-    display : flex;
-    align-items: center;
-    justify-content: center;
-    width : 100%;
-    height: 20%;
-}
-
-.picture-title{
+.gallery-title{
     width: 80%;
     height: auto;
     align-items: center;
@@ -42,4 +26,33 @@
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     text-decoration: none;
     padding-left: 17%;
+}
+
+.gallery-top-container{
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    width : 100%;
+    height: 20%;
+}
+
+.gallery-body-container{
+    display: flex;
+    background-color:rgb(49, 51, 54);
+    height: 80%;
+    overflow-x: auto;
+}
+
+.gallery-body-container::-webkit-scrollbar {
+    width: 0px;
+}
+.gallery-body-container::-webkit-scrollbar-thumb {
+    background: rgb(127, 127, 127);
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 3px solid transparent;
+}
+
+.gallery-body-container::-webkit-scrollbar-track{
+    border-radius: 10px;
 }

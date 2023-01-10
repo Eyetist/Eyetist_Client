@@ -197,7 +197,7 @@ function FaceMeshCam(props) {
                 textAlign: "right",
                 zindex: 9,
                 width: "100%",
-                height: "200px",
+                height: window.innerHeight * 0.2,
             }}
             />{" "}
             <canvas
@@ -210,7 +210,7 @@ function FaceMeshCam(props) {
                     textAlign: "right",
                     zindex: 9,
                     width: "100%",
-                    height: "200px",
+                    height: window.innerHeight * 0.2,
                 }}
             >
             </canvas>

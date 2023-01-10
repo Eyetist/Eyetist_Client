@@ -1,4 +1,13 @@
 .eye-image-card{
     border: 1px solid #B4A5A5;
     border-radius: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    background-color: gainsboro;
+}
+
+.picture-information{
+    margin-left: 10px;
+    margin-bottom: 2px;
 }
