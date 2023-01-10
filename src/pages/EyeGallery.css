@@ -44,7 +44,7 @@
 }
 
 .gallery-body-container::-webkit-scrollbar {
-    width: 0px;
+    width: 13px;
 }
 .gallery-body-container::-webkit-scrollbar-thumb {
     background: rgb(127, 127, 127);
