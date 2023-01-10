@@ -30,5 +30,15 @@ export const IS_MOUSE_OPEN = atom({
 
 export const STROKE_COLOR = atom({
     key : 'strokeColor',
-    default : 'black'
+    default : '#000000'
+})
+
+export const LINE_WIDTH=atom({
+    key : 'lineWidth',
+    default : '10'
+})
+
+export const CURRENT_FUNCTION=atom({
+    key : 'currentFunction',
+    default : 'draw'
 })

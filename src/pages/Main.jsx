@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { CURRENT_FUNCTION } from '../recoil/Atoms';
 import "./Main.css"
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
@@ -15,11 +17,10 @@ const Main = () => {
     const { canvasRef, clearCanvas, getImageUrl, setDrawMode, setEraseMode, ReDoAndUnDo,zoomIn,zoomOut } = useCanvas()
     let canvasSavePageTrigger = useRef(false)
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
-    let [saveImageLink, setSaveImageLink] = useState("")
     let [imgBuffer,setImgBuffer] = useState([]);
     let [bufferIdx,setBufferIdx] = useState(0);
     let [selectedButton,setSelectedButton]=useState("draw");
-    let [currentFunction,setCurrentFunction]=useState("draw");
+    let [currentFunction,setCurrentFunction]=useRecoilState(CURRENT_FUNCTION)
     let [ratio,setRatio]=useState(1);
 
     useEffect(()=>{
@@ -44,11 +45,12 @@ const Main = () => {
         }
         else{
             if (canvasSavePageTrigger.current){
+                setRatio(1);
                 const canvas = canvasRef.current;
                 const context = canvas.getContext("2d");
                 const image = new Image();
 
-                image.src = saveImageLink;
+                image.src = imgBuffer[bufferIdx];
                 image.onload=function(){
                     context.drawImage(image,0,0);
                 }
@@ -67,6 +69,7 @@ const Main = () => {
     function selectErase(){
         setEraseMode();
         setSelectedButton("erase");
+        setCurrentFunction("erase");
     }
 
     function selectColor(){
@@ -131,7 +134,7 @@ const Main = () => {
                         <div style={{width: "100%", height:"100%", display:'flex', alignItems: "center", justifyContent: "center"}}>{/* backgroundColor: "#313336"}}> */}
                             <CanvasSave 
                                 setIsOpen={setCanvasSaveOpen}
-                                link={saveImageLink}
+                                link={imgBuffer[bufferIdx]}
                             />
                         </div>
                     </div>
@@ -202,20 +205,29 @@ const Main = () => {
                         />
 
                         <EyeButton 
-                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"10px"}}
                             text="zoom In"
                             hoverColor="gray"
                             clickColor="black"
-                            onClick={() => {zoomIn(imgBuffer[bufferIdx],ratio,setRatio)}}
+                            onClick={() => {setCurrentFunction("zoom in")}}
                         />
 
                         <EyeButton 
-                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"10px"}}
                             text="zoom Out"
                             hoverColor="gray"
                             clickColor="black"
-                            onClick={() => {zoomOut(imgBuffer[bufferIdx],ratio,setRatio)}}
+                            onClick={() => {setCurrentFunction("zoom out")}}
                         />
+
+                        <EyeButton 
+                            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"10px"}}
+                            text="Flood Fill"
+                            hoverColor="gray"
+                            clickColor="black"
+                            onClick={() => {setCurrentFunction("fill")}}
+                        />
+
     
                         <EyeButton 
                             style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white", marginTop:"100px"}}
@@ -223,7 +235,6 @@ const Main = () => {
                             hoverColor="gray"
                             clickColor="black"
                             onClick={() => {
-                                setSaveImageLink(getImageUrl())
                                 setCanvasSaveOpen(true)
                             }}
                         />
@@ -235,7 +246,8 @@ const Main = () => {
                             setImgBuffer={setImgBuffer}
                             bufferIdx={bufferIdx}
                             setBufferIdx={setBufferIdx}
-                            currentFunction={currentFunction}
+                            ratio={ratio}
+                            setRatio={setRatio}
                         />
                     </div>
     
