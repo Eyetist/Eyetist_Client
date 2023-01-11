@@ -26,8 +26,11 @@ const LoginPage = () =>{
     const onPwBlur = () => setPwFocused(false)
 
     function login(){
-        // sendLogin(inputId, inputPw)
-        navigate('/paint')
+        sendLogin(inputId, inputPw)
+        .then( (res) => {
+            console.log(res)
+            navigate('/paint')
+        }, )
     }
 
     return(
