@@ -72,7 +72,6 @@ const EyeMouse = (props) => {
                         style={{ position: 'absolute', left: mousePos.x - 26, top: mousePos.y - 18 , width : "50px", height : "50px", zIndex:'999',color:strokeColor}}
                     />
                 </>
-
             )
             break;
 
@@ -114,7 +113,7 @@ const EyeMouse = (props) => {
                 <>{cursor}</>
 
         :
-            mousePos.x<window.innerWidth*0.1 ?
+            mousePos.x < window.innerWidth * 0.1 ? // || mousePos.x > window.innerWidth * 0.79 
                 isRightEyeBlink ? 
                     <img
                         src={cursorImage.checkCursor}
