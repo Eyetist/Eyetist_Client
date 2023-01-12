@@ -3,7 +3,7 @@ import { BACK_BASE_URL } from "../../Config";
 axios.defaults.withCredentials = true;
 
 export const sendLogin = async(inputId, inputPw) =>{
-    const { data } = await axios({
+    const data = await axios({
         method: "POST",
         url: BACK_BASE_URL + "/user/login",
         mode: "cors",
@@ -12,11 +12,11 @@ export const sendLogin = async(inputId, inputPw) =>{
         },
         data : {"id" : inputId, "password" : inputPw}
     });
-    console.log(data);
+    return data
 }
 
 export const sendJoin = async(inputId, inputPw) =>{
-    const { data } = await axios({
+    const data = await axios({
         method: "POST",
         url: BACK_BASE_URL + "/user/join",
         mode: "cors",
@@ -25,24 +25,24 @@ export const sendJoin = async(inputId, inputPw) =>{
         },
         data : {"id" : inputId, "password" : inputPw}
     });
-    console.log(data);
+    return data
 }
 
 export const sendCanvas = async(userId, paintName, paintUrl, visibility, likeCount) =>{
-    const { data } = await axios({
+    const data = await axios({
         method: "POST",
-        url: BACK_BASE_URL + "/blob/storeImage",
+        url: BACK_BASE_URL + "/blob/store",
         mode: "cors",
         headers: {
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
         },
         data : {
+            "file" : paintUrl,
             "member" : userId,
             "title" : paintName, 
-            "file" : paintUrl,
-            "visibility" : visibility,
             "likes" : likeCount,
+            "visibility" : visibility,
         }
     });
-    console.log(data);
+    return data
 }
