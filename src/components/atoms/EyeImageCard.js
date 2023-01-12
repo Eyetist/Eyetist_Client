@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import EyeButton from "./EyeButton";
 import { useRecoilValue } from "recoil";
 import { motion, useAnimationControls } from "framer-motion"
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS } from '../../recoil/Atoms';
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import "./EyeImageCard.css"
 
 const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight / 5;
@@ -96,14 +98,24 @@ const EyeImageCard = (props) => {
                 height="auto"
                 style={{borderTopLeftRadius:"10px", borderTopRightRadius:"10px"}}
             />
-            <div className="picture-information">
-                Title: Picture1
+            <div style={{display:"flex"}}>
+                <div className="picture-information">
+                    Title: {props.title}
+                </div>
             </div>
             <div className="picture-information">
-                EyeTist: test1
+                EyeTist: {props.eyeTist}
             </div>
+            {
+                props.visibility === "public" ?
+                    <div className="picture-information">
+                        Likes: {props.likes}
+                    </div>
+                :
+                    <></>
+            }
             <div className="picture-information">
-                Date: 2023/01/01
+                Date: {props.date}
             </div>
         </motion.div>
     )

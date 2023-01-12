@@ -40,7 +40,12 @@ const OthersGallery = (props) => {
                     privatePicturesDiv.push(
                         <EyeImageCard
                             key={index}
+                            eyeTist={picture.member}
+                            title={picture.title}
+                            likes={picture.likes}
                             imageLink={picture.link}
+                            visibility={picture.visibility}
+                            date={picture.date}
                         />
                     )
                     setPrivatePictureCount(privatePictureCount + 1)
@@ -50,7 +55,12 @@ const OthersGallery = (props) => {
                     publicPicturesDiv.push(
                         <EyeImageCard
                             key={index}
+                            eyeTist={picture.member}
+                            title={picture.title}
+                            likes={picture.likes}
                             imageLink={picture.link}
+                            visibility={picture.visibility}
+                            date={picture.date}
                         />
                     )
                     setPublicPictureCount(publicPictureCount + 1)

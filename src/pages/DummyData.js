@@ -9,6 +9,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -17,6 +18,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -25,6 +27,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -33,6 +36,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -41,6 +45,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -49,6 +54,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -57,6 +63,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -65,6 +72,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -73,6 +81,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -81,6 +90,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "private",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -89,6 +99,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -97,6 +108,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -105,6 +117,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -113,6 +126,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -121,6 +135,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -129,6 +144,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -137,6 +153,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -145,6 +162,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         {
             member : "test1",
@@ -153,6 +171,7 @@ export const getDummyPictures = () => {
             link : "https://eyetiststorage.blob.core.windows.net/test/16c8b7ce-7ed7-468f-b246-b99db71ad394",
             visibility : "public",
             likes : 0,
+            date : "2023-01-12"
         },
         
     )
