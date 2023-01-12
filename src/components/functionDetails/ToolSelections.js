@@ -87,7 +87,7 @@ const ToolSelections = (props) => {
                 text={<BiRefresh />}
                 hoverColor="pink"
                 clickColor="black"
-                onClick={() => {clearCanvas()}}
+                onClick={() => {clearCanvas(props.setImgBuffer,props.imgBuffer,props.setBufferIdx,props.bufferIdx)}}
             />
 
             <EyeButton id="draw"
