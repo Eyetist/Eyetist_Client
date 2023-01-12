@@ -46,3 +46,19 @@ export const sendCanvas = async(userId, paintName, paintUrl, visibility, likeCou
     });
     return data
 }
+
+export const getPictures = async(userId, page) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/blob/getImages",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "member" : userId, 
+            "page" : page
+        }
+    });
+    return data
+}
