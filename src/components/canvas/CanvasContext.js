@@ -9,7 +9,6 @@ export const CanvasProvider = ({ children }) => {
     let [lineWidth, setLineWidth]=useRecoilState(LINE_WIDTH);
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
-
     
     const prepareCanvas = () => {
         const canvas = canvasRef.current

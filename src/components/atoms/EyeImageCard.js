@@ -19,8 +19,8 @@ const EyeImageCard = (props) => {
     const controls = useAnimationControls()
 
     const thumbnailImage = new Image();
-    let [thumbnailImageHeight, setThumbnailImageHeight] = useState(0);
-    let [thumbnailImageWidth, setThumbnailImageWidth] = useState(0);
+    let [thumbnailImageHeight, setThumbnailImageHeight] = useState();
+    let [thumbnailImageWidth, setThumbnailImageWidth] = useState();
 
 
     let transLeft = useRef(0)
@@ -49,16 +49,6 @@ const EyeImageCard = (props) => {
     }
 
     useEffect( () => {
-        thumbnailImage.src = props.imageLink;
-        if (thumbnailImage.width < MAX_THEMBNAIL_IMAGE_WIDTH){
-            setThumbnailImageWidth(thumbnailImage.width)
-        }
-        else{
-            setThumbnailImageWidth(MAX_THEMBNAIL_IMAGE_WIDTH)
-        }
-    },[])
-
-    useEffect( () => {
         if (isOverlap()){
             controls.set({ scale: 1.2 })
 
@@ -78,17 +68,17 @@ const EyeImageCard = (props) => {
             }
         }
 
-        if(!thumbnailImageHeight){
+        if(thumbnailImage.src === "" && props.imageLink){
             thumbnailImage.src = props.imageLink;
-            if (thumbnailImage.height < MAX_THUMBNAIL_IMAGE_HEIGHT){
-                setThumbnailImageHeight(thumbnailImage.height)
+            if (thumbnailImage.width < MAX_THEMBNAIL_IMAGE_WIDTH){
+                setThumbnailImageWidth(thumbnailImage.width)
             }
             else{
-                setThumbnailImageHeight(MAX_THUMBNAIL_IMAGE_HEIGHT)
+                setThumbnailImageWidth(MAX_THEMBNAIL_IMAGE_WIDTH)
             }
         }
     }, [mousePos])
-    
+
     return(
         <motion.div animate={controls} ref={buttonRef} className="eye-image-card">
             <img 

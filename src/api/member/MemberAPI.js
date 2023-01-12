@@ -47,34 +47,32 @@ export const sendCanvas = async(userId, paintName, paintUrl, visibility, likeCou
     return data
 }
 
-export const getMyPictures = async(userId, page) =>{
+export const getMyPictures = async(userId) =>{
     const data = await axios({
         method: "POST",
-        url: BACK_BASE_URL + "/blob/getImages",
+        url: BACK_BASE_URL + "/blob/getImageList",
         mode: "cors",
         headers: {
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
         },
         data : {
             "member" : userId, 
-            "page" : page
         }
     });
     return data
 }
 
-export const getOthersPictures = async(visibility, page) =>{
-    const data = await axios({
-        method: "POST",
-        url: BACK_BASE_URL + "/blob/getImages",
-        mode: "cors",
-        headers: {
-          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
-        },
-        data : {
+export const getOthersPictures = async (visibility, page) =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/publicImage',{
+        params: {
             "visibility" : visibility, 
             "page" : page
         }
-    });
-    return data
+    })
+    return data;
+}
+
+export const getOtherPicturesCount = async () =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/imageCount')
+    return data;
 }

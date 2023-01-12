@@ -3,74 +3,59 @@ import EyeImageCard from '../atoms/EyeImageCard';
 import { motion } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
 import { PictureViewModel } from '../../models/view-model/PictureViewModel';
-import { getDummyPictures } from '../../pages/DummyData';
+import { getOthersPictures, getOtherPicturesCount } from '../../api/member/MemberAPI';
 import './Gallery.css'
 
 const picture = new Picture();
 const pictureViewModel = new PictureViewModel(picture);
-const MemberId = "test1"
 
 const OthersGallery = (props) => {
-    let [privatePictures, setPrivatePictures] = useState([])
     let [publicPictures, setPublicPictures] = useState([])
-    let [displayPrivatePictures, setDisplayPrivatePictures] = useState([])
     let [displayPublicPictures, setDisplayPublicPictures] = useState([])
-    let [privatePictureCount, setPrivatePictureCount] = useState(0)
-    let [publicPictureCount, setPublicPictureCount] = useState(0)
 
-    async function modelUpdate(){
-        pictureViewModel.update(getDummyPictures())
+    async function modelUpdate(data){
+        pictureViewModel.update(data)
     }
 
     async function setPicture(){
-        setPrivatePictures(pictureViewModel.getPictures(MemberId, "private"))
-        setPublicPictures(pictureViewModel.getPictures(MemberId, "public"))
-
+        setPublicPictures(pictureViewModel.getAll())
     }
 
     useEffect( () => {
-        modelUpdate()
-        .then( () => {
-            setPicture()
-            .then( () => {
-                let privatePicturesDiv = []
-                let publicPicturesDiv = []
-        
-                privatePictures.map( (picture, index) => {
-                    privatePicturesDiv.push(
-                        <EyeImageCard
-                            key={index}
-                            eyeTist={picture.member}
-                            title={picture.title}
-                            likes={picture.likes}
-                            imageLink={picture.link}
-                            visibility={picture.visibility}
-                            date={picture.date}
-                        />
-                    )
-                    setPrivatePictureCount(privatePictureCount + 1)
-                })
-    
-                publicPictures.map( (picture, index) => {
-                    publicPicturesDiv.push(
-                        <EyeImageCard
-                            key={index}
-                            eyeTist={picture.member}
-                            title={picture.title}
-                            likes={picture.likes}
-                            imageLink={picture.link}
-                            visibility={picture.visibility}
-                            date={picture.date}
-                        />
-                    )
-                    setPublicPictureCount(publicPictureCount + 1)
-                })
-    
-                setDisplayPrivatePictures([...privatePicturesDiv])
-                setDisplayPublicPictures([...publicPicturesDiv])
+        getOtherPicturesCount()
+        .then((res) => {
+            props.setImageCount(res.data)
+        })
+    }, [])
+
+    useEffect( () => {
+        getOthersPictures("public", props.page)
+        .then( (res) => {
+            modelUpdate(res.data)
+            .then(() => {
+                setPicture()
             })
         })
-    },[props.isMyGallery, privatePictures, publicPictures])
+    },[props.isMyGallery, props.page])
+
+    useEffect( () => {
+        let publicPicturesDiv = []
+        publicPictures.map( (picture, index) => {
+            publicPicturesDiv.push(
+                <EyeImageCard
+                    key={index}
+                    eyeTist={picture.member}
+                    title={picture.title}
+                    likes={picture.likes}
+                    imageLink={picture.link}
+                    visibility={picture.visibility}
+                    date={picture.date}
+                />
+            )
+        })
+        setDisplayPublicPictures([...publicPicturesDiv])
+    }, [publicPictures])
+
 
     return (
         <motion.div 

@@ -4,15 +4,13 @@ import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from "react-ico
 import { VscCircleOutline, VscCircleFilled } from "react-icons/vsc"
 import EyeButton from "../atoms/EyeButton";
 
-const IMAGE_COUNT = 100;
-
 const PageController = (props) => {
 
     let [pageButton, setPageButton] = useState([])
 
     useEffect( () => {
         let pageButtonDiv = []
-        if (IMAGE_COUNT > 100){
+        if (props.imageCount > 100){
             pageButtonDiv.push(
                 <div style={{fontSize:"40px", backgroundColor:"inherit", color:"pink", paddingLeft:"10px", paddingRight:"5px"}}>
                     {props.page + 1}
@@ -25,15 +23,16 @@ const PageController = (props) => {
             )
             pageButtonDiv.push(
                 <div style={{fontSize:"40px", backgroundColor:"inherit", color:"pink", paddingRight:"10px"}}>
-                    {((IMAGE_COUNT / 10) + 1).toFixed(0)}
+                    {((props.imageCount  / 10) + 1).toFixed(0)}
                 </div>
             )
             setPageButton([...pageButtonDiv])
         }
         else{
-            for(let index = 0; index < IMAGE_COUNT / 10; index++){
+            for(let index = 0; index < props.imageCount  / 10; index++){
                 pageButtonDiv.push(
                     <EyeButton 
+                        key = {index}
                         style={{fontSize:"40px", backgroundColor:"inherit", color: props.page === index ? "pink" : "black"}}
                         text={props.page === index ? <VscCircleFilled /> : <VscCircleOutline />}
                         clickColor="inherit"
@@ -44,7 +43,7 @@ const PageController = (props) => {
             }
             setPageButton([...pageButtonDiv])
         }
-    }, [props.page])
+    }, [props.page, props.imageCount])
 
     function clickPagePrevButton(){
         if (props.page > 0){
@@ -53,7 +52,7 @@ const PageController = (props) => {
     }
 
     function clickPageNextButton(){
-        if (props.page < IMAGE_COUNT / 10 - 1){
+        if (props.page < props.imageCount / 10 - 1){
             props.setPage(props.page + 1)
         }
     }
