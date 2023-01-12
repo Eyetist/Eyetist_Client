@@ -1,30 +1,57 @@
 import EyeButton from "../atoms/EyeButton"
+import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai"
 import { useCanvas } from "../canvas/CanvasContext";
+import { useRecoilState } from "recoil";
+import { LINE_WIDTH } from "../../recoil/Atoms";
+import { useEffect } from "react";
+
+
+const widthControllButtonSize = window.innerWidth / 10 / 7;
 const WidthSelection=()=>{
-    const { setWidth} = useCanvas()
+    const { setWidth } = useCanvas()
+    let [lineWidth, setLineWidth] = useRecoilState(LINE_WIDTH)
+
+    function clickWidthPlusButton(){
+        if (lineWidth < 30){
+            setLineWidth(lineWidth + 1)
+        }
+    }
+
+    function clickWidthMinusButton(){
+        if (lineWidth > 1){
+            setLineWidth(lineWidth - 1)
+        }
+    }
+
+    useEffect( () => {
+        setWidth(lineWidth)
+    }, [lineWidth])
+
     return(
-        <div>
-        <EyeButton 
-            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
-            text="10"
-            hoverColor="gray"
-            clickColor="black"
-            onClick={() => {setWidth(10)}}
-        />
-        <EyeButton 
-            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
-            text="20"
-            hoverColor="gray"
-            clickColor="black"
-            onClick={() => {setWidth(20)}}
-        />
-        <EyeButton 
-            style={{width:"100px", height:"30px", borderRadius:"5px", backgroundColor:"white"}}
-            text="30"
-            hoverColor="gray"
-            clickColor="black"
-            onClick={() => {setWidth(30)}}
-        />
+        <div style={{width:"100%", borderRadius:"10px", marginBottom:"10px"}}>
+            <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+                Width :
+                <EyeButton 
+                    style={{width:widthControllButtonSize, height:widthControllButtonSize, borderRadius:widthControllButtonSize, fontSize:widthControllButtonSize, backgroundColor:"white", color:"black", marginLeft:"10px", marginRight:"10px"}}
+                    text={<AiFillMinusCircle />}
+                    hoverFontColor="pink"
+                    clickColor="black"
+                    onClick={() => clickWidthMinusButton()}
+                />
+
+                {lineWidth}
+                
+                <EyeButton 
+                    style={{width:widthControllButtonSize, height:widthControllButtonSize, borderRadius:widthControllButtonSize, fontSize:widthControllButtonSize, backgroundColor:"white", color:"black", marginLeft:"10px"}}
+                    text={<AiFillPlusCircle />}
+                    hoverFontColor="pink"
+                    clickColor="black"
+                    onClick={() => clickWidthPlusButton()}
+                />
+            </div>
+            <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+                <div style={{width:"70%", height:lineWidth, backgroundColor:"black", borderRadius:lineWidth}} />
+            </div>
         </div>
     )
 }
