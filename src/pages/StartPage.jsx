@@ -1,71 +1,113 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, {useState} from "react";
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
+import MoveSelections from "../components/functionDetails/MoveSelection";
 import { useNavigate } from "react-router-dom";
 import './StartPage.css'
 
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
+
 const StartPage = () =>{
     let navigate = useNavigate();
+    const [openTutorial, setOpenTutorial] = useState(false)
+
+    let tutorialContent = [
+        "Before we get started, We provide tutorial",
+    ]
+
+    let paintContent = [
+        "Use your eyes to paint Image!",
+        "The aesthetic world awaits you."
+    ]
+
+    let galleryContent = [
+        "Access the gallery and share your images with others!"
+    ]
+
     return(
         <div className = "main-container">
             <EyeMouse />
             <div className="start-page-top-container">
-                <Link to = {`/`} className = "login-join-title">
+                <div className='gallery-top-buttons'>
+                    <MoveSelections 
+                        currentPage = "begin"
+                    />
+                </div>
+                <div className = "start-page-title">
                     EyeTist
-                </Link>
-                <div className="login-join-cam">
+                </div>
+                <div className="start-page-cam">
                     <FaceMeshCam />
                 </div>
             </div>
+
             <div className = "start-page-body-container">
                 <div className = "box-container">
                     <EyeCard 
                         style={{
                             width: "30%",
                             height: "100%",
-                            backgroundColor: "#FFC7C7",
+                            backgroundColor: "#f79393",
                             borderRadius: "20px",
                             marginLeft: "30px",
                             marginRight: "30px"
                         }}
-                        title="SignUp"
-                        content="Signup and Stay with us."
-                        hoverColor="#f79393"
-                        clickColor="#f46969"
-                        onClick={() => {navigate('/join')}}
+                        title="Tutorial"
+                        content={tutorialContent}
+                        hoverColor="#f46969"
+                        clickColor="#f45555"
+                        onClick={() => {
+                            setOpenTutorial(true);
+                            setTimeout(function(){
+                                setOpenTutorial(false);
+                            }, 1500)
+                        }}
                     />
                     <EyeCard 
                         style={{
                             width: "30%",
                             height: "100%",
-                            backgroundColor: "#FFC7C7",
+                            backgroundColor: "#f79393",
                             borderRadius: "20px",
                             marginLeft: "30px",
                             marginRight: "30px"
                         }}
-                        title="Login"
-                        content="Please login to use all the functions."
-                        hoverColor="#f79393"
-                        clickColor="#f46969"
-                        onClick={() => {navigate('/login')}}
-                    />
-                    <EyeCard 
-                        style={{
-                            width: "30%",
-                            height: "100%",
-                            backgroundColor: "#FFC7C7",
-                            borderRadius: "20px",
-                            marginLeft: "30px",
-                            marginRight: "30px"
-                        }}
-                        title="Toturial"
-                        content="Before we get started, We provide tutorial"
-                        hoverColor="#f79393"
-                        clickColor="#f46969"
+                        title="Paint"
+                        content={paintContent}
+                        hoverColor="#f46969"
+                        clickColor="#f45555"
                         onClick={() => {navigate('/paint')}}
                     />
+                    <EyeCard 
+                        style={{
+                            width: "30%",
+                            height: "100%",
+                            backgroundColor: "#f79393",
+                            borderRadius: "20px",
+                            marginLeft: "30px",
+                            marginRight: "30px"
+                        }}
+                        title="Gallery"
+                        content={galleryContent}
+                        hoverColor="#f46969"
+                        clickColor="#f45555"
+                        onClick={() => {navigate('/gallery')}}
+                    />
+                    <BootstrapDialog
+                            aria-labelledby="customized-dialog-title"
+                            open={openTutorial}
+                            onClose={() =>{setOpenTutorial(false)}}
+                        >Tutorial service is not yet ready. <br/> We will start the service soon.</BootstrapDialog>
                 </div>
             </div>
         </div>
