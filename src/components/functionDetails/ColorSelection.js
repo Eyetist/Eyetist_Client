@@ -3,7 +3,7 @@ import ColorButton from "../atoms/ColorButton";
 import WidthSelection from "./WidthSelection";
 import { useEffect, useState } from "react";
 import { useRecoilValue,useRecoilState } from "recoil";
-import { STROKE_COLOR, CURRENT_FUNCTION } from "../../recoil/Atoms";
+import { STROKE_COLOR, CURRENT_FUNCTION,WINDOW_SIZE } from "../../recoil/Atoms";
 import * as ColorCode from './ColorCode'
 import { RiEraserFill } from "react-icons/ri"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket } from "react-icons/bs"
@@ -14,6 +14,7 @@ const ColorSelection=()=>{
     let [colorButtonList, setColorButtonList] = useState([]);
     let currentFunction = useRecoilValue(CURRENT_FUNCTION)
     let [showMode, setShowMode] = useState()
+    let windowSize=useRecoilValue(WINDOW_SIZE);
 
     useEffect( () => {
         switch(currentFunction){

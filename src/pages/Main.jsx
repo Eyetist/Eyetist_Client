@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useSetRecoilState } from "recoil";
-import { CURRENT_FUNCTION } from '../recoil/Atoms';
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { CURRENT_FUNCTION,WINDOW_SIZE } from '../recoil/Atoms';
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
 import { useCanvas } from "../components/canvas/CanvasContext";
@@ -22,6 +22,12 @@ const Main = () => {
     let [selectedButton,setSelectedButton] = useState();
     let setCurrentFunction  =useSetRecoilState(CURRENT_FUNCTION)
     let [ratio,setRatio] = useState(1);
+    let canvasDivRef=useRef(null);
+    let setWindowSize=useSetRecoilState(WINDOW_SIZE);
+
+    // window.addEventListener('resize',function(){
+    //     setWindowSize({width:window.innerWidth,height:window.innerHeight})
+    //     console.log("resize")});
 
     useEffect( () => {
         if (!localStorage.getItem('loginMemberId') && navigate){
@@ -101,12 +107,13 @@ const Main = () => {
                             setSelectedButton={setSelectedButton}
                             setBufferIdx={setBufferIdx}
                             setCanvasSaveOpen={setCanvasSaveOpen}
+                            setImgBuffer={setImgBuffer}
                             bufferIdx={bufferIdx}
                             imgBuffer={imgBuffer}
                         />
                     </div>
     
-                    <div className="canvas-container">
+                    <div className="canvas-container" ref={canvasDivRef}>
                         <Canvas
                             imgBuffer={imgBuffer}
                             setImgBuffer={setImgBuffer}
@@ -114,6 +121,7 @@ const Main = () => {
                             setBufferIdx={setBufferIdx}
                             ratio={ratio}
                             setRatio={setRatio}
+                            canvasDivRef={canvasDivRef}
                         />
                     </div>
     
