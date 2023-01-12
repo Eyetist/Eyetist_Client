@@ -84,27 +84,33 @@ const ColorSelection=()=>{
                 </div>
             </div>
             {
-                currentFunction === "draw" ? 
+                currentFunction === "draw" || currentFunction === "erase"? 
                 <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center", borderBottom:"1px solid #B4A5A5"}}>
                     <WidthSelection />
                 </div>
                 :
                 <></>
             }
-            <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center"}}>
-                Stroke Color
-                <EyeButton 
-                    style={{width:window.innerWidth / 10 / 7, height: window.innerWidth / 10 / 7, borderRadius: window.innerWidth / 10 / 7, backgroundColor:strokeColor, margin:"5px"}}
-                    text=""
-                    hoverColor={strokeColor}
-                    clickColor={strokeColor}
-                    onClick={() => {}}
-                />
-            </div>
-    
-            <div style={{display:"flex", alignItems:"center", justifyContent:"center", backgroundColor:"rgb(32, 33, 35)", borderRadius:"10px", paddingTop:'10px', paddingBottom:'10px'}}>
-                { colorButtonList }
-            </div>
+            {
+                currentFunction === "erase" ?
+                <></>
+                :
+                <>
+                    <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center"}}>
+                        Stroke Color
+                        <EyeButton 
+                            style={{width:window.innerWidth / 10 / 7, height: window.innerWidth / 10 / 7, borderRadius: window.innerWidth / 10 / 7, backgroundColor:strokeColor, margin:"5px"}}
+                            text=""
+                            hoverColor={strokeColor}
+                            clickColor={strokeColor}
+                            onClick={() => {}}
+                        />
+                    </div>
+                    <div style={{display:"flex", alignItems:"center", justifyContent:"center", backgroundColor:"rgb(32, 33, 35)", borderRadius:"10px", paddingTop:'10px', paddingBottom:'10px'}}>
+                        { colorButtonList }
+                    </div>  
+                </>
+            }
         </div>
     )
 }

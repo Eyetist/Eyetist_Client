@@ -2,7 +2,7 @@ import EyeButton from "../atoms/EyeButton"
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai"
 import { useCanvas } from "../canvas/CanvasContext";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { LINE_WIDTH, STROKE_COLOR } from "../../recoil/Atoms";
+import { LINE_WIDTH, STROKE_COLOR, CURRENT_FUNCTION } from "../../recoil/Atoms";
 import { useEffect } from "react";
 
 const widthControllButtonSize = window.innerWidth / 10 / 7;
@@ -11,6 +11,7 @@ const WidthSelection=()=>{
     const { setWidth } = useCanvas()
     let [lineWidth, setLineWidth] = useRecoilState(LINE_WIDTH)
     let strokeColor = useRecoilValue(STROKE_COLOR)
+    let currentFunction = useRecoilValue(CURRENT_FUNCTION)
 
     function clickWidthPlusButton(){
         if (lineWidth < 30){
@@ -52,9 +53,17 @@ const WidthSelection=()=>{
                     onClick={() => clickWidthPlusButton()}
                 />
             </div>
-            <div style={{width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
-                <div style={{width:"70%", height:lineWidth, backgroundColor:strokeColor, borderRadius:lineWidth}} />
-            </div>
+            {
+                currentFunction === "erase" ?
+                <div style={{width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                    <div style={{width:"70%", height:lineWidth, backgroundColor:"white", borderRadius:lineWidth}} />
+                </div>
+
+                :
+                <div style={{width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                    <div style={{width:"70%", height:lineWidth, backgroundColor:strokeColor, borderRadius:lineWidth}} />
+                </div>
+            }
         </div>
     )
 }

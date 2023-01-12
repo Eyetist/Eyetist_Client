@@ -45,23 +45,11 @@ const ToolSelections = (props) => {
 
     function selectFill(){
         setCurrentFunction("fill")
-        props.setSelectedButton(
-            <ColorSelection/>
-        )
     }
 
     function selectErase(){
         setEraseMode();
         setCurrentFunction("erase");
-        props.setSelectedButton(
-            <ColorSelection/>
-        )
-    }
-
-    function selectWidth(){
-        props.setSelectedButton(
-            <WidthSelection/>
-        )
     }
 
     function selectUndo(){
@@ -80,10 +68,16 @@ const ToolSelections = (props) => {
 
     function zoomIn(){
         setCurrentFunction("zoom in")
+        props.setSelectedButton(
+            <ColorSelection/>
+        )
     }
 
     function zoomOut(){
         setCurrentFunction("zoom out")
+        props.setSelectedButton(
+            <ColorSelection/>
+        )
     } 
 
     return(
