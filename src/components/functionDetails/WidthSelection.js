@@ -28,6 +28,8 @@ const WidthSelection=()=>{
         setWidth(lineWidth)
     }, [lineWidth])
 
+    console.log(lineWidth)
+
     return(
         <div style={{width:"100%", borderRadius:"10px", marginBottom:"10px"}}>
             <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
@@ -50,7 +52,7 @@ const WidthSelection=()=>{
                     onClick={() => clickWidthPlusButton()}
                 />
             </div>
-            <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+            <div style={{width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
                 <div style={{width:"70%", height:lineWidth, backgroundColor:strokeColor, borderRadius:lineWidth}} />
             </div>
         </div>

@@ -94,7 +94,7 @@ const ColorSelection=()=>{
             <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center"}}>
                 Stroke Color
                 <EyeButton 
-                    style={{width:window.innerWidth / 10 / 5, height: window.innerWidth / 10 / 5, borderRadius: window.innerWidth / 10 / 5, backgroundColor:strokeColor, margin:"5px"}}
+                    style={{width:window.innerWidth / 10 / 7, height: window.innerWidth / 10 / 7, borderRadius: window.innerWidth / 10 / 7, backgroundColor:strokeColor, margin:"5px"}}
                     text=""
                     hoverColor={strokeColor}
                     clickColor={strokeColor}

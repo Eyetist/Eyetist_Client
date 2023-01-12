@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { CURRENT_FUNCTION } from '../recoil/Atoms';
-import "./Main.css"
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
 import { useCanvas } from "../components/canvas/CanvasContext";
@@ -9,9 +8,9 @@ import CustomSlider from "../components/atoms/SensitivitySlider";
 import EyeMouse from "../components/mouse/EyeMouse";
 import CanvasSave from "./CanvasSave";
 import ToolSelections from "../components/functionDetails/ToolSelections";
+import "./Main.css"
 
 const Main = () => {
-
     const { canvasRef } = useCanvas()
     let canvasSavePageTrigger = useRef(false)
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
@@ -20,11 +19,6 @@ const Main = () => {
     let [selectedButton,setSelectedButton] = useState();
     let setCurrentFunction  =useSetRecoilState(CURRENT_FUNCTION)
     let [ratio,setRatio] = useState(1);
-
-    useEffect(()=>{
-        console.log("length="+imgBuffer.length);
-        console.log(bufferIdx);
-    },[bufferIdx])
 
     useEffect( () => {
         if (canvasSaveOpen){
