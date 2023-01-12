@@ -43,7 +43,7 @@ export const STROKE_COLOR = atom({
 
 export const LINE_WIDTH=atom({
     key : 'lineWidth',
-    default : '10'
+    default : 10
 })
 
 export const CURRENT_FUNCTION=atom({
