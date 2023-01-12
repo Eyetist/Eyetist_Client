@@ -1,15 +1,16 @@
 import EyeButton from "../atoms/EyeButton"
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai"
 import { useCanvas } from "../canvas/CanvasContext";
-import { useRecoilState } from "recoil";
-import { LINE_WIDTH } from "../../recoil/Atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { LINE_WIDTH, STROKE_COLOR } from "../../recoil/Atoms";
 import { useEffect } from "react";
 
-
 const widthControllButtonSize = window.innerWidth / 10 / 7;
+
 const WidthSelection=()=>{
     const { setWidth } = useCanvas()
     let [lineWidth, setLineWidth] = useRecoilState(LINE_WIDTH)
+    let strokeColor = useRecoilValue(STROKE_COLOR)
 
     function clickWidthPlusButton(){
         if (lineWidth < 30){
@@ -40,7 +41,7 @@ const WidthSelection=()=>{
                 />
 
                 {lineWidth}
-                
+
                 <EyeButton 
                     style={{width:widthControllButtonSize, height:widthControllButtonSize, borderRadius:widthControllButtonSize, fontSize:widthControllButtonSize, backgroundColor:"white", color:"black", marginLeft:"10px"}}
                     text={<AiFillPlusCircle />}
@@ -50,7 +51,7 @@ const WidthSelection=()=>{
                 />
             </div>
             <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
-                <div style={{width:"70%", height:lineWidth, backgroundColor:"black", borderRadius:lineWidth}} />
+                <div style={{width:"70%", height:lineWidth, backgroundColor:strokeColor, borderRadius:lineWidth}} />
             </div>
         </div>
     )
