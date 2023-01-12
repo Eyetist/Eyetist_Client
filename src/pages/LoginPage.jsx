@@ -29,7 +29,9 @@ const LoginPage = () =>{
         sendLogin(inputId, inputPw)
         .then( (res) => {
             console.log(res)
-            navigate('/paint')
+            if (res.status === 200){
+                navigate('/paint')
+            }
         }, )
     }
 

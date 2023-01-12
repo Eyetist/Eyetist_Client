@@ -4,7 +4,8 @@ import { motion, useAnimationControls } from "framer-motion"
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS } from '../../recoil/Atoms';
 import "./EyeImageCard.css"
 
-const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight * 0.2;
+const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight / 5;
+const MAX_THEMBNAIL_IMAGE_WIDTH = window.innerWidth / 6;
 
 const EyeImageCard = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
@@ -17,6 +18,8 @@ const EyeImageCard = (props) => {
 
     const thumbnailImage = new Image();
     let [thumbnailImageHeight, setThumbnailImageHeight] = useState(0);
+    let [thumbnailImageWidth, setThumbnailImageWidth] = useState(0);
+
 
     let transLeft = useRef(0)
     let transTop = useRef(0)
@@ -45,11 +48,11 @@ const EyeImageCard = (props) => {
 
     useEffect( () => {
         thumbnailImage.src = props.imageLink;
-        if (thumbnailImage.height < MAX_THUMBNAIL_IMAGE_HEIGHT){
-            setThumbnailImageHeight(thumbnailImage.height)
+        if (thumbnailImage.width < MAX_THEMBNAIL_IMAGE_WIDTH){
+            setThumbnailImageWidth(thumbnailImage.width)
         }
         else{
-            setThumbnailImageHeight(MAX_THUMBNAIL_IMAGE_HEIGHT)
+            setThumbnailImageWidth(MAX_THEMBNAIL_IMAGE_WIDTH)
         }
     },[])
 
@@ -85,13 +88,12 @@ const EyeImageCard = (props) => {
     }, [mousePos])
     
     return(
-        thumbnailImageHeight ?
         <motion.div animate={controls} ref={buttonRef} className="eye-image-card">
             <img 
                 src={props.imageLink}
                 alt="image"
-                width="auto"
-                height={thumbnailImageHeight}
+                width={thumbnailImageWidth}
+                height="auto"
                 style={{borderTopLeftRadius:"10px", borderTopRightRadius:"10px"}}
             />
             <div className="picture-information">
@@ -104,8 +106,6 @@ const EyeImageCard = (props) => {
                 Date: 2023/01/01
             </div>
         </motion.div>
-        :
-        <></>
     )
 
 }
