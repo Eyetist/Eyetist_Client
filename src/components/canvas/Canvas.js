@@ -29,14 +29,14 @@ export function Canvas(props) {
 
     useEffect( () => {
         let posX = (mousePos.x - (window.innerWidth / 10)) + 15;
-        let posY = (mousePos.y - 70) + 15
+        let posY = (mousePos.y - window.innerHeight/10) + 15
         // console.log(posX+","+posY);
         // if(posX > 0 && posY > 0 && posX < canvasRef.current.width && posY < canvasRef.current.height){
         if(posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight - 70){
             if(currentFunction==="draw"||currentFunction==="erase"){
                 if(isLeftEyeBlink && !isRightEyeBlink && !isMouseOpen){
                     isStartDrawing.current = true;
-                    contextRef.current.lineTo(posX, posY);
+                    contextRef.current.lineTo(posX+props.canvasDivRef.current.scrollLeft, posY+props.canvasDivRef.current.scrollTop);
                     contextRef.current.stroke();
                 }
                 else{
@@ -69,7 +69,7 @@ export function Canvas(props) {
                 }
                 else{
                     if(isLock.current){
-                        zoomIn(props.imgBuffer[props.bufferIdx],props.ratio,props.setRatio);
+                        zoomIn(props.imgBuffer[props.bufferIdx],props.ratio,props.setRatio,props.canvasDivRef,posX,posY);
                     }
                     isLock.current=false;
                 }
@@ -80,7 +80,7 @@ export function Canvas(props) {
                 }
                 else{
                     if(isLock.current){
-                        zoomOut(props.imgBuffer[props.bufferIdx],props.ratio,props.setRatio);
+                        zoomOut(props.imgBuffer[props.bufferIdx],props.ratio,props.setRatio,props.canvasDivRef,posX,posY);
                     }
                     isLock.current=false;
                 }

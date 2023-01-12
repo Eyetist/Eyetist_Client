@@ -51,3 +51,11 @@ export const CURRENT_FUNCTION=atom({
     default : 'defalut'
 })
 
+export const WINDOW_SIZE=atom({
+    key : 'WINDOWSIZE',
+    default : [{
+        width : window.innerWidth,
+        height : window.innerHeight
+    }]
+})
+

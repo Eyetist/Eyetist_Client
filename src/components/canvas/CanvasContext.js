@@ -13,7 +13,7 @@ export const CanvasProvider = ({ children }) => {
     const prepareCanvas = () => {
         const canvas = canvasRef.current
         canvas.width = window.innerWidth * 0.7;
-        canvas.height = window.innerHeight - 70;
+        canvas.height = window.innerHeight*0.9;
         canvas.style.width = `${canvas.width}px`;
         canvas.style.height = `${canvas.height}px`;
 
@@ -27,11 +27,14 @@ export const CanvasProvider = ({ children }) => {
         contextRef.current = context;
     };
 
-    const clearCanvas = () => {
+    const clearCanvas = (setImgBuffer,imgBuffer,setBufferIdx,bufferIdx) => {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d")
         context.fillStyle="white"
         context.fillRect(0,0,canvas.width,canvas.height);
+        setBufferIdx(bufferIdx+1);
+        var buffer=[...imgBuffer].slice(0,bufferIdx+1);
+        setImgBuffer([...buffer,canvasRef.current.toDataURL()]);
     }
 
     const setDrawMode=()=>{
@@ -70,7 +73,7 @@ export const CanvasProvider = ({ children }) => {
         }
     }
 
-    const zoomIn=(url,ratio,setRatio)=>{
+    const zoomIn=(url,ratio,setRatio,canvasDivRef,posX,posY)=>{
         if(ratio>5) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
@@ -78,7 +81,7 @@ export const CanvasProvider = ({ children }) => {
         lastImg.src=url
         lastImg.onload=function(){
             canvas.width = window.innerWidth * 0.7*ratio*1.3;
-            canvas.height = (window.innerHeight - 70)*ratio*1.3;
+            canvas.height = (window.innerHeight*0.9)*ratio*1.3;
             canvas.style.width = `${canvas.width}px`;
             canvas.style.height = `${canvas.height}px`;
             context.lineCap = "round";
@@ -86,11 +89,12 @@ export const CanvasProvider = ({ children }) => {
             context.lineWidth=lineWidth;
             context.fillRect(0,0,canvas.width,canvas.height);
             context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
+            canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)*1.3-posX,(canvasDivRef.current.scrollTop+posY)*1.3-posY);
             setRatio(ratio*1.3)
         }
     }
 
-    const zoomOut=(url,ratio,setRatio)=>{
+    const zoomOut=(url,ratio,setRatio,canvasDivRef,posX,posY)=>{
         if(ratio<=0.2) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
@@ -98,7 +102,7 @@ export const CanvasProvider = ({ children }) => {
         lastImg.src=url;
         lastImg.onload=function(){
             canvas.width = window.innerWidth * 0.7*ratio/1.3;
-            canvas.height = (window.innerHeight - 70)*ratio/1.3;
+            canvas.height = (window.innerHeight*0.9)*ratio/1.3;
             canvas.style.width = `${canvas.width}px`;
             canvas.style.height = `${canvas.height}px`;
             context.lineCap = "round";
@@ -106,6 +110,7 @@ export const CanvasProvider = ({ children }) => {
             context.lineWidth=lineWidth;
             context.fillRect(0,0,canvas.width,canvas.height);
             context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
+            canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)/1.3-posX,(canvasDivRef.current.scrollTop+posY)/1.3-posY);
             setRatio(ratio/1.3)
         }
     }
