@@ -95,7 +95,7 @@ export const CanvasProvider = ({ children }) => {
     }
 
     const zoomOut=(url,ratio,setRatio,canvasDivRef,posX,posY)=>{
-        if(ratio<=0.2) return;
+        if(ratio<=1) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
         const lastImg=new Image();
