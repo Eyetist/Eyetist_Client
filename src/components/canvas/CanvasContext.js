@@ -9,7 +9,6 @@ export const CanvasProvider = ({ children }) => {
     let [lineWidth, setLineWidth]=useRecoilState(LINE_WIDTH);
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
-
     
     const prepareCanvas = () => {
         const canvas = canvasRef.current
@@ -132,7 +131,7 @@ export const CanvasProvider = ({ children }) => {
         return (pixel.data[pos]   === startColor[0] &&
                 pixel.data[pos+1] === startColor[1] &&
                 pixel.data[pos+2] === startColor[2]);
-      };
+    };
 
     const colorPixel = function (pixel, pos, color) {
         pixel.data[pos] = color[0];

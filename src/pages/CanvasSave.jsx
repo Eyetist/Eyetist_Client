@@ -222,7 +222,12 @@ const CanvasSave = (props) => {
                                     text="SAVE TO SERVER"
                                     hoverColor="gray"
                                     clickColor="black"
-                                    onClick={() => sendCanvas("userId", inputName, props.link, visible, 0)}
+                                    onClick={() => {
+                                        sendCanvas("test", inputName, props.link, visible, 0)
+                                        .then( (res) => {
+                                            console.log(res.data)
+                                        })
+                                    }}
                                 />
                                 <EyeButton 
                                     style={{    

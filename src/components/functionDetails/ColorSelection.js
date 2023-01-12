@@ -1,13 +1,39 @@
 import EyeButton from "../atoms/EyeButton"
 import ColorButton from "../atoms/ColorButton";
+import WidthSelection from "./WidthSelection";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { STROKE_COLOR } from "../../recoil/Atoms";
+import { useRecoilValue,useRecoilState } from "recoil";
+import { STROKE_COLOR, CURRENT_FUNCTION } from "../../recoil/Atoms";
 import * as ColorCode from './ColorCode'
+import { RiEraserFill } from "react-icons/ri"
+import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket } from "react-icons/bs"
+
 
 const ColorSelection=()=>{
     let [strokeColor, setStrokeColor] = useRecoilState(STROKE_COLOR)
     let [colorButtonList, setColorButtonList] = useState([]);
+    let currentFunction = useRecoilValue(CURRENT_FUNCTION)
+    let [showMode, setShowMode] = useState()
+
+    useEffect( () => {
+        switch(currentFunction){
+            case "draw":
+                setShowMode(<BsPencilFill />)
+                break
+            case "erase":
+                setShowMode(<RiEraserFill />)
+                break
+            case "fill":
+                setShowMode(<BsPaintBucket />)
+                break
+            case "zoom in":
+                setShowMode(<BsZoomIn />)
+                break
+            case "zoom out":
+                setShowMode(<BsZoomOut />)
+                break
+        }
+    }, [currentFunction])
 
     useEffect( () => {
         setColorButtonList([])
@@ -49,20 +75,42 @@ const ColorSelection=()=>{
 
     return(
         <div style={{width: "100%", height:"100%"}}>
-            <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center"}}>
-                Stroke Color
-                <EyeButton 
-                    style={{width:window.innerWidth / 10 / 5, height: window.innerWidth / 10 / 5, borderRadius: window.innerWidth / 10 / 5, backgroundColor:strokeColor, margin:"5px"}}
-                    text=""
-                    hoverColor={strokeColor}
-                    clickColor={strokeColor}
-                    onClick={() => {}}
-                />
+            <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center", borderBottom:"1px solid #B4A5A5"}}>
+                <div>
+                    Mode : 
+                </div>
+                <div style={{marginLeft:"5px"}}>
+                    {showMode} 
+                </div>
             </div>
-
-            <div style={{display:"flex", alignItems:"center", justifyContent:"center", backgroundColor:"rgb(32, 33, 35)", borderRadius:"10px", paddingTop:'10px', paddingBottom:'10px'}}>
-                { colorButtonList }
-            </div>
+            {
+                currentFunction === "draw" || currentFunction === "erase"? 
+                <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center", borderBottom:"1px solid #B4A5A5"}}>
+                    <WidthSelection />
+                </div>
+                :
+                <></>
+            }
+            {
+                currentFunction === "erase" ?
+                <></>
+                :
+                <>
+                    <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center"}}>
+                        Stroke Color
+                        <EyeButton 
+                            style={{width:window.innerWidth / 10 / 7, height: window.innerWidth / 10 / 7, borderRadius: window.innerWidth / 10 / 7, backgroundColor:strokeColor, margin:"5px"}}
+                            text=""
+                            hoverColor={strokeColor}
+                            clickColor={strokeColor}
+                            onClick={() => {}}
+                        />
+                    </div>
+                    <div style={{display:"flex", alignItems:"center", justifyContent:"center", backgroundColor:"rgb(32, 33, 35)", borderRadius:"10px", paddingTop:'10px', paddingBottom:'10px'}}>
+                        { colorButtonList }
+                    </div>  
+                </>
+            }
         </div>
     )
 }

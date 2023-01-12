@@ -6,6 +6,7 @@ export class Picture{
         link : "",
         likes : "",
         visibility : "",
+        date : ""
     }]
 
     updateModel(updatedModel){

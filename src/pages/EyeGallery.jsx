@@ -4,17 +4,20 @@ import FaceMeshCam from '../components/faceMesh/FaseMeshCam';
 import MyGallery from '../components/gallery/MyGallery';
 import OthersGallery from '../components/gallery/OthersGallery';
 import { useSetRecoilState } from 'recoil';
-import { SCROLL_POS } from '../recoil/Atoms';
+import { SCROLL_POS, CURRENT_FUNCTION } from '../recoil/Atoms';
 import { motion, useAnimationControls } from "framer-motion"
 import EyeButton from '../components/atoms/EyeButton';
-import { BsFillArrowDownCircleFill, BsFillArrowUpCircleFill } from "react-icons/bs"
+import PageController from '../components/gallery/PageController';
 import './EyeGallery.css'
 
 const EyeGallery = () => {
     let [isMyGallery, setIsMyGallery] = useState(true);
+    let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
     let setScrollPos = useSetRecoilState(SCROLL_POS)
     let [MyGalleryButtonColor, setMyGalleryButtonColor] = useState("rgb(49, 51, 54)")
     let [OthersGalleryButtonColor, setOthersGalleryButtonColor] = useState("gainsboro")
+    let [page, setPage] = useState(0)
+    let [imageCount, setImageCount] = useState(0)
     let [visibility, setVisibility] = useState("private")
     const controls = useAnimationControls()
     const targetRef = useRef(null);  
@@ -46,6 +49,7 @@ const EyeGallery = () => {
     }
 
     useEffect( () => {
+        setCurrentFunction("default")
         handleScroll()
     },[])
 
@@ -53,11 +57,15 @@ const EyeGallery = () => {
         controls.start({ scale: [0.8, 1], transition: { duration: 0.5 } })
     },[isMyGallery])
 
+    useEffect( () => {
+        controls.start({ opacity: [0, 1], transition: { duration: 1 } })
+    },[page])
+
     return (
         <div className = "main-container">
             <EyeMouse />
-            <div className="gallery-top-container">
-                <div className = "gallery-title">
+            <div className="gallery-top-container" style={{marginBottom:'-30px'}}>
+                <div className = "gallery-title" style={{marginBottom:'30px'}}>
                     Gallery
                 </div>
                 <div className="gallery-cam">
@@ -73,6 +81,7 @@ const EyeGallery = () => {
                     clickColor="black"
                     onClick={() => {
                         setIsMyGallery(true) 
+                        setPage(0)
                         setOthersGalleryButtonColor("gainsboro")
                         setMyGalleryButtonColor("rgb(49, 51, 54)")
                     }}
@@ -84,6 +93,7 @@ const EyeGallery = () => {
                     clickColor="black"
                     onClick={() => {
                         setIsMyGallery(false)
+                        setPage(0)
                         setMyGalleryButtonColor("gainsboro")
                         setOthersGalleryButtonColor("rgb(49, 51, 54)")
 
@@ -92,66 +102,77 @@ const EyeGallery = () => {
             </div>
             {
                 isMyGallery ? 
-                <div style={{display:'flex', paddingLeft:"5%", paddingTop:"1%", paddingBottom:"1%", backgroundColor:"rgb(49, 51, 54)"}}>
-                    <EyeButton 
-                        style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:visibility === "private" ? "black" : "inherit", color:visibility === "private" ? "pink" : "gray", borderRadius:"10px"}}
-                        text="Private"
-                        hoverColor="gray"
-                        clickColor="black"
-                        hoverFontColor = "pink"
-                        onClick={() => setVisibility("private")}
-                    />
-                    <EyeButton 
-                        style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:visibility === "public" ? "black" : "inherit", color:visibility === "public" ? "pink" : "gray", borderRadius:"10px"}}
-                        text="Public"
-                        hoverColor="gray"
-                        clickColor="black"
-                        hoverFontColor = "pink"
-                        onClick={() => setVisibility("public")}
-                    />
-                    <EyeButton 
-                        style={{fontSize:"40px", backgroundColor:"inherit", marginLeft:window.innerWidth * 0.3}}
-                        text={<BsFillArrowUpCircleFill />}
-                        clickColor="inherit"
-                        hoverFontColor = "pink"
-                        onClick={() => clickPrevScroll()}
-                    />
-                    <EyeButton 
-                        style={{fontSize:"40px", backgroundColor:"inherit", marginLeft:"10px"}}
-                        text={<BsFillArrowDownCircleFill />}
-                        clickColor="inherit"
-                        hoverFontColor = "pink"
-                        onClick={() => clickNextScroll()}
-                    />
+                <div>
+                    <div style={{display:'flex', paddingLeft:"5%", paddingTop:"1%", backgroundColor:"rgb(49, 51, 54)"}}>
+                        <div style={{display:'flex'}}>
+                            <EyeButton 
+                                style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:visibility === "private" ? "black" : "inherit", color:visibility === "private" ? "pink" : "gray", borderRadius:"10px"}}
+                                text="Private"
+                                hoverColor="gray"
+                                clickColor="black"
+                                hoverFontColor = "pink"
+                                onClick={() => setVisibility("private")}
+                            />
+                            <EyeButton 
+                                style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:visibility === "public" ? "black" : "inherit", color:visibility === "public" ? "pink" : "gray", borderRadius:"10px"}}
+                                text="Public"
+                                hoverColor="gray"
+                                clickColor="black"
+                                hoverFontColor = "pink"
+                                onClick={() => setVisibility("public")}
+                            />
+                        </div>
+                    </div>
+                    <div style={{display:"flex", alignItems:"center", justifyContent:'center', marginTop:"-30px", backgroundColor:"rgb(49, 51, 54)"}}>
+                        <PageController 
+                            page = {page}
+                            setPage = {setPage}
+                            imageCount = {imageCount}
+                        />
+                    </div>
                 </div>
+
                 :
-                <div style={{display:'flex', paddingLeft:"5%", paddingTop:"1%", paddingBottom:"1%", backgroundColor:"rgb(49, 51, 54)"}}>
-                    <div 
-                        style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:"inherit", color:"pink", borderRadius:"10px", display: "flex", alignItems: "center", justifyContent: "center"}}
-                    >
-                        Public
+                <div>
+                    <div style={{display:'flex', paddingLeft:"5%", paddingTop:"1%", paddingBottom:"1%", backgroundColor:"rgb(49, 51, 54)"}}>
+                        <div style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:"inherit", color:"pink", borderRadius:"10px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                            Public
+                        </div>
+                    </div>
+                    <div style={{display:"flex", alignItems:"center", justifyContent:'center', marginTop:"-30px", backgroundColor:"rgb(49, 51, 54)"}}>
+                        <PageController 
+                            page = {page}
+                            setPage = {setPage}
+                            imageCount = {imageCount}
+                        />
                     </div>
                 </div>
             }
             <div className='gallery-body-container' onScroll={handleScroll} ref={targetRef}>
                 {
                     isMyGallery ? 
-                    <>
-                        <motion.div animate={controls} style={{width:"100%", height:"100%"}}>
-                            <MyGallery 
-                                isMyGallery = {isMyGallery}
-                                targetRef = {targetRef}
-                                visibility = {visibility}
-                            />
-                        </motion.div>
-                    </>
+                    <motion.div animate={controls} style={{width:"100%", height:"100%"}}>
+                        <MyGallery 
+                            isMyGallery = {isMyGallery}
+                            targetRef = {targetRef}
+                            visibility = {visibility}
+                            page = {page}
+                            setPage = {setPage}
+                            imageCount = {imageCount}
+                            setImageCount = {setImageCount}
+                        />
+                    </motion.div>
                     :
-                        <motion.div animate={controls} style={{width:"100%", height:"100%"}}>
-                            <OthersGallery 
-                                isMyGallery = {isMyGallery}
-                                targetRef = {targetRef}
-                            />
-                        </motion.div>
+                    <motion.div animate={controls} style={{width:"100%", height:"100%"}}>
+                        <OthersGallery 
+                            isMyGallery = {isMyGallery}
+                            targetRef = {targetRef}
+                            page = {page}
+                            setPage = {setPage}
+                            imageCount = {imageCount}
+                            setImageCount ={setImageCount}
+                        />
+                    </motion.div>
                 }
             </div>
         </div>
