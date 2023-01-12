@@ -1,5 +1,7 @@
 import React, {useRef, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeKeyboard from "../components/keyboard/EyeKeyboard";
@@ -7,6 +9,15 @@ import EyeButton from "../components/atoms/EyeButton";
 import { useNavigate } from "react-router-dom";
 import { sendLogin } from "../api/member/MemberAPI";
 import './LoginJoin.css'
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
 
 const LoginPage = () =>{
     let navigate = useNavigate();
@@ -25,15 +36,30 @@ const LoginPage = () =>{
     const onPwFocus = () => setPwFocused(true)
     const onPwBlur = () => setPwFocused(false)
 
+    const [openLoginFail, setOpenLoginFail] = useState(false)
+
     function login(){
         sendLogin(inputId, inputPw)
         .then( (res) => {
-            console.log(res)
-            if (res.status === 200){
-                navigate('/paint')
+            if (res.data === 200){
+                localStorage.clear()
+                localStorage.setItem('loginMemberId', inputId)
+                navigate('/begin')
+            }
+            else{
+                setOpenLoginFail(true);
+                setTimeout(function(){
+                    setOpenLoginFail(false);
+                }, 2000)
             }
         }, )
     }
+
+    useEffect( () => {
+        if (localStorage.getItem('loginMemberId') && navigate){
+            navigate('/begin')
+        }
+    }, [])
 
     return(
         <div className = "main-container">
@@ -144,6 +170,11 @@ const LoginPage = () =>{
                             clickColor="black"
                             onClick={() => login()}
                         />
+                        <BootstrapDialog
+                            aria-labelledby="customized-dialog-title"
+                            open={openLoginFail}
+                            onClose={() =>{setOpenLoginFail(false)}}
+                        >The ID or password you entered is incorrect.<br/>Please enter valid Id and password</BootstrapDialog>
                         <div id = "textContainer">
                             <div id = "joinDescription">Don't have an account?</div>
 

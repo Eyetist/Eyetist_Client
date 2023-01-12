@@ -37,6 +37,9 @@ const JoinPage = () =>{
     const [pwFocused, setPwFocused] = useState(false)
     const onPwFocus = () => setPwFocused(true)
     const onPwBlur = () => setPwFocused(false)
+    const [open, setOpen] = useState(false)
+    const [openJoinFail, setOpenJoinFail] = useState(false)
+    const [openJoinSuccess, setOpenJoinSuccess] = useState(false)
     // 비밀번호 확인 체크
     const check = () =>{
         if(checked === false){
@@ -51,18 +54,29 @@ const JoinPage = () =>{
         if(checked === false) {
             setOpen(true);
             setTimeout(function(){
-                handleClose();
+                setOpen(false);
             }, 1000)
         }
         else{
-            sendJoin(inputId, inputPw);
+            sendJoin(inputId, inputPw)
+            .then((res) => {
+                console.log(res)
+                if (res.data === 200){
+                    setOpenJoinSuccess(true);
+                    setTimeout(function(){
+                        setOpenJoinSuccess(false);
+                        navigate("/login")
+                    }, 2000)
+                }
+                else{
+                    setOpenJoinFail(true);
+                    setTimeout(function(){
+                        setOpenJoinFail(false);
+                    }, 2000)
+                }
+            })
         }
     }
-    const [open, setOpen] = useState(false);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return(
         <div className = "main-container">
@@ -196,8 +210,18 @@ const JoinPage = () =>{
                             <BootstrapDialog
                                 aria-labelledby="customized-dialog-title"
                                 open={open}
-                                onClose={handleClose}
+                                onClose={() => {setOpen(false)}}
                             >Please check the <br/>password checkbox.</BootstrapDialog>
+                            <BootstrapDialog
+                                aria-labelledby="customized-dialog-title"
+                                open={openJoinFail}
+                                onClose={() =>{setOpenJoinFail(false)}}
+                            >This ID is already registered.<br/>Please enter a different ID.</BootstrapDialog>
+                            <BootstrapDialog
+                                aria-labelledby="customized-dialog-title"
+                                open={openJoinSuccess}
+                                onClose={() =>{setOpenJoinSuccess(false)}}
+                            >Successfully registered as a member.<br/>You will be directed to the login page shortly.</BootstrapDialog>
                             <div id = "textContainer">
                                 <div id = "joinDescription">have you an account?</div>
                                 <EyeButton 

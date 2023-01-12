@@ -7,7 +7,8 @@ const EyeCard = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let clickRef = useRef(false);
-    let [buttonStyle, setButtonStyle] =useState(props.style);
+    let [buttonStyle, setButtonStyle] = useState(props.style);
+    let [contentDiv, setContentDiv] = useState([])
     const buttonRef = useRef(null);
 
     function isOverlap(){
@@ -19,6 +20,15 @@ const EyeCard = (props) => {
             return (offsetLeft <= posX && posX <= offsetLeft + offsetWidth) && (offsetTop <= posY && posY <= offsetTop + offsetHeight);
         }
     }
+
+    useEffect( () => {
+        let divs = []
+        console.log(props.content)
+        for (let index = 0; index < props.content.length; index++) {
+            divs.push(<div className="eye-card-content">{props.content[index]}</div>)
+        }
+        setContentDiv([...divs])
+    }, [])
 
     useEffect( () => {
         if (isOverlap()){
@@ -44,7 +54,9 @@ const EyeCard = (props) => {
     return(
         <div className="eye-card" ref={buttonRef} style={buttonStyle}>
             <div className="eye-card-title">{props.title}</div>
-            <div className="eye-card-content">{props.content}</div>
+            <div className="eye-card-content-contianer">
+                {contentDiv}
+            </div>
         </div>
     )
 }

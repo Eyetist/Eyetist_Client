@@ -50,36 +50,40 @@ const MyGallery = (props) => {
         let publicPicturesDiv = []
 
         privatePictures.map( (picture, index) => {
-            privatePicturesDiv.push(
-                <EyeImageCard
-                    key={index}
-                    eyeTist={picture.member}
-                    title={picture.title}
-                    likes={picture.likes}
-                    imageLink={picture.link}
-                    visibility={picture.visibility}
-                    date={picture.date}
-                />
-            )
+            if (props.page * 10 <= index && index < (props.page + 1) * 10){
+                privatePicturesDiv.push(
+                    <EyeImageCard
+                        key={index}
+                        eyeTist={picture.member}
+                        title={picture.title}
+                        likes={picture.likes}
+                        imageLink={picture.link}
+                        visibility={picture.visibility}
+                        date={picture.date}
+                    />
+                )
+            }
         })
         setDisplayPrivatePictures([...privatePicturesDiv])
 
         publicPictures.map( (picture, index) => {
-            publicPicturesDiv.push(
-                <EyeImageCard
-                    key={index}
-                    eyeTist={picture.member}
-                    title={picture.title}
-                    likes={picture.likes}
-                    imageLink={picture.link}
-                    visibility={picture.visibility}
-                    date={picture.date}
-                />
-            )
+            if (props.page * 10 <= index && index < (props.page + 1) * 10){
+                publicPicturesDiv.push(
+                    <EyeImageCard
+                        key={index}
+                        eyeTist={picture.member}
+                        title={picture.title}
+                        likes={picture.likes}
+                        imageLink={picture.link}
+                        visibility={picture.visibility}
+                        date={picture.date}
+                    />
+                )
+            }
         })
         setDisplayPublicPictures([...publicPicturesDiv])
 
-    }, [publicPictures, privatePictures])
+    }, [props.page, publicPictures, privatePictures])
 
     useEffect( () => {
         if(props.visibility === "private"){
