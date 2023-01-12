@@ -8,9 +8,12 @@ import { SCROLL_POS, CURRENT_FUNCTION } from '../recoil/Atoms';
 import { motion, useAnimationControls } from "framer-motion"
 import EyeButton from '../components/atoms/EyeButton';
 import PageController from '../components/gallery/PageController';
+import MoveSelections from '../components/functionDetails/MoveSelection';
+import { useNavigate } from 'react-router-dom';
 import './EyeGallery.css'
 
 const EyeGallery = () => {
+    let navigate = useNavigate();
     let [isMyGallery, setIsMyGallery] = useState(true);
     let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
     let setScrollPos = useSetRecoilState(SCROLL_POS)
@@ -49,6 +52,9 @@ const EyeGallery = () => {
     }
 
     useEffect( () => {
+        if (!localStorage.getItem('loginMemberId') && navigate){
+            navigate('/login')
+        }
         setCurrentFunction("default")
         handleScroll()
     },[])
@@ -65,6 +71,11 @@ const EyeGallery = () => {
         <div className = "main-container">
             <EyeMouse />
             <div className="gallery-top-container" style={{marginBottom:'-30px'}}>
+                <div className='gallery-top-buttons'>
+                    <MoveSelections 
+                        currentPage = "gallery"
+                    />
+                </div>
                 <div className = "gallery-title" style={{marginBottom:'30px'}}>
                     Gallery
                 </div>

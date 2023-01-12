@@ -1,8 +1,19 @@
 import React, { useEffect, useRef, useState } from "react"
 import EyeButton from "../components/atoms/EyeButton"
 import EyeKeyboard from "../components/keyboard/EyeKeyboard"
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
 import { sendCanvas } from "../api/member/MemberAPI"
 import './CanvasSave.css'
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
 
 const CanvasSave = (props) => {
     const optionContainerRef = useRef("")
@@ -21,6 +32,10 @@ const CanvasSave = (props) => {
     const [svgButtonColor, setSvgButtonColor] = useState("gainsboro")
     const [privateButtonColor, setPrivateButtonColor] = useState("gray")
     const [publicButtonColor, setPublicButtonColor] = useState("gainsboro")
+
+    const [openSaveSuccess, setOpenSaveSuccess] = useState(false)
+    const [openSaveFail, setOpenSaveFail] = useState(false)
+    const [openSaveOngoing, setOpenSaveOngoing] = useState(false)
 
     useEffect(() => {
         setExtention("png")
@@ -76,6 +91,28 @@ const CanvasSave = (props) => {
         link.href = image;
         link.download = inputName;
         link.click();
+    }
+
+    function saveToServer() {
+        if(inputName === ""){
+            setOpenSaveFail(true)
+            setTimeout(function(){
+                setOpenSaveFail(false)
+            }, 1000)
+        }
+        else{
+            setOpenSaveOngoing(true)
+            sendCanvas(localStorage.getItem('loginMemberId'), inputName, props.link, visible, 0)
+            .then( (res) => {
+                if (res.status === 200){
+                    setOpenSaveOngoing(false)
+                    setOpenSaveSuccess(true)
+                    setTimeout(function(){
+                        setOpenSaveSuccess(false)
+                    }, 2000)
+                }
+            })
+        }
     }
 
     return(
@@ -222,12 +259,7 @@ const CanvasSave = (props) => {
                                     text="SAVE TO SERVER"
                                     hoverColor="gray"
                                     clickColor="black"
-                                    onClick={() => {
-                                        sendCanvas("test", inputName, props.link, visible, 0)
-                                        .then( (res) => {
-                                            console.log(res.data)
-                                        })
-                                    }}
+                                    onClick={() => saveToServer()}
                                 />
                                 <EyeButton 
                                     style={{    
@@ -244,6 +276,21 @@ const CanvasSave = (props) => {
                                 />
                             </div>
                         </div>
+                        <BootstrapDialog
+                            aria-labelledby="customized-dialog-title"
+                            open={openSaveFail}
+                            onClose={() =>{setOpenSaveFail(false)}}
+                        >Please enter a name for the image.</BootstrapDialog>
+                        <BootstrapDialog
+                            aria-labelledby="customized-dialog-title"
+                            open={openSaveOngoing}
+                            onClose={() =>{setOpenSaveOngoing(false)}}
+                        >Saving image to server...</BootstrapDialog>
+                        <BootstrapDialog
+                            aria-labelledby="customized-dialog-title"
+                            open={openSaveSuccess}
+                            onClose={() =>{setOpenSaveSuccess(false)}}
+                        >Saving image to server was successful.<br/>Saved images can be viewed in the gallery.</BootstrapDialog>
 
                     </div>
                 </div>
