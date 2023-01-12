@@ -28,7 +28,26 @@ export const IS_MOUSE_OPEN = atom({
     default : false
 });
 
+export const SCROLL_POS = atom({
+	key : 'scrollPos',
+    default : [{
+        x: 0,
+        y: 0,
+    }],
+});
+
 export const STROKE_COLOR = atom({
     key : 'strokeColor',
-    default : 'black'
+    default : '#000000'
 })
+
+export const LINE_WIDTH=atom({
+    key : 'lineWidth',
+    default : 10
+})
+
+export const CURRENT_FUNCTION=atom({
+    key : 'currentFunction',
+    default : 'defalut'
+})
+
