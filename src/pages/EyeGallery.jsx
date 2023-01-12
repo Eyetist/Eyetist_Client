@@ -58,7 +58,7 @@ const EyeGallery = () => {
     },[isMyGallery])
 
     useEffect( () => {
-        controls.start({ opacity: [0, 1], transition: { duration: 1 } })
+        controls.start({ opacity: [0, 1], transition: { duration: 2 } })
     },[page])
 
     return (
@@ -111,7 +111,8 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => setVisibility("private")}
+                                onClick={() => {setVisibility("private")
+                                                setPage(0)}}
                             />
                             <EyeButton 
                                 style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:visibility === "public" ? "black" : "inherit", color:visibility === "public" ? "pink" : "gray", borderRadius:"10px"}}
@@ -119,7 +120,8 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => setVisibility("public")}
+                                onClick={() => {setVisibility("public")
+                                                setPage(0)}}
                             />
                         </div>
                     </div>
