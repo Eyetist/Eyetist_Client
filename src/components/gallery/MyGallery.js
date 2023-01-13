@@ -41,7 +41,7 @@ const MyGallery = (props) => {
                 setPicture()
             })
         })
-    },[props.visibility, props.isMyGallery])
+    },[props.isMyGallery])
 
     useEffect( () => {
         setPrivatePictureCount(privatePictures.length)
