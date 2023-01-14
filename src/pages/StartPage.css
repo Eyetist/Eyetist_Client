@@ -27,9 +27,9 @@
 }
 .start-page-cam{
     width: 20%;
-    height: 15%;
+    height: 100%;
     /* height: auto; */
-    margin-bottom: 10%;
+    /* margin-bottom: 10%; */
 }
 .start-page-buttons{
     display: flex;

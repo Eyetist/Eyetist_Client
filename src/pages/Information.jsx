@@ -21,6 +21,18 @@ const Information = () =>{
 
     return(
         <div className = "main-container">
+            {/* <ul className="lines">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul> */}
             <EyeMouse />
             <div className="information-top-container">
                 <div className = "information-title">

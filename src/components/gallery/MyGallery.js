@@ -10,7 +10,6 @@ import './Gallery.css'
 
 const picture = new Picture();
 const pictureViewModel = new PictureViewModel(picture);
-const MemberId = "test"
 
 const MyGallery = (props) => {
     let [privatePictures, setPrivatePictures] = useState([])
@@ -28,12 +27,12 @@ const MyGallery = (props) => {
     }
 
     async function setPicture(){
-        setPrivatePictures(pictureViewModel.getPictures(MemberId, "private"))
-        setPublicPictures(pictureViewModel.getPictures(MemberId, "public"))
+        setPrivatePictures(pictureViewModel.getPictures(localStorage.getItem('loginMemberId'), "private"))
+        setPublicPictures(pictureViewModel.getPictures(localStorage.getItem('loginMemberId'), "public"))
     }
 
     useEffect( () => {
-        getMyPictures(MemberId)
+        getMyPictures(localStorage.getItem('loginMemberId'),)
         .then( (res) => {
             if (res.status !== 200) return
             modelUpdate(res.data)
