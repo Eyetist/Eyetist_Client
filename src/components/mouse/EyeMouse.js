@@ -5,6 +5,7 @@ import { BsCircle,BsPencilFill,BsEraser,BsZoomIn,BsZoomOut,BsPaintBucket } from 
 import { RiEraserFill } from "react-icons/ri"
 import { FaRegHandPointUp } from "react-icons/fa"
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_LEFT_EYE_BLINK, IS_MOUSE_OPEN, STROKE_COLOR,CURRENT_FUNCTION } from '../../recoil/Atoms';
+import { useStopwatch } from 'react-timer-hook';
 
 const cursorImage = {
     defaultCursor: require('./defaultCursor.png'),
@@ -22,6 +23,30 @@ const EyeMouse = (props) => {
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let currentFunction=useRecoilValue(CURRENT_FUNCTION)
     let [cursor,setCursor]=useState();
+    const {
+        seconds,
+        isRunning,
+        pause,
+        reset,
+    } = useStopwatch({ autoStart: false });
+
+    useEffect( () => {
+        if (seconds >= 1){
+            props.SmartToolsPosition.current = {x: mousePos.x, y: mousePos.y}
+            props.setSmartToolsOpen(true)
+
+        }
+    },[seconds])
+
+    useEffect( () => {  
+        console.log(isLeftEyeBlink, isRightEyeBlink)
+        if (isLeftEyeBlink && isRightEyeBlink){
+            reset()
+        }
+        else{
+            pause()
+        }
+    }, [isLeftEyeBlink], [isRightEyeBlink])
 
     useEffect(() => {
         switch(currentFunction){

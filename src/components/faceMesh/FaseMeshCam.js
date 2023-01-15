@@ -95,21 +95,21 @@ function FaceMeshCam(props) {
                         const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
                         const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
 
-                        if (left_eye[0] - left_eye[1] < 0.01){ // 왼쪽 눈 클릭
+                        if (left_eye[0] - left_eye[1] < 0.005){ // 왼쪽 눈 클릭
                             setIsLeftEyeBlink(true)
                         }
                         else{
                             setIsLeftEyeBlink(false)
                         }
 
-                        if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
+                        if (right_eye[0] - right_eye[1] < 0.005){ // 오른쪽 눈 클릭
                             setIsRightEyeBlick(true)
                         }
                         else{
                             setIsRightEyeBlick(false)
                         }
 
-                        if (mouse[0] - mouse[1] < 0.01){ //
+                        if (mouse[0] - mouse[1] < 0.03){ 
                             setIsMouseOpen(false)
                         }
                         else{

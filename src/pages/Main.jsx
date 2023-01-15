@@ -7,6 +7,7 @@ import { useCanvas } from "../components/canvas/CanvasContext";
 import CustomSlider from "../components/atoms/SensitivitySlider";
 import EyeMouse from "../components/mouse/EyeMouse";
 import CanvasSave from "./CanvasSave";
+import SmartTools from "../components/functionDetails/SmartTools";
 import { useNavigate } from 'react-router-dom';
 import ToolSelections from "../components/functionDetails/ToolSelections";
 import MoveSelections from "../components/functionDetails/MoveSelection";
@@ -15,6 +16,7 @@ import "./Main.css"
 const Main = () => {
     const { canvasRef } = useCanvas()
     let navigate = useNavigate();
+    let SmartToolsPosition = useRef({x:0, y:0})
     let canvasSavePageTrigger = useRef(false)
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
     let [imgBuffer,setImgBuffer] = useState([]);
@@ -24,6 +26,7 @@ const Main = () => {
     let [ratio,setRatio] = useState(1);
     let canvasDivRef=useRef(null);
     let setWindowSize=useSetRecoilState(WINDOW_SIZE);
+    let [smartToolsOpen, setSmartToolsOpen] = useState(false)
 
     // window.addEventListener('resize',function(){
     //     setWindowSize({width:window.innerWidth,height:window.innerHeight})
@@ -59,7 +62,25 @@ const Main = () => {
     
     return (
         <div className="whole-container">
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+                setSmartToolsOpen = {setSmartToolsOpen}
+            />
+            {
+                smartToolsOpen ?
+                <SmartTools 
+                    setSelectedButton={setSelectedButton}
+                    setBufferIdx={setBufferIdx}
+                    setCanvasSaveOpen={setCanvasSaveOpen}
+                    setImgBuffer={setImgBuffer}
+                    bufferIdx={bufferIdx}
+                    imgBuffer={imgBuffer}
+                    SmartToolsPosition = {SmartToolsPosition}
+                    setSmartToolsOpen = {setSmartToolsOpen}
+                />
+                :
+                <></>
+            }
             <div className="top-bar"> {/*상단 바 div*/}
                 <div style={{display:"flex", width:"80%"}}>
                     <div className="eyetist-font">
