@@ -104,9 +104,9 @@ const EyeImageCard = (props) => {
                 :
                     <></>
             }
-            {/* <div className="picture-information">
+            <div className="picture-information">
                 Date: {props.date}
-            </div> */}
+            </div>
         </motion.div>
     )
 
