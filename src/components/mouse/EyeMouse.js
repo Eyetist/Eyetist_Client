@@ -33,7 +33,6 @@ const EyeMouse = (props) => {
         if (seconds >= 1){
             props.SmartToolsPosition.current = {x: mousePos.x, y: mousePos.y}
             props.setSmartToolsOpen(true)
-
         }
     },[seconds])
 
