@@ -25,7 +25,6 @@ const EyeMouse = (props) => {
     let [cursor,setCursor]=useState();
     const {
         seconds,
-        isRunning,
         pause,
         reset,
     } = useStopwatch({ autoStart: false });
@@ -39,7 +38,6 @@ const EyeMouse = (props) => {
     },[seconds])
 
     useEffect( () => {  
-        console.log(isLeftEyeBlink, isRightEyeBlink)
         if (isLeftEyeBlink && isRightEyeBlink){
             reset()
         }
