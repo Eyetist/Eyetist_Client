@@ -8,7 +8,16 @@ export class PictureViewModel{
     }
 
     getAll(){
-        return this.model.getModel();
+        let pictures = [];
+        this.model.getModel().map( (picture) => {
+            if (picture.date){
+                console.log(picture.date)
+                picture.date = picture.date.replace("KST","GMT")
+                picture.date = new Date(picture.date).toISOString().split("T")[0]
+            }
+            pictures.push(picture)
+        })
+        return pictures;
     }
 
     getPictures(member, visibility){
