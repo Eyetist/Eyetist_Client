@@ -11,9 +11,11 @@ export class PictureViewModel{
         let pictures = [];
         this.model.getModel().map( (picture) => {
             if (picture.date){
-                console.log(picture.date)
-                picture.date = picture.date.replace("KST","GMT")
-                picture.date = new Date(picture.date).toISOString().split("T")[0]
+                let splitDate = picture.date.split(" ")
+                console.log(splitDate)
+                picture.date = splitDate[1] + "/" +String(splitDate[2]) + "/" + String(splitDate[5])
+                // picture.date = picture.date.replace("KST","GMT")
+                // picture.date = new Date(picture.date).toISOString().split("T")[0]
             }
             pictures.push(picture)
         })

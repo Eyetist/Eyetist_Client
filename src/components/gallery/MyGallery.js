@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import EyeButton from '../atoms/EyeButton';
 import EyeImageCard from '../atoms/EyeImageCard';
 import { motion, useAnimationControls } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
 import { PictureViewModel } from '../../models/view-model/PictureViewModel';
-import { getDummyPictures } from '../../pages/DummyData';
 import { getMyPictures } from '../../api/member/MemberAPI';
 import './Gallery.css'
 
@@ -53,12 +51,14 @@ const MyGallery = (props) => {
                 privatePicturesDiv.push(
                     <EyeImageCard
                         key={index}
+                        blobName={picture.blobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
+                        isHeart={0}
                     />
                 )
             }
@@ -70,12 +70,14 @@ const MyGallery = (props) => {
                 publicPicturesDiv.push(
                     <EyeImageCard
                         key={index}
+                        blobName={picture.blobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
+                        isHeart={1}
                     />
                 )
             }
