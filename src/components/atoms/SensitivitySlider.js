@@ -31,7 +31,7 @@ const SensitivitySlider = (props) => {
                 onChange={handleSliderChange}
                 aria-labelledby="input-slider"
 
-                step={0.1}
+                step={1}
                 // marks
                 min={1}
                 max={props.maxRange}

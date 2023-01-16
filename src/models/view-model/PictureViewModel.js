@@ -8,7 +8,23 @@ export class PictureViewModel{
     }
 
     getAll(){
-        return this.model.getModel();
+        let pictures = [];
+        this.model.getModel().map( (picture) => {
+            if (picture.date){
+                let splitDate = picture.date.split(" ")
+                // console.log(splitDate)
+                if (splitDate.length > 5){
+                    picture.date = splitDate[1] + "/" +String(splitDate[2]) + "/" + String(splitDate[5])
+                }
+                else{
+                    picture.date = ""
+                }
+                // picture.date = picture.date.replace("KST","GMT")
+                // picture.date = new Date(picture.date).toISOString().split("T")[0]
+            }
+            pictures.push(picture)
+        })
+        return pictures;
     }
 
     getPictures(member, visibility){

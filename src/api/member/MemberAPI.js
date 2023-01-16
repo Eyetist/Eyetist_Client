@@ -76,3 +76,29 @@ export const getOtherPicturesCount = async () =>{
     const data = await axios.get(BACK_BASE_URL + '/blob/imageCount')
     return data;
 }
+
+export const getLikePictureList = async (member) =>{
+    const data = await axios.get(BACK_BASE_URL + '/like/getList',{
+        params: {
+            "member" : member
+        }
+    })
+    return data;
+}
+
+export const setLikePicture = async(blobName, member, heart) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/like/store",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "blobName" : blobName,
+            "member" : member,
+            "heart" : heart, 
+        }
+    });
+    return data
+}
