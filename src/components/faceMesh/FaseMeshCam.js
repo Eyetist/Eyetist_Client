@@ -23,6 +23,9 @@ function FaceMeshCam(props) {
     let setIsMouseOpen = useSetRecoilState(IS_MOUSE_OPEN)
     let mouseSensitivity = useRecoilValue(MOUSE_SENSITIVITY)
 
+    let mousePosXRef = useRef(0)
+    let mousePosYRef = useRef(0)
+
     let camera = null;
 
     useEffect( ()=> {
@@ -37,9 +40,9 @@ function FaceMeshCam(props) {
         faceMesh.onResults(onResults);
     }, [mouseSensitivity])
 
-    function onResults(results) {
-        const videoWidth =  window.innerWidth * mouseSensitivity;
-        const videoHeight = window.innerHeight * mouseSensitivity;
+    function onResults(results, currenPos) {
+        const videoWidth =  window.innerWidth;
+        const videoHeight = window.innerHeight;
 
         canvasRef.current.width = videoWidth;
         canvasRef.current.height = videoHeight;
@@ -89,14 +92,14 @@ function FaceMeshCam(props) {
                 const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
                 const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
 
-                if (left_eye[0] - left_eye[1] < 0.005){ // 왼쪽 눈 클릭
+                if (left_eye[0] - left_eye[1] < 0.01){ // 왼쪽 눈 클릭
                     setIsLeftEyeBlink(true)
                 }
                 else{
                     setIsLeftEyeBlink(false)
                 }
 
-                if (right_eye[0] - right_eye[1] < 0.005){ // 오른쪽 눈 클릭
+                if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
                     setIsRightEyeBlick(true)
                 }
                 else{
@@ -110,16 +113,27 @@ function FaceMeshCam(props) {
                     setIsMouseOpen(true)
                 }
 
+                p2_x = Math.round(p2_x - (((window.innerWidth / 2) - p2_x) * mouseSensitivity / 10))
+                p2_y = Math.round(p2_y - (((window.innerHeight / 2) - p2_y) * mouseSensitivity / 10))
+
+                if (Math.abs(mousePosXRef.current - p2_x) > 1){
+                    mousePosXRef.current = p2_x
+                }
+
+                if (Math.abs(mousePosYRef.current - p2_y) > 1){
+                    mousePosYRef.current = p2_y
+                }
+
                 setMousePos({
-                    x: p2_x / mouseSensitivity,
-                    y: p2_y / mouseSensitivity
+                    x: mousePosXRef.current,
+                    y: mousePosYRef.current
                 })
             }
             for (const landmarks of results.multiFaceLandmarks) {
     
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_TESSELATION, {
                     color: "#C0C0C070",
-                    lineWidth: 2 * mouseSensitivity,
+                    lineWidth: 30,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_EYE, {
                     color: "#FF3030",
@@ -136,11 +150,11 @@ function FaceMeshCam(props) {
 
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_IRIS, {
                     color: "#E0E0E0",
-                    lineWidth: 5 * mouseSensitivity,
+                    lineWidth: 5,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_IRIS, {
                     color: "#E0E0E0",
-                    lineWidth: 5 * mouseSensitivity,
+                    lineWidth: 5,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LIPS, {
                     color: "#E0E0E0",

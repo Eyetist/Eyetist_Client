@@ -90,7 +90,7 @@ const Main = () => {
                     <div style={{marginTop: "30px"}}>
                         <CustomSlider 
                             title = "Sensitivity"
-                            maxRange = {5}
+                            maxRange = {10}
                             width = "200px"
                             height = "10px"
                         />
