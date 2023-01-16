@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import EyeButton from "./EyeButton";
+import { setLikePicture } from "../../api/member/MemberAPI";
 import { useRecoilValue } from "recoil";
 import { motion, useAnimationControls } from "framer-motion"
 import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS } from '../../recoil/Atoms';
@@ -14,7 +15,10 @@ const EyeImageCard = (props) => {
     let scrollPos = useRecoilValue(SCROLL_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let clickRef = useRef(false);
+    let [isHeartHover, setIsHeartHover] = useState(false)
 
+    const imgRef = useRef(null);
+    const heartRef = useRef(null);
     const buttonRef = useRef(null);
     const controls = useAnimationControls()
 
@@ -43,10 +47,35 @@ const EyeImageCard = (props) => {
             
             let posX = mousePos.x + 15 // 15 is mouseCursorSize / 2
             let posY = mousePos.y + 15
-    
+
             return (transLeft.current <= posX && posX <= transLeft.current + offsetWidth) && (transTop.current <= posY && posY <= transTop.current + offsetHeight);
         }
     }
+
+    function isHeartOverlap(){
+        if (heartRef.current){
+            const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = heartRef.current;
+            if (offsetTop !== imgRef.current.offsetHeight + 3){
+                transTop.current = offsetTop
+            }
+            else{
+                transTop.current = transTop.current + imgRef.current.offsetHeight + 3
+            }
+
+            if (offsetLeft !== 15){
+                transLeft.current = offsetLeft
+            }
+            else{
+                transLeft.current = transLeft.current + 15
+            }
+            
+            let posX = mousePos.x + 15 // 15 is mouseCursorSize / 2
+            let posY = mousePos.y + 15
+
+            return (transLeft.current - 10 <= posX && posX <= transLeft.current + offsetWidth + 10) && (transTop.current - 10 <= posY && posY <= transTop.current + offsetHeight + 10);
+        }
+    }
+
 
     useEffect( () => {
         if (isOverlap()){
@@ -59,11 +88,25 @@ const EyeImageCard = (props) => {
         else{
             controls.set({ scale: 1 })
         }
+
+        if(isHeartOverlap()){
+            setIsHeartHover(true)
+        }
+        else{
+            setIsHeartHover(false)
+        }
     
         if (clickRef.current){
             if (!isRightEyeBlink){
-                // props.onClick()
-                console.log(props.imageLink)
+
+                if (isHeartHover){
+                    console.log("click Heart")
+                    setLikePicture(props.blobName, props.member, props.isHeart)
+                }
+                else{
+                    console.log("click Card")
+                    console.log(props)
+                }
                 clickRef.current = false
             }
         }
@@ -82,12 +125,26 @@ const EyeImageCard = (props) => {
     return(
         <motion.div animate={controls} ref={buttonRef} className="eye-image-card">
             <img 
+                ref={imgRef}
                 src={props.imageLink}
                 alt="image"
                 width={thumbnailImageWidth}
                 height="auto"
                 style={{borderTopLeftRadius:"10px", borderTopRightRadius:"10px"}}
             />
+            {
+                props.visibility === "public" ?
+                    props.isHeart ? 
+                    <motion.div animate={controls} ref={heartRef} style={{width:"20px", height:"20px", fontSize:"20px", marginLeft:"15px", backgroundColor:"inherit", color:isHeartHover ? "gray" : "red"}}>
+                        <AiFillHeart />
+                    </motion.div>
+                    :
+                    <motion.div animate={controls} ref={heartRef} style={{width:"20px", height:"20px", fontSize:"20px", marginLeft:"15px", backgroundColor:"inherit", color:isHeartHover ? "red" : "gray"}}>
+                        <AiOutlineHeart />
+                    </motion.div>
+                :
+                <></>
+            }
             <div style={{display:"flex"}}>
                 <div className="picture-information">
                     Title: {props.title}
@@ -106,6 +163,7 @@ const EyeImageCard = (props) => {
             }
             <div className="picture-information">
                 Date: {props.date}
+                {/* Date:  */}
             </div>
         </motion.div>
     )

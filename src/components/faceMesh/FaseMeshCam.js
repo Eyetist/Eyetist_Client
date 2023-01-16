@@ -4,7 +4,6 @@ import * as Facemesh from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
 import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
-import { getHeadPoseEst } from "../../api/vision/VisionAPI";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MOUSE_POS, MOUSE_SENSITIVITY, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN} from '../../recoil/Atoms';
 
@@ -24,6 +23,9 @@ function FaceMeshCam(props) {
     let setIsMouseOpen = useSetRecoilState(IS_MOUSE_OPEN)
     let mouseSensitivity = useRecoilValue(MOUSE_SENSITIVITY)
 
+    let mousePosXRef = useRef(0)
+    let mousePosYRef = useRef(0)
+
     let camera = null;
 
     useEffect( ()=> {
@@ -38,9 +40,9 @@ function FaceMeshCam(props) {
         faceMesh.onResults(onResults);
     }, [mouseSensitivity])
 
-    function onResults(results) {
-        const videoWidth =  window.innerWidth * mouseSensitivity;
-        const videoHeight = window.innerHeight * mouseSensitivity;
+    function onResults(results, currenPos) {
+        const videoWidth =  window.innerWidth;
+        const videoHeight = window.innerHeight;
 
         canvasRef.current.width = videoWidth;
         canvasRef.current.height = videoHeight;
@@ -83,53 +85,55 @@ function FaceMeshCam(props) {
             }
     
             if (face_2d.length === 6 && face_3d.length === 6 && nose_2d.length === 1 && nose_2d.length === 1){
-                getHeadPoseEst(videoWidth, videoHeight, face_2d, face_3d, nose_2d, nose_3d)
-                .then(
-                    (res) => {
-                        p1_x = res.data[0][0]
-                        p1_y = res.data[0][1]
-                        p2_x = res.data[1][0]
-                        p2_y = res.data[1][1]
+                p2_x = nose_2d[0][0]
+                p2_y = nose_2d[0][1]
 
-                        const left_eye = [results.multiFaceLandmarks[0][145].y, results.multiFaceLandmarks[0][159].y]
-                        const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
-                        const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
+                const left_eye = [results.multiFaceLandmarks[0][145].y, results.multiFaceLandmarks[0][159].y]
+                const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
+                const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
 
-                        if (left_eye[0] - left_eye[1] < 0.01){ // 왼쪽 눈 클릭
-                            setIsLeftEyeBlink(true)
-                        }
-                        else{
-                            setIsLeftEyeBlink(false)
-                        }
+                if (left_eye[0] - left_eye[1] < 0.01){ // 왼쪽 눈 클릭
+                    setIsLeftEyeBlink(true)
+                }
+                else{
+                    setIsLeftEyeBlink(false)
+                }
 
-                        if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
-                            setIsRightEyeBlick(true)
-                        }
-                        else{
-                            setIsRightEyeBlick(false)
-                        }
+                if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
+                    setIsRightEyeBlick(true)
+                }
+                else{
+                    setIsRightEyeBlick(false)
+                }
 
-                        if (mouse[0] - mouse[1] < 0.01){ //
-                            setIsMouseOpen(false)
-                        }
-                        else{
-                            setIsMouseOpen(true)
-                        }
+                if (mouse[0] - mouse[1] < 0.03){ 
+                    setIsMouseOpen(false)
+                }
+                else{
+                    setIsMouseOpen(true)
+                }
 
-                        setMousePos({
-                            x: p2_x / mouseSensitivity,
-                            y: p2_y / mouseSensitivity
-                        })
+                p2_x = Math.round(p2_x - (((window.innerWidth / 2) - p2_x) * mouseSensitivity / 10))
+                p2_y = Math.round(p2_y - (((window.innerHeight / 2) - p2_y) * mouseSensitivity / 10))
 
-                        canvasCtx.stroke();
-                    }
-                )
+                if (Math.abs(mousePosXRef.current - p2_x) > 1){
+                    mousePosXRef.current = p2_x
+                }
+
+                if (Math.abs(mousePosYRef.current - p2_y) > 1){
+                    mousePosYRef.current = p2_y
+                }
+
+                setMousePos({
+                    x: mousePosXRef.current,
+                    y: mousePosYRef.current
+                })
             }
             for (const landmarks of results.multiFaceLandmarks) {
     
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_TESSELATION, {
                     color: "#C0C0C070",
-                    lineWidth: 2 * mouseSensitivity,
+                    lineWidth: 30,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_EYE, {
                     color: "#FF3030",
@@ -146,11 +150,11 @@ function FaceMeshCam(props) {
 
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LEFT_IRIS, {
                     color: "#E0E0E0",
-                    lineWidth: 5 * mouseSensitivity,
+                    lineWidth: 5,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_RIGHT_IRIS, {
                     color: "#E0E0E0",
-                    lineWidth: 5 * mouseSensitivity,
+                    lineWidth: 5,
                 });
                 drawConnectors(canvasCtx, landmarks, Facemesh.FACEMESH_LIPS, {
                     color: "#E0E0E0",

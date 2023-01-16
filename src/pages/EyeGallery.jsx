@@ -9,19 +9,20 @@ import { motion, useAnimationControls } from "framer-motion"
 import EyeButton from '../components/atoms/EyeButton';
 import PageController from '../components/gallery/PageController';
 import MoveSelections from '../components/functionDetails/MoveSelection';
+import GallerySmartTools from '../components/functionDetails/GallerySmartTools';
 import { useNavigate } from 'react-router-dom';
 import './EyeGallery.css'
 
 const EyeGallery = () => {
     let navigate = useNavigate();
+    let SmartToolsPosition = useRef({x:0, y:0})
     let [isMyGallery, setIsMyGallery] = useState(true);
     let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
     let setScrollPos = useSetRecoilState(SCROLL_POS)
-    let [MyGalleryButtonColor, setMyGalleryButtonColor] = useState("rgb(49, 51, 54)")
-    let [OthersGalleryButtonColor, setOthersGalleryButtonColor] = useState("gainsboro")
     let [page, setPage] = useState(0)
     let [imageCount, setImageCount] = useState(0)
     let [visibility, setVisibility] = useState("private")
+    let [smartToolsOpen, setSmartToolsOpen] = useState(false)
     const controls = useAnimationControls()
     const targetRef = useRef(null);  
 
@@ -69,7 +70,23 @@ const EyeGallery = () => {
 
     return (
         <div className = "main-container">
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+                setSmartToolsOpen = {setSmartToolsOpen}
+            />
+            {
+                smartToolsOpen ?
+                <GallerySmartTools 
+                    SmartToolsPosition = {SmartToolsPosition}
+                    setSmartToolsOpen = {setSmartToolsOpen}
+                    isMyGallery = {isMyGallery}
+                    setIsMyGallery = {setIsMyGallery}
+                    visibility = {visibility}
+                    setVisibility ={setVisibility}
+                />
+                :
+                <></>
+            }
             <div className="gallery-top-container" style={{marginBottom:'-30px'}}>
                 <div className='gallery-top-buttons'>
                     <MoveSelections 
@@ -86,27 +103,23 @@ const EyeGallery = () => {
             
             <div style={{display:'flex', height:"auto"}}>
                 <EyeButton 
-                    style={{width:"auto", height:"30px", borderTopLeftRadius:"5px", borderTopRightRadius:"5px", backgroundColor: MyGalleryButtonColor, color:"white", paddingLeft:"10px", paddingRight:"10px"}}
+                    style={{width:"auto", height:"30px", borderTopLeftRadius:"5px", borderTopRightRadius:"5px", backgroundColor: isMyGallery ? "rgb(49, 51, 54)" : "gainsboro", color:"white", paddingLeft:"10px", paddingRight:"10px"}}
                     text="MyGallery"
                     hoverColor="gray"
                     clickColor="black"
                     onClick={() => {
                         setIsMyGallery(true) 
                         setPage(0)
-                        setOthersGalleryButtonColor("gainsboro")
-                        setMyGalleryButtonColor("rgb(49, 51, 54)")
                     }}
                 />
                 <EyeButton 
-                    style={{width:"auto", height:"30px", borderTopLeftRadius:"5px", borderTopRightRadius:"5px", backgroundColor: OthersGalleryButtonColor, color:"white", marginLeft:"2px", paddingLeft:"10px", paddingRight:"10px"}}
+                    style={{width:"auto", height:"30px", borderTopLeftRadius:"5px", borderTopRightRadius:"5px", backgroundColor: isMyGallery ? "gainsboro" : "rgb(49, 51, 54)", color:"white", marginLeft:"2px", paddingLeft:"10px", paddingRight:"10px"}}
                     text="OthersGallery"
                     hoverColor="gray"
                     clickColor="black"
                     onClick={() => {
                         setIsMyGallery(false)
                         setPage(0)
-                        setMyGalleryButtonColor("gainsboro")
-                        setOthersGalleryButtonColor("rgb(49, 51, 54)")
 
                     }}
                 />

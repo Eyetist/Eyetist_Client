@@ -35,9 +35,9 @@
 }
 .login-join-cam{
     width: 20%;
-    height: 15%;
+    height: 100%;
     /* height: auto; */
-    margin-bottom: 10%;
+    /* margin-bottom: 10%; */
 }
 .login-container{
     width: 400px;

@@ -7,9 +7,9 @@
 
 .gallery-cam{
     width: 20%;
-    height: 15%;
+    height: 100%;
     /* height: auto; */
-    margin-bottom: 9%;
+    /* margin-bottom: 10%; */
 }
 
 .gallery-top-buttons{

@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import EyeButton from '../atoms/EyeButton';
 import EyeImageCard from '../atoms/EyeImageCard';
 import { motion, useAnimationControls } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
 import { PictureViewModel } from '../../models/view-model/PictureViewModel';
-import { getDummyPictures } from '../../pages/DummyData';
 import { getMyPictures } from '../../api/member/MemberAPI';
 import './Gallery.css'
 
 const picture = new Picture();
 const pictureViewModel = new PictureViewModel(picture);
-const MemberId = "test"
 
 const MyGallery = (props) => {
     let [privatePictures, setPrivatePictures] = useState([])
@@ -28,12 +25,12 @@ const MyGallery = (props) => {
     }
 
     async function setPicture(){
-        setPrivatePictures(pictureViewModel.getPictures(MemberId, "private"))
-        setPublicPictures(pictureViewModel.getPictures(MemberId, "public"))
+        setPrivatePictures(pictureViewModel.getPictures(localStorage.getItem('loginMemberId'), "private"))
+        setPublicPictures(pictureViewModel.getPictures(localStorage.getItem('loginMemberId'), "public"))
     }
 
     useEffect( () => {
-        getMyPictures(MemberId)
+        getMyPictures(localStorage.getItem('loginMemberId'),)
         .then( (res) => {
             if (res.status !== 200) return
             modelUpdate(res.data)
@@ -41,7 +38,7 @@ const MyGallery = (props) => {
                 setPicture()
             })
         })
-    },[props.visibility, props.isMyGallery])
+    },[props.isMyGallery])
 
     useEffect( () => {
         setPrivatePictureCount(privatePictures.length)
@@ -54,12 +51,14 @@ const MyGallery = (props) => {
                 privatePicturesDiv.push(
                     <EyeImageCard
                         key={index}
+                        blobName={picture.blobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
+                        isHeart={0}
                     />
                 )
             }
@@ -71,12 +70,14 @@ const MyGallery = (props) => {
                 publicPicturesDiv.push(
                     <EyeImageCard
                         key={index}
+                        blobName={picture.blobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
+                        isHeart={1}
                     />
                 )
             }
