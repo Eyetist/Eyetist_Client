@@ -4,7 +4,6 @@ import * as Facemesh from "@mediapipe/face_mesh";
 import * as cam from "@mediapipe/camera_utils";
 import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
-import { getHeadPoseEst } from "../../api/vision/VisionAPI";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { MOUSE_POS, MOUSE_SENSITIVITY, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN} from '../../recoil/Atoms';
 
@@ -83,47 +82,38 @@ function FaceMeshCam(props) {
             }
     
             if (face_2d.length === 6 && face_3d.length === 6 && nose_2d.length === 1 && nose_2d.length === 1){
-                getHeadPoseEst(videoWidth, videoHeight, face_2d, face_3d, nose_2d, nose_3d)
-                .then(
-                    (res) => {
-                        p1_x = res.data[0][0]
-                        p1_y = res.data[0][1]
-                        p2_x = res.data[1][0]
-                        p2_y = res.data[1][1]
+                p2_x = nose_2d[0][0]
+                p2_y = nose_2d[0][1]
 
-                        const left_eye = [results.multiFaceLandmarks[0][145].y, results.multiFaceLandmarks[0][159].y]
-                        const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
-                        const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
+                const left_eye = [results.multiFaceLandmarks[0][145].y, results.multiFaceLandmarks[0][159].y]
+                const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
+                const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
 
-                        if (left_eye[0] - left_eye[1] < 0.005){ // 왼쪽 눈 클릭
-                            setIsLeftEyeBlink(true)
-                        }
-                        else{
-                            setIsLeftEyeBlink(false)
-                        }
+                if (left_eye[0] - left_eye[1] < 0.005){ // 왼쪽 눈 클릭
+                    setIsLeftEyeBlink(true)
+                }
+                else{
+                    setIsLeftEyeBlink(false)
+                }
 
-                        if (right_eye[0] - right_eye[1] < 0.005){ // 오른쪽 눈 클릭
-                            setIsRightEyeBlick(true)
-                        }
-                        else{
-                            setIsRightEyeBlick(false)
-                        }
+                if (right_eye[0] - right_eye[1] < 0.005){ // 오른쪽 눈 클릭
+                    setIsRightEyeBlick(true)
+                }
+                else{
+                    setIsRightEyeBlick(false)
+                }
 
-                        if (mouse[0] - mouse[1] < 0.03){ 
-                            setIsMouseOpen(false)
-                        }
-                        else{
-                            setIsMouseOpen(true)
-                        }
+                if (mouse[0] - mouse[1] < 0.03){ 
+                    setIsMouseOpen(false)
+                }
+                else{
+                    setIsMouseOpen(true)
+                }
 
-                        setMousePos({
-                            x: p2_x / mouseSensitivity,
-                            y: p2_y / mouseSensitivity
-                        })
-
-                        canvasCtx.stroke();
-                    }
-                )
+                setMousePos({
+                    x: p2_x / mouseSensitivity,
+                    y: p2_y / mouseSensitivity
+                })
             }
             for (const landmarks of results.multiFaceLandmarks) {
     
