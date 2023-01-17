@@ -38,7 +38,6 @@ const OthersGallery = (props) => {
                 })
                 getOthersPictures("public", props.page, localStorage.getItem("loginMemberId"))
                 .then( (res) => {
-                    console.log(res.data)
                     modelUpdate(res.data)
                     .then(() => {
                         setPicture()
@@ -49,7 +48,6 @@ const OthersGallery = (props) => {
                 props.setImageCount(10)
                 getWeeklyLikesPictures("public", props.page, localStorage.getItem("loginMemberId"))
                 .then( (res) => {
-                    console.log(res.data)
                     modelUpdate(res.data)
                     .then(() => {
                         setPicture()
@@ -63,7 +61,6 @@ const OthersGallery = (props) => {
                 })
                 getTopsLikesPictures("public", props.page, localStorage.getItem("loginMemberId"))
                 .then( (res) => {
-                    console.log(res.data)
                     modelUpdate(res.data)
                     .then(() => {
                         setPicture()
