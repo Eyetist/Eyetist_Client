@@ -73,6 +73,28 @@ export const getOthersPictures = async (visibility, page, member) =>{
     return data;
 }
 
+export const getTopsLikesPictures = async (visibility, page, member) =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/getTopLikes',{
+        params: {
+            "visibility" : visibility, 
+            "page" : page,
+            "member" : member
+        }
+    })
+    return data;
+}
+
+export const getWeeklyLikesPictures = async (visibility, page, member) =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/getTopLikes',{
+        params: {
+            "visibility" : visibility, 
+            "page" : page,
+            "member" : member
+        }
+    })
+    return data;
+}
+
 export const getOtherPicturesCount = async () =>{
     const data = await axios.get(BACK_BASE_URL + '/blob/imageCount')
     return data;

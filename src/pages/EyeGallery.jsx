@@ -23,6 +23,7 @@ const EyeGallery = () => {
     let [imageCount, setImageCount] = useState(0)
     let [visibility, setVisibility] = useState("private")
     let [smartToolsOpen, setSmartToolsOpen] = useState(false)
+    let [publicGalleryMode, setPublicGalleryMode] = useState("weekly")
     const controls = useAnimationControls()
     const targetRef = useRef(null);  
 
@@ -130,7 +131,7 @@ const EyeGallery = () => {
                     <div style={{display:'flex', paddingLeft:"5%", paddingTop:"1%", backgroundColor:"rgb(49, 51, 54)"}}>
                         <div style={{display:'flex'}}>
                             <EyeButton 
-                                style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:visibility === "private" ? "black" : "inherit", color:visibility === "private" ? "pink" : "gray", borderRadius:"10px"}}
+                                style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:visibility === "private" ? "black" : "inherit", color:visibility === "private" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
                                 text="Private"
                                 hoverColor="gray"
                                 clickColor="black"
@@ -139,7 +140,7 @@ const EyeGallery = () => {
                                                 setPage(0)}}
                             />
                             <EyeButton 
-                                style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:visibility === "public" ? "black" : "inherit", color:visibility === "public" ? "pink" : "gray", borderRadius:"10px"}}
+                                style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:visibility === "public" ? "black" : "inherit", color:visibility === "public" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
                                 text="Public"
                                 hoverColor="gray"
                                 clickColor="black"
@@ -160,9 +161,35 @@ const EyeGallery = () => {
 
                 :
                 <div>
-                    <div style={{display:'flex', paddingLeft:"5%", paddingTop:"1%", paddingBottom:"1%", backgroundColor:"rgb(49, 51, 54)"}}>
-                        <div style={{width:"100px", height:"30px", fontSize:"30px", backgroundColor:"inherit", color:"pink", borderRadius:"10px", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                            Public
+                    <div style={{display:'flex', paddingLeft:"5%", paddingTop:"1%", backgroundColor:"rgb(49, 51, 54)"}}>
+                        <div style={{display:'flex'}}>
+                            <EyeButton 
+                                style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:publicGalleryMode === "weekly" ? "black" : "inherit", color:publicGalleryMode === "weekly" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
+                                text="Weekly Top 10"
+                                hoverColor="gray"
+                                clickColor="black"
+                                hoverFontColor = "pink"
+                                onClick={() => {setPublicGalleryMode("weekly")
+                                                setPage(0)}}
+                            />
+                            <EyeButton 
+                                style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:publicGalleryMode === "rank" ? "black" : "inherit", color:publicGalleryMode === "rank" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
+                                text="Rank"
+                                hoverColor="gray"
+                                clickColor="black"
+                                hoverFontColor = "pink"
+                                onClick={() => {setPublicGalleryMode("rank")
+                                                setPage(0)}}
+                            />
+                            <EyeButton 
+                                style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:publicGalleryMode === "public" ? "black" : "inherit", color:publicGalleryMode === "public" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
+                                text="Newest"
+                                hoverColor="gray"
+                                clickColor="black"
+                                hoverFontColor = "pink"
+                                onClick={() => {setPublicGalleryMode("public")
+                                                setPage(0)}}
+                            />
                         </div>
                     </div>
                     <div style={{display:"flex", alignItems:"center", justifyContent:'center', marginTop:"-30px", backgroundColor:"rgb(49, 51, 54)"}}>
@@ -196,7 +223,8 @@ const EyeGallery = () => {
                             page = {page}
                             setPage = {setPage}
                             imageCount = {imageCount}
-                            setImageCount ={setImageCount}
+                            setImageCount = {setImageCount}
+                            publicGalleryMode = {publicGalleryMode}
                         />
                     </motion.div>
                 }

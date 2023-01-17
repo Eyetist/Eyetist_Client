@@ -3,7 +3,7 @@ import EyeImageCard from '../atoms/EyeImageCard';
 import { motion } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
 import { PictureViewModel } from '../../models/view-model/PictureViewModel';
-import { getOthersPictures, getOtherPicturesCount } from '../../api/member/MemberAPI';
+import { getOthersPictures, getTopsLikesPictures, getWeeklyLikesPictures ,getOtherPicturesCount } from '../../api/member/MemberAPI';
 import './Gallery.css'
 
 const picture = new Picture();
@@ -22,23 +22,56 @@ const OthersGallery = (props) => {
         setPublicPictures(pictureViewModel.getAll())
     }
 
-    useEffect( () => {
-        getOtherPicturesCount()
-        .then((res) => {
-            props.setImageCount(res.data)
-        })
-    }, [])
+    // useEffect( () => {
+    //     getOtherPicturesCount()
+    //     .then((res) => {
+    //         props.setImageCount(res.data)
+    //     })
+    // }, [])
 
     useEffect( () => {
-        getOthersPictures("public", props.page, localStorage.getItem("loginMemberId"))
-        .then( (res) => {
-            console.log(res.data)
-            modelUpdate(res.data)
-            .then(() => {
-                setPicture()
-            })
-        })
-    },[props.isMyGallery, props.page, galleryUpdateState])
+        switch(props.publicGalleryMode){
+            case "public":
+                getOtherPicturesCount()
+                .then((res) => {
+                    props.setImageCount(res.data)
+                })
+                getOthersPictures("public", props.page, localStorage.getItem("loginMemberId"))
+                .then( (res) => {
+                    console.log(res.data)
+                    modelUpdate(res.data)
+                    .then(() => {
+                        setPicture()
+                    })
+                })
+                break
+            case "weekly":
+                props.setImageCount(10)
+                getWeeklyLikesPictures("public", props.page, localStorage.getItem("loginMemberId"))
+                .then( (res) => {
+                    console.log(res.data)
+                    modelUpdate(res.data)
+                    .then(() => {
+                        setPicture()
+                    })
+                })
+                break
+            case "rank":
+                getOtherPicturesCount()
+                .then((res) => {
+                    props.setImageCount(res.data)
+                })
+                getTopsLikesPictures("public", props.page, localStorage.getItem("loginMemberId"))
+                .then( (res) => {
+                    console.log(res.data)
+                    modelUpdate(res.data)
+                    .then(() => {
+                        setPicture()
+                    })
+                })
+                break
+        }
+    },[props.isMyGallery, props.page, props.publicGalleryMode, galleryUpdateState])
 
     useEffect( () => {
         let publicPicturesDiv = []
