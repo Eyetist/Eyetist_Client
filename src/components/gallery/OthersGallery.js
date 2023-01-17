@@ -12,6 +12,7 @@ const pictureViewModel = new PictureViewModel(picture);
 const OthersGallery = (props) => {
     let [publicPictures, setPublicPictures] = useState([])
     let [displayPublicPictures, setDisplayPublicPictures] = useState([])
+    let [galleryUpdateState, setGalleryUpdateState] = useState("")
 
     async function modelUpdate(data){
         pictureViewModel.update(data)
@@ -29,14 +30,15 @@ const OthersGallery = (props) => {
     }, [])
 
     useEffect( () => {
-        getOthersPictures("public", props.page)
+        getOthersPictures("public", props.page, localStorage.getItem("loginMemberId"))
         .then( (res) => {
+            console.log(res.data)
             modelUpdate(res.data)
             .then(() => {
                 setPicture()
             })
         })
-    },[props.isMyGallery, props.page])
+    },[props.isMyGallery, props.page, galleryUpdateState])
 
     useEffect( () => {
         let publicPicturesDiv = []
@@ -45,13 +47,16 @@ const OthersGallery = (props) => {
                 <EyeImageCard
                     key={index}
                     blobName={picture.blobName}
+                    azureBlobName={picture.azureBlobName}
+                    likesBlobName={picture.likesBlobName}
                     eyeTist={picture.member}
                     title={picture.title}
                     likes={picture.likes}
                     imageLink={picture.link}
                     visibility={picture.visibility}
                     date={picture.date}
-                    isHeart={1}
+                    heart={picture.heart}
+                    setGalleryUpdateState = {setGalleryUpdateState}
                 />
             )
         })

@@ -100,8 +100,18 @@ const EyeImageCard = (props) => {
             if (!isRightEyeBlink){
 
                 if (isHeartHover){
+                    let isHeart = props.heart;
                     console.log("click Heart")
-                    setLikePicture(props.blobName, props.member, props.isHeart)
+                    if (!isHeart){
+                        isHeart = 0;
+                    }
+                    console.log(props.azureBlobName)
+                    setLikePicture(props.azureBlobName, localStorage.getItem("loginMemberId"), isHeart)
+                    .then((res) => {
+                        if(res.status === 200){
+                            props.setGalleryUpdateState(Math.random())
+                        }
+                    })
                 }
                 else{
                     console.log("click Card")
@@ -134,7 +144,7 @@ const EyeImageCard = (props) => {
             />
             {
                 props.visibility === "public" ?
-                    props.isHeart ? 
+                    props.heart ? 
                     <motion.div animate={controls} ref={heartRef} style={{width:"20px", height:"20px", fontSize:"20px", marginLeft:"15px", backgroundColor:"inherit", color:isHeartHover ? "gray" : "red"}}>
                         <AiFillHeart />
                     </motion.div>
