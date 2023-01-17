@@ -148,9 +148,7 @@ const Main = () => {
     
                     <div className="right-container">
                         <div className="cam-container" style={{height:window.innerHeight * 0.2}}>
-                            <FaceMeshCam
-                                pauseRef={pauseRef}
-                            />
+                            <FaceMeshCam />
                         </div>
 
                         <div className="detail-container">
