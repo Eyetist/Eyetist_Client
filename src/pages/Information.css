@@ -1,7 +1,15 @@
-.main-container {
-    background-color: #1E1E1E;
+.information-main-container {
+    /* background-color: #1E1E1E; */
     width: 100vw;
     height: 100vh;
+}
+
+#tsparticles {
+    background-color: rgb(16, 16, 16);
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
 }
 
 .information-top-container{
