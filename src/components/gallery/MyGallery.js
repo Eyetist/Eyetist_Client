@@ -16,6 +16,7 @@ const MyGallery = (props) => {
     let [displayPublicPictures, setDisplayPublicPictures] = useState([])
     let [privatePictureCount, setPrivatePictureCount] = useState(0)
     let [publicPictureCount, setPublicPictureCount] = useState(0)
+    let [galleryUpdateState, setGalleryUpdateState] = useState("")
 
     const privateControls = useAnimationControls()
     const publicControls = useAnimationControls()
@@ -38,7 +39,7 @@ const MyGallery = (props) => {
                 setPicture()
             })
         })
-    },[props.isMyGallery])
+    },[props.isMyGallery, galleryUpdateState])
 
     useEffect( () => {
         setPrivatePictureCount(privatePictures.length)
@@ -52,13 +53,16 @@ const MyGallery = (props) => {
                     <EyeImageCard
                         key={index}
                         blobName={picture.blobName}
+                        azureBlobName={picture.azureBlobName}
+                        likesBlobName={picture.likesBlobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
-                        isHeart={0}
+                        heart={picture.heart}
+                        setGalleryUpdateState = {setGalleryUpdateState}
                     />
                 )
             }
@@ -71,13 +75,16 @@ const MyGallery = (props) => {
                     <EyeImageCard
                         key={index}
                         blobName={picture.blobName}
+                        azureBlobName={picture.azureBlobName}
+                        likesBlobName={picture.likesBlobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
-                        isHeart={1}
+                        heart={picture.heart}
+                        setGalleryUpdateState = {setGalleryUpdateState}
                     />
                 )
             }

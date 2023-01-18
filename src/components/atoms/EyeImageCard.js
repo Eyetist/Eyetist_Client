@@ -26,9 +26,11 @@ const EyeImageCard = (props) => {
     let [thumbnailImageHeight, setThumbnailImageHeight] = useState();
     let [thumbnailImageWidth, setThumbnailImageWidth] = useState();
 
-
     let transLeft = useRef(0)
     let transTop = useRef(0)
+
+    let showDate = (props.date).split(" ")
+    showDate = showDate[1] + "/" + showDate[2] + "/" + showDate[5]
 
     function isOverlap(){
         if (buttonRef.current){
@@ -100,11 +102,18 @@ const EyeImageCard = (props) => {
             if (!isRightEyeBlink){
 
                 if (isHeartHover){
-                    console.log("click Heart")
-                    setLikePicture(props.blobName, props.member, props.isHeart)
+                    let isHeart = props.heart;
+                    if (!isHeart){
+                        isHeart = 0;
+                    }
+                    setLikePicture(props.azureBlobName, localStorage.getItem("loginMemberId"), isHeart)
+                    .then((res) => {
+                        if(res.status === 200){
+                            props.setGalleryUpdateState(Math.random())
+                        }
+                    })
                 }
                 else{
-                    console.log("click Card")
                     console.log(props)
                 }
                 clickRef.current = false
@@ -134,7 +143,7 @@ const EyeImageCard = (props) => {
             />
             {
                 props.visibility === "public" ?
-                    props.isHeart ? 
+                    props.heart ? 
                     <motion.div animate={controls} ref={heartRef} style={{width:"20px", height:"20px", fontSize:"20px", marginLeft:"15px", backgroundColor:"inherit", color:isHeartHover ? "gray" : "red"}}>
                         <AiFillHeart />
                     </motion.div>
@@ -162,8 +171,7 @@ const EyeImageCard = (props) => {
                     <></>
             }
             <div className="picture-information">
-                Date: {props.date}
-                {/* Date:  */}
+                Date: {showDate}
             </div>
         </motion.div>
     )

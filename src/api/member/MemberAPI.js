@@ -62,11 +62,34 @@ export const getMyPictures = async(userId) =>{
     return data
 }
 
-export const getOthersPictures = async (visibility, page) =>{
+export const getOthersPictures = async (visibility, page, member) =>{
     const data = await axios.get(BACK_BASE_URL + '/blob/publicImage',{
         params: {
             "visibility" : visibility, 
-            "page" : page
+            "page" : page,
+            "member" : member
+        }
+    })
+    return data;
+}
+
+export const getTopsLikesPictures = async (visibility, page, member) =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/getTopLikes',{
+        params: {
+            "visibility" : visibility, 
+            "page" : page,
+            "member" : member
+        }
+    })
+    return data;
+}
+
+export const getWeeklyLikesPictures = async (visibility, page, member) =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/getTopLikes',{
+        params: {
+            "visibility" : visibility, 
+            "page" : page,
+            "member" : member
         }
     })
     return data;
@@ -74,15 +97,6 @@ export const getOthersPictures = async (visibility, page) =>{
 
 export const getOtherPicturesCount = async () =>{
     const data = await axios.get(BACK_BASE_URL + '/blob/imageCount')
-    return data;
-}
-
-export const getLikePictureList = async (member) =>{
-    const data = await axios.get(BACK_BASE_URL + '/like/getList',{
-        params: {
-            "member" : member
-        }
-    })
     return data;
 }
 
@@ -95,7 +109,7 @@ export const setLikePicture = async(blobName, member, heart) =>{
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
         },
         data : {
-            "blobName" : blobName,
+            "likesBlobName" : blobName,
             "member" : member,
             "heart" : heart, 
         }
