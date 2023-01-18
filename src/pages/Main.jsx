@@ -48,12 +48,7 @@ const Main = () => {
                 setRatio(1);
                 const canvas = canvasRef.current;
                 const context = canvas.getContext("2d");
-                const image = new Image();
-
-                image.src = imgBuffer[bufferIdx];
-                image.onload=function(){
-                    context.drawImage(image,0,0);
-                }
+                context.drawImage(imgBuffer[bufferIdx],0,0);
 
                 canvasSavePageTrigger.current = false;
             }
@@ -110,7 +105,7 @@ const Main = () => {
                         <div style={{width: "100%", height:"100%", display:'flex', alignItems: "center", justifyContent: "center"}}>{/* backgroundColor: "#313336"}}> */}
                             <CanvasSave 
                                 setIsOpen={setCanvasSaveOpen}
-                                link={imgBuffer[bufferIdx]}
+                                link={imgBuffer[bufferIdx].src}
                             />
                         </div>
                     </div>
