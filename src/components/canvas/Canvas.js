@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
 import { useCanvas } from "./CanvasContext.js";
 import { useRecoilValue } from "recoil";
-import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN,CURRENT_FUNCTION } from '../../recoil/Atoms';
+import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN,CURRENT_FUNCTION,SELECTED_SHAPE } from '../../recoil/Atoms';
 
 export function Canvas(props) {
     let mousePos = useRecoilValue(MOUSE_POS)
@@ -11,6 +11,10 @@ export function Canvas(props) {
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let currentFunction=useRecoilValue(CURRENT_FUNCTION)
+    let selectedShape=useRecoilValue(SELECTED_SHAPE)
+    let [startPosX,setStartPosX]=useState();
+    let [startPosY,setStartPosY]=useState();
+    let [shapeImg,setShapeImg]=useState();
 
     const {
         contextRef,
@@ -20,16 +24,55 @@ export function Canvas(props) {
         fillColor,
         zoomIn,
         zoomOut,
+        ReDoAndUnDo,
+        saveImage,
     } = useCanvas();
+
+    const cursorImage = {
+        circle: require('../shapes/circle.png'),
+        square: require('../shapes/square.png'),
+        heart: require('../shapes/heart.png'),
+        triangle: require('../shapes/triangle.png')
+    }
+
+    async function drawImage(currentX,currentY){
+        contextRef.current.drawImage(shapeImg,0,0,shapeImg.width,shapeImg.height,startPosX,startPosY,currentX-startPosX,currentY-startPosY);
+    }
+
+    useEffect(()=>{
+        let Img=new Image();
+        switch(selectedShape){
+            case "circle":
+                Img.src=cursorImage.circle;
+                break;
+            case "square":
+                Img.src=cursorImage.square;
+                break;
+            case "heart":
+                Img.src=cursorImage.heart;
+                break;
+            case "triangle":
+                Img.src=cursorImage.triangle;
+                break;
+            default:
+                break;
+        }
+        setShapeImg(Img);
+    },[selectedShape])
 
     useEffect(() => {
         prepareCanvas();
-        props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
+        let lastImg=new Image();
+        lastImg.src=canvasRef.current.toDataURL();
+        lastImg.onload=function(){
+            props.setImgBuffer([...props.imgBuffer,lastImg]);
+        }
     }, []);
 
     useEffect( () => {
         let posX = (mousePos.x - (window.innerWidth / 10)) + 15;
         let posY = (mousePos.y - (window.innerHeight / 10)) + 15
+        //console.log(posY);
         
         // console.log(posX+","+posY);
         // if(posX > 0 && posY > 0 && posX < canvasRef.current.width && posY < canvasRef.current.height){
@@ -43,9 +86,7 @@ export function Canvas(props) {
                 else{
                     if(isStartDrawing.current){
                         contextRef.current.beginPath();
-                        props.setBufferIdx(props.bufferIdx+1);
-                        var buffer=[...props.imgBuffer].slice(0,props.bufferIdx+1);
-                        props.setImgBuffer([...buffer,canvasRef.current.toDataURL()]);
+                        saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer);
                     }
                     isStartDrawing.current=false;
                 }
@@ -56,10 +97,9 @@ export function Canvas(props) {
                 }
                 else{
                     if(isLock.current){
-                        fillColor(posX,posY);
-                        props.setBufferIdx(props.bufferIdx+1);
-                        var buffer=[...props.imgBuffer].slice(0,props.bufferIdx+1);
-                        props.setImgBuffer([...buffer,canvasRef.current.toDataURL()]);
+                        console.log("finish");
+                        fillColor(posX+props.canvasDivRef.current.scrollLeft,posY+props.canvasDivRef.current.scrollTop);
+                        saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer);
                     }
                     isLock.current=false;
                 }
@@ -82,6 +122,31 @@ export function Canvas(props) {
                 else{
                     if(isLock.current){
                         zoomOut(props.imgBuffer[props.bufferIdx],props.ratio,props.setRatio,props.canvasDivRef,posX,posY);
+                    }
+                    isLock.current=false;
+                }
+            }
+            else if(currentFunction==="shape"){
+                if(isRightEyeBlink&&!isMouseOpen){
+                    let currentX=posX+props.canvasDivRef.current.scrollLeft;
+                    let currentY=posY+props.canvasDivRef.current.scrollTop;
+                    if(!isLock.current){//좌표 저장
+                        setStartPosX(currentX);
+                        setStartPosY(currentY);
+                        console.log("startX:"+startPosX+"startY:"+startPosY);
+                    }
+                    isLock.current=true;
+                    ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
+                    drawImage(currentX,currentY);
+
+                }
+                else{
+                    if(isLock.current){//그리기
+                        let currentX=posX+props.canvasDivRef.current.scrollLeft;
+                        let currentY=posY+props.canvasDivRef.current.scrollTop;
+                        ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
+                        drawImage(currentX,currentY).then(
+                            saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer));
                     }
                     isLock.current=false;
                 }

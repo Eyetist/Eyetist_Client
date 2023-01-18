@@ -62,57 +62,53 @@ export const CanvasProvider = ({ children }) => {
         setLineWidth(width);
     }
 
-    const ReDoAndUnDo=(url)=>{
+     const saveImage=(setBufferIdx,bufferIdx,setImgBuffer,imgBuffer)=>{
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
-        const lastImg=new Image();
-        lastImg.src=url;
-        lastImg.onload=function(){
-            context.clearRect(0,0,canvas.width,canvas.height);
-            context.drawImage(lastImg,0,0);
+     }
+
+    const ReDoAndUnDo=(image)=>{
+        if(image){
+            const canvas=canvasRef.current;
+            const context=canvas.getContext("2d");
+            context.fillStyle="white";
+            context.fillRect(0,0,canvas.width,canvas.height);
+            context.drawImage(image,0,0);
         }
     }
 
-    const zoomIn=(url,ratio,setRatio,canvasDivRef,posX,posY)=>{
+    const zoomIn=(lastImg,ratio,setRatio,canvasDivRef,posX,posY)=>{
         if(ratio>5) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
-        const lastImg=new Image();
-        lastImg.src=url
-        lastImg.onload=function(){
-            canvas.width = window.innerWidth * 0.7*ratio*1.3;
-            canvas.height = (window.innerHeight*0.9)*ratio*1.3;
-            canvas.style.width = `${canvas.width}px`;
-            canvas.style.height = `${canvas.height}px`;
-            context.lineCap = "round";
-            context.fillStyle="white"
-            context.lineWidth=lineWidth;
-            context.fillRect(0,0,canvas.width,canvas.height);
-            context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
-            canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)*1.3-posX,(canvasDivRef.current.scrollTop+posY)*1.3-posY);
-            setRatio(ratio*1.3)
-        }
+        canvas.width = window.innerWidth * 0.7*ratio*1.3;
+        canvas.height = (window.innerHeight*0.9)*ratio*1.3;
+        canvas.style.width = `${canvas.width}px`;
+        canvas.style.height = `${canvas.height}px`;
+        context.lineCap = "round";
+        context.fillStyle="white"
+        context.lineWidth=lineWidth;
+        context.fillRect(0,0,canvas.width,canvas.height);
+        context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
+        canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)*1.3-posX,(canvasDivRef.current.scrollTop+posY)*1.3-posY);
+        setRatio(ratio*1.3)
     }
 
-    const zoomOut=(url,ratio,setRatio,canvasDivRef,posX,posY)=>{
+    const zoomOut=(lastImg,ratio,setRatio,canvasDivRef,posX,posY)=>{
         if(ratio<=1) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
-        const lastImg=new Image();
-        lastImg.src=url;
-        lastImg.onload=function(){
-            canvas.width = window.innerWidth * 0.7*ratio/1.3;
-            canvas.height = (window.innerHeight*0.9)*ratio/1.3;
-            canvas.style.width = `${canvas.width}px`;
-            canvas.style.height = `${canvas.height}px`;
-            context.lineCap = "round";
-            context.fillStyle="white"
-            context.lineWidth=lineWidth;
-            context.fillRect(0,0,canvas.width,canvas.height);
-            context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
-            canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)/1.3-posX,(canvasDivRef.current.scrollTop+posY)/1.3-posY);
-            setRatio(ratio/1.3)
-        }
+        canvas.width = window.innerWidth * 0.7*ratio/1.3;
+        canvas.height = (window.innerHeight*0.9)*ratio/1.3;
+        canvas.style.width = `${canvas.width}px`;
+        canvas.style.height = `${canvas.height}px`;
+        context.lineCap = "round";
+        context.fillStyle="white"
+        context.lineWidth=lineWidth;
+        context.fillRect(0,0,canvas.width,canvas.height);
+        context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
+        canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)/1.3-posX,(canvasDivRef.current.scrollTop+posY)/1.3-posY);
+        setRatio(ratio/1.3)
     }
 
     function hexToRgbA(hex){
@@ -229,6 +225,7 @@ export const CanvasProvider = ({ children }) => {
                 zoomIn,
                 zoomOut,
                 fillColor,
+                saveImage,
             }}
         >
         {children}

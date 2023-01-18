@@ -1,6 +1,7 @@
 import EyeButton from "../atoms/EyeButton"
 import ColorSelection from "../../components/functionDetails/ColorSelection";
 import WidthSelection from "../../components/functionDetails/WidthSelection";
+import ShapeSelection from "../../components/functionDetails/ShapeSelection";
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { CURRENT_FUNCTION } from '../../recoil/Atoms';
@@ -78,7 +79,14 @@ const ToolSelections = (props) => {
         props.setSelectedButton(
             <ColorSelection/>
         )
-    } 
+    }
+
+    function selectShape(){
+        setCurrentFunction("shape")
+        props.setSelectedButton(
+            <ShapeSelection/>
+        )
+    }
 
     return(
         <div style={{width:"100%", height:"80%", marginTop:"20%", display:"flex", flexWrap:"wrap", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
@@ -153,6 +161,16 @@ const ToolSelections = (props) => {
                 clickColor="black"
                 onClick={() => {
                     props.setCanvasSaveOpen(true)
+                }}
+            />
+
+            <EyeButton 
+                style={toolButtonStyle}
+                text="diagram"
+                hoverColor="pink"
+                clickColor="black"
+                onClick={() => {
+                    selectShape();
                 }}
             />
         </div>
