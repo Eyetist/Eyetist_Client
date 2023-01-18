@@ -1,6 +1,6 @@
 import axios from "axios"
-import { BACK_BASE_URL } from "../../Config";
 axios.defaults.withCredentials = true;
+const BACK_BASE_URL = process.env.REACT_APP_BACK_URL
 
 export const sendLogin = async(inputId, inputPw) =>{
     const data = await axios({
