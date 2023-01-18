@@ -65,9 +65,9 @@ const Information = () =>{
 
     return(
         <>
-        <Particles options={options} init={customInit} />
+        {/* <Particles options={options} init={customInit} /> */}
         <div className = "information-main-container">
-            {/* <ul className="lines">
+            <ul className="lines">
                 <li></li>
                 <li></li>
                 <li></li>
@@ -78,7 +78,7 @@ const Information = () =>{
                 <li></li>
                 <li></li>
                 <li></li>
-            </ul> */}
+            </ul>
             <EyeMouse />
             <div className="information-top-container">
                 <div className = "information-title">
