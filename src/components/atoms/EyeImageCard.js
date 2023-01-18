@@ -29,8 +29,10 @@ const EyeImageCard = (props) => {
     let transLeft = useRef(0)
     let transTop = useRef(0)
 
-    let showDate = (props.date).split(" ")
-    showDate = showDate[1] + "/" + showDate[2] + "/" + showDate[5]
+    let showDate = props.date[0] + props.date[1] + props.date[2] + props.date[3] 
+                    + "/" + props.date[4] + props.date[5]   
+                    + "/" + props.date[6] + props.date[7]
+    
 
     function isOverlap(){
         if (buttonRef.current){
