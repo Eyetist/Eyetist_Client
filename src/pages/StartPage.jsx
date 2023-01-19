@@ -82,9 +82,19 @@ const StartPage = () =>{
     };
 
     return(
-        <>
-        <Particles options={options} init={customInit} />
         <div className = "information-main-container">
+            <ul className="lines">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
             <EyeMouse />
             <div className="start-page-top-container">
                 <div className='gallery-top-buttons'>
@@ -160,7 +170,6 @@ const StartPage = () =>{
                 </div>
             </div>
         </div>
-        </>
     );
 }
 export default StartPage;
