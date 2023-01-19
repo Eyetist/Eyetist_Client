@@ -64,8 +64,6 @@ const Information = () =>{
     };
 
     return(
-        <>
-        {/* <Particles options={options} init={customInit} /> */}
         <div className = "information-main-container">
             <ul className="lines">
                 <li></li>
@@ -124,7 +122,6 @@ const Information = () =>{
                 </div>
             </div>
         </div>
-        </>
     );
 }
 export default Information;
