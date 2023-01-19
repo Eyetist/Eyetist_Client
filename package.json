@@ -23,12 +23,13 @@
     "react-tsparticles": "^2.7.1",
     "react-webcam": "^7.0.1",
     "recoil": "^0.7.6",
+    "serve": "^14.1.2",
     "tsparticles-preset-sea-anemone": "^2.7.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
