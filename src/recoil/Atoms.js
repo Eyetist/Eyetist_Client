@@ -64,3 +64,23 @@ export const SELECTED_SHAPE=atom({
     default : 'square'
 })
 
+export const SETTING_MODE =atom({
+    key : 'settingMode',
+    default: 'default'
+})
+
+export const LEFT_EYE_BLINK_VALUE = atom({
+    key : 'leftEyeBlinkValue',
+    default: {
+        left : 0.005,
+        right : 0.015
+    }
+})
+
+export const RIGHT_EYE_BLINK_VALUE = atom({
+    key : 'rightEyeBlinkValue',
+    default: {
+        left : 0.015,
+        right : 0.005
+    }
+})

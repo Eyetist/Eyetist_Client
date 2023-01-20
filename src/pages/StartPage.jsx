@@ -7,9 +7,6 @@ import EyeCard from "../components/atoms/EyeCard";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { useNavigate } from "react-router-dom";
 import './StartPage.css'
-import Particles from "react-tsparticles";
-import { loadSeaAnemonePreset } from "tsparticles-preset-sea-anemone";
-
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -36,50 +33,6 @@ const StartPage = () =>{
     let galleryContent = [
         "Access the gallery and share your images with others!"
     ]
-
-
-    const customInit = (tsParticles) => {
-        loadSeaAnemonePreset(tsParticles);
-    };
-
-    const options = {
-        preset: "seaAnemone",
-        backgroundMode: {
-            enable: true,
-            zIndex: -1,
-        },
-        particles:{
-            opacity: {
-                value: 1,
-                animation: {
-                    enable: true,
-                    minimumValue: 0,
-                    speed: 0.5,
-                    startValue: "max",
-                    destroy: "min",
-                },
-            },
-            move: {
-                enable: true,
-                outMode: "destroy",
-                random: false,
-                speed: 1,
-                straight: false
-            },
-
-            size: {
-                value: 5,
-                animation: {
-                    enable: true,
-                    minimumValue: 0,
-                    speed: 1,
-                    random: true,
-                    startValue: "max",
-                    destroy: "min",
-                },
-            },
-        },
-    };
 
     return(
         <div className = "information-main-container">

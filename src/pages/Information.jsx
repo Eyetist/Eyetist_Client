@@ -4,8 +4,6 @@ import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
 import './Information.css'
-import Particles from "react-tsparticles";
-import { loadSeaAnemonePreset } from "tsparticles-preset-sea-anemone";
 
 const Information = () =>{
     let navigate = useNavigate();
@@ -19,49 +17,6 @@ const Information = () =>{
         "Click this button to start EyeTist!",
         "An amazing world awaits you."
     ]
-
-    const customInit = (tsParticles) => {
-        loadSeaAnemonePreset(tsParticles);
-    };
-
-    const options = {
-        preset: "seaAnemone",
-        backgroundMode: {
-            enable: true,
-            zIndex: -1,
-        },
-        particles:{
-            opacity: {
-                value: 1,
-                animation: {
-                    enable: true,
-                    minimumValue: 0,
-                    speed: 0.5,
-                    startValue: "max",
-                    destroy: "min",
-                },
-            },
-            move: {
-                enable: true,
-                outMode: "destroy",
-                random: false,
-                speed: 1,
-                straight: false
-            },
-
-            size: {
-                value: 5,
-                animation: {
-                    enable: true,
-                    minimumValue: 0,
-                    speed: 1,
-                    random: true,
-                    startValue: "max",
-                    destroy: "min",
-                },
-            },
-        },
-    };
 
     return(
         <div className = "information-main-container">
@@ -117,7 +72,7 @@ const Information = () =>{
                         content={startContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {navigate('/login')}}
+                        onClick={() => {navigate('/setting')}}
                     />
                 </div>
             </div>
