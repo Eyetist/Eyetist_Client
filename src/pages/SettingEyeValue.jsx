@@ -97,9 +97,9 @@ const SettingEyeValue = () =>{
         return sum / receiveEyeValue.length
     }   
 
-    useEffect( () => {
-        console.log(receiveEyeValue)
-    }, [receiveEyeValue])
+    // useEffect( () => {
+    //     console.log(receiveEyeValue)
+    // }, [receiveEyeValue])
 
     useEffect( () => {
         console.log(seconds)
@@ -154,12 +154,12 @@ const SettingEyeValue = () =>{
         if (step.current <= 4 && clickStartButton){
             getEyeValue()
         }
-        console.log("--------------------nomal------------------")
-        console.log(nomalEyeValue)
-        console.log("--------------------left------------------")
-        console.log(leftEyeBlinkValue)
-        console.log("--------------------right------------------")
-        console.log(rightEyeBlinkValue)
+        // console.log("--------------------nomal------------------")
+        // console.log(nomalEyeValue)
+        // console.log("--------------------left------------------")
+        // console.log(leftEyeBlinkValue)
+        // console.log("--------------------right------------------")
+        // console.log(rightEyeBlinkValue)
     },[ leftEyeBlinkValue, rightEyeBlinkValue, nomalEyeValue, clickStartButton ])
 
     return(
