@@ -29,8 +29,6 @@ const WidthSelection=()=>{
         setWidth(lineWidth)
     }, [lineWidth])
 
-    console.log(lineWidth)
-
     return(
         <div style={{width:"100%", borderRadius:"10px", marginBottom:"10px"}}>
             <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
