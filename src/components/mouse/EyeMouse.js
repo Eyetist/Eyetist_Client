@@ -37,13 +37,13 @@ const EyeMouse = (props) => {
     },[seconds])
 
     useEffect( () => {  
-        if (isLeftEyeBlink && isRightEyeBlink){
+        if (isRightEyeBlink){
             reset()
         }
         else{
             pause()
         }
-    }, [isLeftEyeBlink], [isRightEyeBlink])
+    }, [isRightEyeBlink])
 
     useEffect(() => {
         switch(currentFunction){
