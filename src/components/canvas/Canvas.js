@@ -39,6 +39,29 @@ export function Canvas(props) {
         contextRef.current.drawImage(shapeImg,0,0,shapeImg.width,shapeImg.height,startPosX,startPosY,currentX-startPosX,currentY-startPosY);
     }
 
+    function save(){
+        props.setBufferIdx(props.bufferIdx+1);
+        var buffer=[...props.imgBuffer].slice(0,props.bufferIdx+1);
+        var image=new Image();
+        image.src=canvasRef.current.toDataURL();
+        image.onload=function(){
+            props.setImgBuffer([...buffer,image]);
+        }
+    }
+
+    function dragging(){
+        contextRef.current.fillStyle="white";
+        contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
+        contextRef.current.drawImage(props.imgBuffer[props.bufferIdx],0,0,props.imgBuffer[props.bufferIdx].width,props.imgBuffer[props.bufferIdx].height,0,0,canvasRef.current.width,canvasRef.current.height);
+        // let image=new Image();
+        // image.src=props.imgBuffer[props.bufferIdx];
+        // image.onload=function(){
+        //     contextRef.current.fillStyle="white";
+        //     contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
+        //     contextRef.current.drawImage(image,0,0,image.width,image.height,0,0,canvasRef.current.width,canvasRef.current.height);
+        // }
+    }
+
     useEffect(()=>{
         let Img=new Image();
         switch(selectedShape){
@@ -62,10 +85,11 @@ export function Canvas(props) {
 
     useEffect(() => {
         prepareCanvas();
-        let lastImg=new Image();
-        lastImg.src=canvasRef.current.toDataURL();
-        lastImg.onload=function(){
-            props.setImgBuffer([...props.imgBuffer,lastImg]);
+        // props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
+        var image=new Image();
+        image.src=canvasRef.current.toDataURL();
+        image.onload=function(){
+            props.setImgBuffer([...[],image]);
         }
     }, []);
 
@@ -86,7 +110,11 @@ export function Canvas(props) {
                 else{
                     if(isStartDrawing.current){
                         contextRef.current.beginPath();
-                        saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer);
+                        // saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer);
+                        // props.setBufferIdx(props.bufferIdx+1);
+                        // var buffer=[...props.imgBuffer].slice(0,props.bufferIdx+1);
+                        // props.setImgBuffer([...buffer,canvasRef.current.toDataURL()]);
+                        save();
                     }
                     isStartDrawing.current=false;
                 }
@@ -97,9 +125,8 @@ export function Canvas(props) {
                 }
                 else{
                     if(isLock.current){
-                        console.log("finish");
                         fillColor(posX+props.canvasDivRef.current.scrollLeft,posY+props.canvasDivRef.current.scrollTop);
-                        saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer);
+                        save();
                     }
                     isLock.current=false;
                 }
@@ -133,20 +160,23 @@ export function Canvas(props) {
                     if(!isLock.current){//좌표 저장
                         setStartPosX(currentX);
                         setStartPosY(currentY);
-                        console.log("startX:"+startPosX+"startY:"+startPosY);
                     }
                     isLock.current=true;
-                    ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
-                    drawImage(currentX,currentY);
+                    // ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
+                    dragging();
+                    contextRef.current.drawImage(shapeImg,0,0,shapeImg.width,shapeImg.height,startPosX,startPosY,currentX-startPosX,currentY-startPosY);
 
                 }
                 else{
                     if(isLock.current){//그리기
                         let currentX=posX+props.canvasDivRef.current.scrollLeft;
                         let currentY=posY+props.canvasDivRef.current.scrollTop;
-                        ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
-                        drawImage(currentX,currentY).then(
-                            saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer));
+                        // ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
+                        dragging();
+                        drawImage(currentX,currentY).then(()=>{
+                            save();
+                            // canvasRef.current.re
+                        });
                     }
                     isLock.current=false;
                 }

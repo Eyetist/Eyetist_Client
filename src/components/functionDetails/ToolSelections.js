@@ -57,6 +57,7 @@ const ToolSelections = (props) => {
         if(props.bufferIdx>0){
             ReDoAndUnDo(props.imgBuffer[props.bufferIdx-1]);
             props.setBufferIdx(props.bufferIdx-1);
+            console.log(props.bufferIdx);
         }
     }
 
@@ -64,6 +65,7 @@ const ToolSelections = (props) => {
         if(props.bufferIdx<props.imgBuffer.length-1){
             ReDoAndUnDo(props.imgBuffer[props.bufferIdx+1]);
             props.setBufferIdx(props.bufferIdx+1);
+            console.log(props.bufferIdx);
         }
     }
 

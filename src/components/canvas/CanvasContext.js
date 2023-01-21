@@ -64,20 +64,28 @@ export const CanvasProvider = ({ children }) => {
 
     const saveImage=(setBufferIdx,bufferIdx,setImgBuffer,imgBuffer)=>{
         const canvas=canvasRef.current;
-        const context=canvas.getContext("2d");
-    }
+        setBufferIdx(bufferIdx+1);
+        var buffer=[imgBuffer].slice(0,bufferIdx+1);
+        setImgBuffer([...buffer,canvas.toDataURL()]);
+     }
 
     const ReDoAndUnDo=(image)=>{
-        if(image){
             const canvas=canvasRef.current;
             const context=canvas.getContext("2d");
             context.fillStyle="white";
             context.fillRect(0,0,canvas.width,canvas.height);
-            context.drawImage(image,0,0);
-        }
+            context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
+            // let image=new Image();
+            // image.src=url;
+            // image.onload=function(){
+            //     context.fillStyle="white";
+            //     context.fillRect(0,0,canvas.width,canvas.height);
+            //     context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
+            // }
+        
     }
 
-    const zoomIn=(lastImg,ratio,setRatio,canvasDivRef,posX,posY)=>{
+    const zoomIn=(image,ratio,setRatio,canvasDivRef,posX,posY)=>{
         if(ratio>5) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
@@ -89,12 +97,21 @@ export const CanvasProvider = ({ children }) => {
         context.fillStyle="white"
         context.lineWidth=lineWidth;
         context.fillRect(0,0,canvas.width,canvas.height);
-        context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
+        console.log(image.width);
+        context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
         canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)*1.3-posX,(canvasDivRef.current.scrollTop+posY)*1.3-posY);
         setRatio(ratio*1.3)
+        // let image=new Image();
+        // image.src=url;
+        // image.onload=function(){
+        //     context.fillRect(0,0,canvas.width,canvas.height);
+        //     context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
+        //     canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)*1.3-posX,(canvasDivRef.current.scrollTop+posY)*1.3-posY);
+        //     setRatio(ratio*1.3)
+        // }
     }
 
-    const zoomOut=(lastImg,ratio,setRatio,canvasDivRef,posX,posY)=>{
+    const zoomOut=(image,ratio,setRatio,canvasDivRef,posX,posY)=>{
         if(ratio<=1) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
@@ -106,9 +123,17 @@ export const CanvasProvider = ({ children }) => {
         context.fillStyle="white"
         context.lineWidth=lineWidth;
         context.fillRect(0,0,canvas.width,canvas.height);
-        context.drawImage(lastImg,0,0,lastImg.width,lastImg.height,0,0,canvas.width,canvas.height);
+        context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
         canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)/1.3-posX,(canvasDivRef.current.scrollTop+posY)/1.3-posY);
         setRatio(ratio/1.3)
+        // let image=new Image();
+        // image.src=url;
+        // image.onload=function(){
+        //     context.fillRect(0,0,canvas.width,canvas.height);
+        //     context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
+        //     canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)/1.3-posX,(canvasDivRef.current.scrollTop+posY)/1.3-posY);
+        //     setRatio(ratio/1.3)
+        // }
     }
 
     function hexToRgbA(hex){
