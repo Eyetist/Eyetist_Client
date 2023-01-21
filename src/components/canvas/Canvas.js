@@ -102,7 +102,7 @@ export function Canvas(props) {
         // if(posX > 0 && posY > 0 && posX < canvasRef.current.width && posY < canvasRef.current.height){
         if(posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight - 70){
             if(currentFunction==="draw"||currentFunction==="erase"){
-                if(isLeftEyeBlink && !isRightEyeBlink && !isMouseOpen){
+                if(isLeftEyeBlink && !isMouseOpen && !props.smartToolsOpen){
                     isStartDrawing.current = true;
                     contextRef.current.lineTo(posX+props.canvasDivRef.current.scrollLeft, posY+props.canvasDivRef.current.scrollTop);
                     contextRef.current.stroke();
@@ -120,7 +120,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="fill"){
-                if(isRightEyeBlink&&!isMouseOpen){
+                if(isLeftEyeBlink&&!isMouseOpen&& !props.smartToolsOpen){
                     isLock.current=true;
                 }
                 else{
@@ -132,7 +132,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="zoom in"){
-                if(isRightEyeBlink&&!isMouseOpen){
+                if(isLeftEyeBlink&&!isMouseOpen){
                     isLock.current=true;
                 }
                 else{
@@ -143,7 +143,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="zoom out"){
-                if(isRightEyeBlink&&!isMouseOpen){
+                if(isLeftEyeBlink&&!isMouseOpen){
                     isLock.current=true;
                 }
                 else{
@@ -154,7 +154,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="shape"){
-                if(isRightEyeBlink&&!isMouseOpen){
+                if(isLeftEyeBlink&&!isMouseOpen){
                     let currentX=posX+props.canvasDivRef.current.scrollLeft;
                     let currentY=posY+props.canvasDivRef.current.scrollTop;
                     if(!isLock.current){//좌표 저장

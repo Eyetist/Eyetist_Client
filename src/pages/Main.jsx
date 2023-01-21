@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { CURRENT_FUNCTION,WINDOW_SIZE } from '../recoil/Atoms';
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CURRENT_FUNCTION,WINDOW_SIZE, STROKE_COLOR, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE } from '../recoil/Atoms';
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
 import { useCanvas } from "../components/canvas/CanvasContext";
@@ -28,6 +28,7 @@ const Main = () => {
     let canvasDivRef=useRef(null);
     let setWindowSize=useSetRecoilState(WINDOW_SIZE);
     let [smartToolsOpen, setSmartToolsOpen] = useState(false)
+    let setStrokeColor = useSetRecoilState(STROKE_COLOR)
 
     // window.addEventListener('resize',function(){
     //     setWindowSize({width:window.innerWidth,height:window.innerHeight})
@@ -44,10 +45,7 @@ const Main = () => {
         if (!localStorage.getItem('loginMemberId') && navigate){
             navigate('/login')
         }
-        // window.addEventListener('resize',handleResize);
-        // return()=>{
-        //     window.removeEventListener('resize',handleResize);
-        // }
+        setStrokeColor("black")
     }, [])
 
     useEffect( () => {
@@ -73,6 +71,7 @@ const Main = () => {
             <EyeMouse 
                 SmartToolsPosition = {SmartToolsPosition}
                 setSmartToolsOpen = {setSmartToolsOpen}
+                smartToolsOpen = {smartToolsOpen}
             />
             {
                 smartToolsOpen ?
@@ -102,7 +101,7 @@ const Main = () => {
                             width = "200px"
                             height = "10px"
                         />
-                    </div>
+                    </div>                    
                 </div>
                 <div style={{display:"flex", height:"100%", width:"20%", alignItems: "center"}}>
                     <MoveSelections 
@@ -151,6 +150,8 @@ const Main = () => {
                             ratio={ratio}
                             setRatio={setRatio}
                             canvasDivRef={canvasDivRef}
+
+                            smartToolsOpen = {smartToolsOpen}
                         />
                     </div>
     

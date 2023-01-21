@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import EyeMouse from "../components/mouse/EyeMouse";
@@ -6,10 +6,8 @@ import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { useNavigate } from "react-router-dom";
+import { useStopwatch } from 'react-timer-hook';
 import './StartPage.css'
-import Particles from "react-tsparticles";
-import { loadSeaAnemonePreset } from "tsparticles-preset-sea-anemone";
-
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -23,6 +21,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const StartPage = () =>{
     let navigate = useNavigate();
     const [openTutorial, setOpenTutorial] = useState(false)
+    const {seconds} = useStopwatch({ autoStart: true });
 
     let tutorialContent = [
         "Before we get started, We provide tutorial",
@@ -37,54 +36,24 @@ const StartPage = () =>{
         "Access the gallery and share your images with others!"
     ]
 
-
-    const customInit = (tsParticles) => {
-        loadSeaAnemonePreset(tsParticles);
-    };
-
-    const options = {
-        preset: "seaAnemone",
-        backgroundMode: {
-            enable: true,
-            zIndex: -1,
-        },
-        particles:{
-            opacity: {
-                value: 1,
-                animation: {
-                    enable: true,
-                    minimumValue: 0,
-                    speed: 0.5,
-                    startValue: "max",
-                    destroy: "min",
-                },
-            },
-            move: {
-                enable: true,
-                outMode: "destroy",
-                random: false,
-                speed: 1,
-                straight: false
-            },
-
-            size: {
-                value: 5,
-                animation: {
-                    enable: true,
-                    minimumValue: 0,
-                    speed: 1,
-                    random: true,
-                    startValue: "max",
-                    destroy: "min",
-                },
-            },
-        },
-    };
+    useEffect( () => {
+        console.log(seconds)
+    }, [seconds])
 
     return(
-        <>
-        <Particles options={options} init={customInit} />
         <div className = "information-main-container">
+            <ul className="lines">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
             <EyeMouse />
             <div className="start-page-top-container">
                 <div className='gallery-top-buttons'>
@@ -116,10 +85,12 @@ const StartPage = () =>{
                         hoverColor="#f46969"
                         clickColor="#f45555"
                         onClick={() => {
-                            setOpenTutorial(true);
-                            setTimeout(function(){
-                                setOpenTutorial(false);
-                            }, 1500)
+                            if (seconds > 1){
+                                setOpenTutorial(true);
+                                setTimeout(function(){
+                                    setOpenTutorial(false);
+                                }, 1500)
+                            }
                         }}
                     />
                     <EyeCard 
@@ -135,7 +106,11 @@ const StartPage = () =>{
                         content={paintContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {navigate('/paint')}}
+                        onClick={() => {
+                            if (seconds > 1){
+                                navigate('/paint')
+                            }
+                        }}
                     />
                     <EyeCard 
                         style={{
@@ -150,7 +125,11 @@ const StartPage = () =>{
                         content={galleryContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {navigate('/gallery')}}
+                        onClick={() => {
+                            if (seconds > 1){
+                                navigate('/gallery')
+                            }
+                        }}
                     />
                     <BootstrapDialog
                             aria-labelledby="customized-dialog-title"
@@ -160,7 +139,6 @@ const StartPage = () =>{
                 </div>
             </div>
         </div>
-        </>
     );
 }
 export default StartPage;

@@ -62,7 +62,7 @@ export const CanvasProvider = ({ children }) => {
         setLineWidth(width);
     }
 
-     const saveImage=(setBufferIdx,bufferIdx,setImgBuffer,imgBuffer)=>{
+    const saveImage=(setBufferIdx,bufferIdx,setImgBuffer,imgBuffer)=>{
         const canvas=canvasRef.current;
         setBufferIdx(bufferIdx+1);
         var buffer=[imgBuffer].slice(0,bufferIdx+1);
