@@ -9,6 +9,10 @@ import { useStopwatch } from 'react-timer-hook';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import { AiFillCheckCircle } from "react-icons/ai"
+import { CiFaceSmile } from "react-icons/ci"
+import { FaGrinWink } from "react-icons/fa" //right
+import { ImWink2 } from "react-icons/im" //left 
+import { TbRotate2 } from "react-icons/tb"
 import './SettingEyeValue.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -54,23 +58,23 @@ const SettingEyeValue = () =>{
     ]
 
     let firstStep = [
-        "양쪽눈을 뜬 상태로 화면을 5초간 응시해주세요",
+        "양쪽눈을 뜬 상태로 화면을 3초간 응시해주세요",
     ]
     let secondStep = [
-        "왼쪽눈만 감은 상태로 화면을 5초간 응시해주세요",
+        "왼쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 3초간 응시해주세요",
     ]
     let thirdStep = [
-        "오른쪽눈만 감은 상태로 화면을 5초간 응시해주세요",
+        "오른쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 3초간 응시해주세요",
     ]
 
     function getEyeValue(){
+        reset()
         if(!isStart.current, !openGazeTimer){
-            reset()
             setReceiveEyeValue([])
             setOpenGazeTimer(true)
             setTimeout(function(){
                 setOpenGazeTimer(false);
-            }, 4999)
+            }, 5000)
             isStart.current = true
         }
         else{
@@ -78,6 +82,7 @@ const SettingEyeValue = () =>{
             setTimeout(function(){
                 setOpenGazeTimer(false);
             }, 2000)
+
         }
     }
 
@@ -97,10 +102,6 @@ const SettingEyeValue = () =>{
         return sum / receiveEyeValue.length
     }   
 
-    // useEffect( () => {
-    //     console.log(receiveEyeValue)
-    // }, [receiveEyeValue])
-
     useEffect( () => {
         console.log(seconds)
         if (seconds > 4){
@@ -113,19 +114,19 @@ const SettingEyeValue = () =>{
             leftValue = getEyeValueAverage(0)
             rightValue = getEyeValueAverage(1)
 
-            if (leftValue < 0.005){
-                leftValue = 0.005
-            }
-            else{
-                leftValue = leftValue * 1.5
-            }
+            // if (leftValue < 0.01){
+            //     leftValue = 0.01
+            // }
+            // else{
+            //     leftValue = leftValue
+            // }
 
-            if (rightValue < 0.005){
-                rightValue = 0.005
-            }
-            else{
-                rightValue = rightValue * 1.5
-            }
+            // if (rightValue < 0.01){
+            //     rightValue = 0.01
+            // }
+            // else{
+            //     rightValue = rightValue
+            // }
             switch(step.current){
                 case 1:
                     setNomalEyeValue({
@@ -136,12 +137,12 @@ const SettingEyeValue = () =>{
                 case 2: // 왼쪽눈 감은상태
                     setLeftEyeBlinkValue({
                         left : leftValue,
-                        right : rightValue
+                        right : rightValue * 0.8
                     })
                     break
                 case 3: // 오른쪽눈 감은상태
                     setRightEyeBlinkValue({
-                        left : leftValue,
+                        left : leftValue * 0.8,
                         right : rightValue
                     })
                     break
@@ -154,12 +155,6 @@ const SettingEyeValue = () =>{
         if (step.current <= 4 && clickStartButton){
             getEyeValue()
         }
-        // console.log("--------------------nomal------------------")
-        // console.log(nomalEyeValue)
-        // console.log("--------------------left------------------")
-        // console.log(leftEyeBlinkValue)
-        // console.log("--------------------right------------------")
-        // console.log(rightEyeBlinkValue)
     },[ leftEyeBlinkValue, rightEyeBlinkValue, nomalEyeValue, clickStartButton ])
 
     return(
@@ -171,13 +166,13 @@ const SettingEyeValue = () =>{
             >
                 {
                     step.current === 1 ?
-                    "양쪽눈을 뜬 상태로 화면을 5초간 응시해주세요"
+                    `양쪽눈을 뜬 상태로 화면을 ${5-seconds}초간 응시해주세요` 
                     :
                     step.current === 2 ?
-                    "왼쪽눈만 감은 상태로 화면을 5초간 응시해주세요"
+                    `왼쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 ${5-seconds}초간 응시해주세요`
                     :
                     step.current === 3 ?
-                    "오른쪽눈만 감은 상태로 화면을 5초간 응시해주세요"
+                    `오른쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 ${5-seconds}초간 응시해주세요`
                     :
                     "커스텀 셋팅이 완료되었습니다."
                 }
@@ -233,7 +228,9 @@ const SettingEyeValue = () =>{
                             hoverColor="#f46969"
                             clickColor="#f45555"
                             onClick={() => {
-                                navigate('/setting')
+                                if (!clickStartButton || step.current > 3){
+                                    navigate('/setting')
+                                }
                             }}
                         />
                         <EyeCard 
@@ -248,8 +245,10 @@ const SettingEyeValue = () =>{
                             hoverColor="#f46969"
                             clickColor="#f45555"
                             onClick={() => {
-                                step.current = 1
-                                setClickStartButton(true)
+                                if (!clickStartButton){
+                                    step.current = 1
+                                    setClickStartButton(true)
+                                }
                             }}
                         />
                     </div>

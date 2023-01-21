@@ -126,14 +126,14 @@ function FaceMeshCam(props) {
                     // console.log("right: " + String(right_eye[0] - right_eye[1]))
                     // console.log("------------------------------------------------------")
                 }
-                if (left_eye[0] - left_eye[1] < leftEyeBlinkValue.left){ // 왼쪽 눈 클릭
+                if (left_eye[0] - left_eye[1] < rightEyeBlinkValue.left){ // 왼쪽 눈 클릭
                     setIsLeftEyeBlink(true)
                 }
                 else{
                     setIsLeftEyeBlink(false)
                 }
 
-                if (right_eye[0] - right_eye[1] < rightEyeBlinkValue.right){ // 오른쪽 눈 클릭
+                if (right_eye[0] - right_eye[1] < leftEyeBlinkValue.right){ // 오른쪽 눈 클릭
                     setIsRightEyeBlick(true)
                 }
                 else{

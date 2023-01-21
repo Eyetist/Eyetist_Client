@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
+import { useStopwatch } from 'react-timer-hook';
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { SETTING_MODE } from "../recoil/Atoms";
@@ -11,6 +12,7 @@ import './Setting.css'
 const Setting = () =>{
     let navigate = useNavigate();
     let [settingMode, setSettingMode] = useRecoilState(SETTING_MODE)
+    const {seconds} = useStopwatch({ autoStart: true });
 
     let defaultSettingContent = [
         "Enjoy the Eyetist with a preset setting",
@@ -57,36 +59,38 @@ const Setting = () =>{
                             style={{
                                 width: "90%",
                                 height: "45%",
-                                backgroundColor: settingMode === "default" ? "#f46969" : "grey",
+                                backgroundColor: settingMode === "custom" ? "#f46969" : "grey",
                                 borderRadius: "20px",
                                 marginLeft: "30px",
                                 marginRight: "30px",
                                 marginBottom: "5%"
                             }}
-                            title="< Default Setting >"
-                            content={defaultSettingContent}
-                            hoverColor="#f46969"
+                            title="< Custom Setting >"
+                            content={customSettingContent}
+                            hoverColor={settingMode === "custom" ? "#f46969" : "grey"}
                             clickColor="#f45555"
                             onClick={() => {
-                                setSettingMode("default")
+                                if (seconds > 1){
+                                    setSettingMode("custom")
+                                    navigate('/setting/eye')
+                                }
                             }}
                         />
                         <EyeCard 
                             style={{
                                 width: "90%",
                                 height: "45%",
-                                backgroundColor: settingMode === "custom" ? "#f46969" : "grey",
+                                backgroundColor: settingMode === "default" ? "#f46969" : "grey",
                                 borderRadius: "20px",
                                 marginLeft: "30px",
-                                marginRight: "30px"
+                                marginRight: "30px",
                             }}
-                            title="< Custom Setting >"
-                            content={customSettingContent}
-                            hoverColor="#f46969"
+                            title="< Default Setting >"
+                            content={defaultSettingContent}
+                            hoverColor={settingMode === "default" ? "#f46969" : "grey"}
                             clickColor="#f45555"
                             onClick={() => {
-                                setSettingMode("custom")
-                                navigate('/setting/eye')
+                                setSettingMode("default")
                             }}
                         />
                     </div>
@@ -103,7 +107,11 @@ const Setting = () =>{
                         content={loginContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {navigate('/login')}}
+                        onClick={() => {
+                            if (seconds > 1){
+                                navigate('/login')
+                            }
+                        }}
                     />
                 </div>
             </div>

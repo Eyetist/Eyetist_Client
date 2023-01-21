@@ -1,3 +1,4 @@
+import React, {useState} from "react";
 import EyeButton from "../atoms/EyeButton"
 import ColorSelection from "./ColorSelection";
 import { useSetRecoilState } from "recoil";
@@ -10,6 +11,7 @@ import { BiLogOut } from "react-icons/bi"
 import { FaRedoAlt, FaUndoAlt } from "react-icons/fa"
 import { RiEraserFill, RiCloseCircleFill } from "react-icons/ri"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill } from "react-icons/bs"
+import { IoColorPalette } from "react-icons/io5"
 
 const TOOL_BUTTON_SIZE = window.innerWidth * 0.04
 const TOOL_BUTTON_FONT_SIZE = window.innerWidth * 0.02
@@ -30,6 +32,7 @@ const toolButtonStyle = {
 const SmartTools = (props) => {
     const {clearCanvas, setDrawMode, setEraseMode, ReDoAndUnDo } = useCanvas()
     let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
+    let [isPaletteMode, setIsPaletteMode] = useState(false)
     let navigate = useNavigate();
 
     const toolContainerStyle = {
@@ -43,7 +46,7 @@ const SmartTools = (props) => {
     }
 
     function goBack(){
-        navigate('/begin')
+        navigate('/setting')
     }
 
     function logOut(){
@@ -101,98 +104,109 @@ const SmartTools = (props) => {
 
     return(
         <div style={toolContainerStyle}>
-            <div style={{border: "1px solid #B4A5A5", borderRadius:"30px", paddingRight:"10px"}}>
-                <div style={{display:'flex'}}>
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<BiRefresh />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {clearCanvas(props.setImgBuffer,props.imgBuffer,props.setBufferIdx,props.bufferIdx)}}
-                    />
-
-                    <EyeButton id="draw"
-                        style={toolButtonStyle}
-                        text={<BsPencilFill />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {selectDraw()}}
-                    />
+            {
+                isPaletteMode ?
+                <div style={{border: "1px solid #B4A5A5", borderRadius:"30px", backgroundColor:"black"}}>
+                    <ColorSelection/>
                 </div>
+                :
+                <div style={{border: "1px solid #B4A5A5", borderRadius:"30px", paddingRight:"10px"}}>
+                    <div style={{display:'flex'}}>
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<BiRefresh />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {clearCanvas(props.setImgBuffer,props.imgBuffer,props.setBufferIdx,props.bufferIdx)}}
+                        />
+                    </div>
+                    <div style={{display:'flex'}}>
+                        <EyeButton id="draw"
+                            style={toolButtonStyle}
+                            text={<BsPencilFill />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {selectDraw()}}
+                        />
 
-                <div style={{display:'flex'}}>
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<BsPaintBucket />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {selectFill()}}
-                    />
+                        <EyeButton
+                            style={toolButtonStyle}
+                            text={<IoColorPalette />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {setIsPaletteMode(true)}}
+                        />
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<BsPaintBucket />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {selectFill()}}
+                        />
 
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<RiEraserFill />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {selectErase()}}
-                    />
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<RiEraserFill />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {selectErase()}}
+                        />
+                    </div>
+
+                    <div style={{display:'flex'}}>
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<FaUndoAlt />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {selectUndo()}}
+                        />
+
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<FaRedoAlt />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {selectRedo()}}
+                        />
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<BsZoomIn />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {zoomIn()}}
+                        />
+
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<BsZoomOut />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {zoomOut()}}
+                        />
+                    </div>
+                    <div style={{display:'flex'}}>
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<BsFillSave2Fill />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {
+                                props.setCanvasSaveOpen(true)
+                                props.setSmartToolsOpen(false)
+                            }}
+                        />
+
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<RiCloseCircleFill />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {props.setSmartToolsOpen(false)}}
+                        />
+                    </div>
                 </div>
-
-                <div style={{display:'flex'}}>
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<FaUndoAlt />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {selectUndo()}}
-                    />
-
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<FaRedoAlt />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {selectRedo()}}
-                    />
-                </div>
-                <div style={{display:'flex'}}>
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<BsZoomIn />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {zoomIn()}}
-                    />
-
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<BsZoomOut />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {zoomOut()}}
-                    />
-                </div>
-                <div style={{display:'flex'}}>
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<BsFillSave2Fill />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {
-                            props.setCanvasSaveOpen(true)
-                            props.setSmartToolsOpen(false)
-                        }}
-                    />
-
-                    <EyeButton 
-                        style={toolButtonStyle}
-                        text={<RiCloseCircleFill />}
-                        hoverColor="pink"
-                        clickColor="black"
-                        onClick={() => {props.setSmartToolsOpen(false)}}
-                    />
-                </div>
-            </div>
+            }
             <div style={{border: "1px solid #B4A5A5", borderRadius:"30px", paddingRight:"10px"}}>
                 <div style={{display:'flex'}}>
                     <EyeButton 
@@ -211,6 +225,18 @@ const SmartTools = (props) => {
                         onClick={() => {logOut()}}
                     />
                 </div>
+                {
+                    isPaletteMode ?
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<RiCloseCircleFill />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {props.setSmartToolsOpen(false)}}
+                        />
+                    :
+                        <></>
+                }
             </div>
         </div>
     )

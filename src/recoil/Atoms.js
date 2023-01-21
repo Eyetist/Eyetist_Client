@@ -10,7 +10,7 @@ export const MOUSE_POS = atom({
 
 export const MOUSE_SENSITIVITY = atom({
 	key : 'mouseSensitivity',
-    default : 1
+    default : 5
 });
 
 export const IS_LEFT_EYE_BLINK = atom({
@@ -73,14 +73,14 @@ export const LEFT_EYE_BLINK_VALUE = atom({
     key : 'leftEyeBlinkValue',
     default: {
         left : 0.005,
-        right : 0.015
+        right : 0.01
     }
 })
 
 export const RIGHT_EYE_BLINK_VALUE = atom({
     key : 'rightEyeBlinkValue',
     default: {
-        left : 0.015,
+        left : 0.01,
         right : 0.005
     }
 })

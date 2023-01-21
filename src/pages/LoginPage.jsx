@@ -56,6 +56,7 @@ const LoginPage = () =>{
     }
 
     useEffect( () => {
+        localStorage.setItem('loginMemberId', "test")
         if (localStorage.getItem('loginMemberId') && navigate){
             navigate('/begin')
         }

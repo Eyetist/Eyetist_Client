@@ -62,10 +62,10 @@ export const CanvasProvider = ({ children }) => {
         setLineWidth(width);
     }
 
-     const saveImage=(setBufferIdx,bufferIdx,setImgBuffer,imgBuffer)=>{
+    const saveImage=(setBufferIdx,bufferIdx,setImgBuffer,imgBuffer)=>{
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
-     }
+    }
 
     const ReDoAndUnDo=(image)=>{
         if(image){
