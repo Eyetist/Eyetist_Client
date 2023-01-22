@@ -75,11 +75,15 @@ export function Canvas(props) {
 
     useEffect(() => {
         prepareCanvas(props.ratio);
-        // props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
-        var image=new Image();
-        image.src=canvasRef.current.toDataURL();
-        image.onload=function(){
-            props.setImgBuffer([...[],image]);
+        if(props.imgBuffer.length>0){
+            contextRef.current.drawImage(props.imgBuffer[props.bufferIdx],0,0,props.imgBuffer[props.bufferIdx].width,props.imgBuffer[props.bufferIdx].height,0,0,canvasRef.current.width,canvasRef.current.height);
+        }
+        else{
+            var image=new Image();
+            image.src=canvasRef.current.toDataURL();
+            image.onload=function(){
+                props.setImgBuffer([...[],image]);
+            }
         }
     }, []);
 

@@ -71,18 +71,11 @@ export const CanvasProvider = ({ children }) => {
      }
 
     const ReDoAndUnDo=(image)=>{
-            const canvas=canvasRef.current;
-            const context=canvas.getContext("2d");
-            context.fillStyle="white";
-            context.fillRect(0,0,canvas.width,canvas.height);
-            context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
-            // let image=new Image();
-            // image.src=url;
-            // image.onload=function(){
-            //     context.fillStyle="white";
-            //     context.fillRect(0,0,canvas.width,canvas.height);
-            //     context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
-            // }
+        const canvas=canvasRef.current;
+        const context=canvas.getContext("2d");
+        context.fillStyle="white";
+        context.fillRect(0,0,canvas.width,canvas.height);
+        context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
         
     }
 
