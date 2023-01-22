@@ -30,22 +30,23 @@ const Main = () => {
     let [smartToolsOpen, setSmartToolsOpen] = useState(false)
     let setStrokeColor = useSetRecoilState(STROKE_COLOR)
 
-    // window.addEventListener('resize',function(){
-    //     setWindowSize({width:window.innerWidth,height:window.innerHeight})
-    //     console.log("resize")});
 
     const handleResize=()=>{
         let width=window.innerWidth;
         let height=window.innerHeight;
         setWindowSize({width:width,height:height})
-        console.log('resize');
     }
 
     useEffect( () => {
         if (!localStorage.getItem('loginMemberId') && navigate){
             navigate('/login')
         }
-        setStrokeColor("black")
+        setStrokeColor("#000000")
+        window.addEventListener('resize',handleResize);
+        handleResize();
+        return()=>{
+            window.removeEventListener('resize',handleResize);
+        }
     }, [])
 
     useEffect( () => {
@@ -59,8 +60,6 @@ const Main = () => {
                 const canvas = canvasRef.current;
                 const context = canvas.getContext("2d");
                 context.drawImage(imgBuffer[bufferIdx],0,0,imgBuffer[bufferIdx].width,imgBuffer[bufferIdx].height,0,0,canvas.width,canvas.height);
-                console.log(imgBuffer);
-                console.log(bufferIdx);
                 canvasSavePageTrigger.current = false;
             }
         }

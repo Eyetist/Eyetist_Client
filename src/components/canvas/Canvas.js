@@ -20,12 +20,9 @@ export function Canvas(props) {
         contextRef,
         canvasRef,
         prepareCanvas,
-        storeCanvas,
         fillColor,
         zoomIn,
         zoomOut,
-        ReDoAndUnDo,
-        saveImage,
     } = useCanvas();
 
     const cursorImage = {
@@ -50,16 +47,9 @@ export function Canvas(props) {
     }
 
     function dragging(){
-        contextRef.current.fillStyle="white";
-        contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
-        contextRef.current.drawImage(props.imgBuffer[props.bufferIdx],0,0,props.imgBuffer[props.bufferIdx].width,props.imgBuffer[props.bufferIdx].height,0,0,canvasRef.current.width,canvasRef.current.height);
-        // let image=new Image();
-        // image.src=props.imgBuffer[props.bufferIdx];
-        // image.onload=function(){
-        //     contextRef.current.fillStyle="white";
-        //     contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
-        //     contextRef.current.drawImage(image,0,0,image.width,image.height,0,0,canvasRef.current.width,canvasRef.current.height);
-        // }
+            contextRef.current.fillStyle="white";
+            contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
+            contextRef.current.drawImage(props.imgBuffer[props.bufferIdx],0,0,props.imgBuffer[props.bufferIdx].width,props.imgBuffer[props.bufferIdx].height,0,0,canvasRef.current.width,canvasRef.current.height);
     }
 
     useEffect(()=>{
@@ -84,7 +74,7 @@ export function Canvas(props) {
     },[selectedShape])
 
     useEffect(() => {
-        prepareCanvas();
+        prepareCanvas(props.ratio);
         // props.setImgBuffer([...props.imgBuffer,canvasRef.current.toDataURL()]);
         var image=new Image();
         image.src=canvasRef.current.toDataURL();
@@ -100,9 +90,9 @@ export function Canvas(props) {
         
         // console.log(posX+","+posY);
         // if(posX > 0 && posY > 0 && posX < canvasRef.current.width && posY < canvasRef.current.height){
-        if(posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight - 70){
+        if(posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight*0.9 && posX<canvasRef.current.width &&posY<canvasRef.current.height){
             if(currentFunction==="draw"||currentFunction==="erase"){
-                if(isLeftEyeBlink && !isMouseOpen && !props.smartToolsOpen){
+                if( isMouseOpen && !props.smartToolsOpen){
                     isStartDrawing.current = true;
                     contextRef.current.lineTo(posX+props.canvasDivRef.current.scrollLeft, posY+props.canvasDivRef.current.scrollTop);
                     contextRef.current.stroke();
@@ -154,18 +144,18 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="shape"){
-                if(isLeftEyeBlink&&!isMouseOpen){
+                if(isMouseOpen){
                     let currentX=posX+props.canvasDivRef.current.scrollLeft;
                     let currentY=posY+props.canvasDivRef.current.scrollTop;
                     if(!isLock.current){//좌표 저장
                         setStartPosX(currentX);
                         setStartPosY(currentY);
                     }
+                    else{
+                        dragging();
+                        contextRef.current.drawImage(shapeImg,0,0,shapeImg.width,shapeImg.height,startPosX,startPosY,currentX-startPosX,currentY-startPosY);
+                    }
                     isLock.current=true;
-                    // ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
-                    dragging();
-                    contextRef.current.drawImage(shapeImg,0,0,shapeImg.width,shapeImg.height,startPosX,startPosY,currentX-startPosX,currentY-startPosY);
-
                 }
                 else{
                     if(isLock.current){//그리기

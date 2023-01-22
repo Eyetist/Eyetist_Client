@@ -1,19 +1,20 @@
 import React, { useContext, useRef,useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { STROKE_COLOR,LINE_WIDTH } from '../../recoil/Atoms';
+import { STROKE_COLOR,LINE_WIDTH,WINDOW_SIZE } from '../../recoil/Atoms';
 
 const CanvasContext = React.createContext();
 
 export const CanvasProvider = ({ children }) => {
     let strokeColor = useRecoilValue(STROKE_COLOR)
     let [lineWidth, setLineWidth]=useRecoilState(LINE_WIDTH);
+    let windowSize=useRecoilValue(WINDOW_SIZE);
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
     
-    const prepareCanvas = () => {
+    const prepareCanvas = (ratio) => {
         const canvas = canvasRef.current
-        canvas.width = window.innerWidth * 0.7;
-        canvas.height = window.innerHeight*0.9;
+        canvas.width = 1008 *ratio;
+        canvas.height = 716*ratio;
         canvas.style.width = `${canvas.width}px`;
         canvas.style.height = `${canvas.height}px`;
 
@@ -89,34 +90,25 @@ export const CanvasProvider = ({ children }) => {
         if(ratio>5) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
-        canvas.width = window.innerWidth * 0.7*ratio*1.3;
-        canvas.height = (window.innerHeight*0.9)*ratio*1.3;
+        canvas.width = 1008*ratio*1.3;
+        canvas.height = (716)*ratio*1.3;
         canvas.style.width = `${canvas.width}px`;
         canvas.style.height = `${canvas.height}px`;
         context.lineCap = "round";
         context.fillStyle="white"
         context.lineWidth=lineWidth;
         context.fillRect(0,0,canvas.width,canvas.height);
-        console.log(image.width);
         context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
         canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)*1.3-posX,(canvasDivRef.current.scrollTop+posY)*1.3-posY);
         setRatio(ratio*1.3)
-        // let image=new Image();
-        // image.src=url;
-        // image.onload=function(){
-        //     context.fillRect(0,0,canvas.width,canvas.height);
-        //     context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
-        //     canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)*1.3-posX,(canvasDivRef.current.scrollTop+posY)*1.3-posY);
-        //     setRatio(ratio*1.3)
-        // }
     }
 
     const zoomOut=(image,ratio,setRatio,canvasDivRef,posX,posY)=>{
-        if(ratio<=1) return;
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
-        canvas.width = window.innerWidth * 0.7*ratio/1.3;
-        canvas.height = (window.innerHeight*0.9)*ratio/1.3;
+        if(canvas.width<=windowSize.width*0.7) return;
+        canvas.width = 1008*ratio/1.3;
+        canvas.height = (716)*ratio/1.3;
         canvas.style.width = `${canvas.width}px`;
         canvas.style.height = `${canvas.height}px`;
         context.lineCap = "round";
@@ -125,15 +117,7 @@ export const CanvasProvider = ({ children }) => {
         context.fillRect(0,0,canvas.width,canvas.height);
         context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
         canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)/1.3-posX,(canvasDivRef.current.scrollTop+posY)/1.3-posY);
-        setRatio(ratio/1.3)
-        // let image=new Image();
-        // image.src=url;
-        // image.onload=function(){
-        //     context.fillRect(0,0,canvas.width,canvas.height);
-        //     context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
-        //     canvasDivRef.current.scrollTo((canvasDivRef.current.scrollLeft+posX)/1.3-posX,(canvasDivRef.current.scrollTop+posY)/1.3-posY);
-        //     setRatio(ratio/1.3)
-        // }
+        setRatio(ratio/1.3);
     }
 
     function hexToRgbA(hex){
