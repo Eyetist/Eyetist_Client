@@ -50,9 +50,12 @@ export function Canvas(props) {
     }
 
     function dragging(){
-        contextRef.current.fillStyle="white";
-        contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
-        contextRef.current.drawImage(props.imgBuffer[props.bufferIdx],0,0,props.imgBuffer[props.bufferIdx].width,props.imgBuffer[props.bufferIdx].height,0,0,canvasRef.current.width,canvasRef.current.height);
+        if (props.imgBuffer[props.bufferIdx]){
+
+            contextRef.current.fillStyle="white";
+            contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
+            contextRef.current.drawImage(props.imgBuffer[props.bufferIdx],0,0,props.imgBuffer[props.bufferIdx].width,props.imgBuffer[props.bufferIdx].height,0,0,canvasRef.current.width,canvasRef.current.height);
+        }
         // let image=new Image();
         // image.src=props.imgBuffer[props.bufferIdx];
         // image.onload=function(){
@@ -102,7 +105,7 @@ export function Canvas(props) {
         // if(posX > 0 && posY > 0 && posX < canvasRef.current.width && posY < canvasRef.current.height){
         if(posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight - 70){
             if(currentFunction==="draw"||currentFunction==="erase"){
-                if(isLeftEyeBlink && !isMouseOpen && !props.smartToolsOpen){
+                if(isMouseOpen && !props.smartToolsOpen){
                     isStartDrawing.current = true;
                     contextRef.current.lineTo(posX+props.canvasDivRef.current.scrollLeft, posY+props.canvasDivRef.current.scrollTop);
                     contextRef.current.stroke();

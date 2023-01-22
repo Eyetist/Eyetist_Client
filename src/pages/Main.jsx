@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import ToolSelections from "../components/functionDetails/ToolSelections";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import "./Main.css"
-import { imageListClasses } from "@mui/material";
 
 const Main = () => {
     const { canvasRef } = useCanvas()
@@ -29,10 +28,7 @@ const Main = () => {
     let setWindowSize=useSetRecoilState(WINDOW_SIZE);
     let [smartToolsOpen, setSmartToolsOpen] = useState(false)
     let setStrokeColor = useSetRecoilState(STROKE_COLOR)
-
-    // window.addEventListener('resize',function(){
-    //     setWindowSize({width:window.innerWidth,height:window.innerHeight})
-    //     console.log("resize")});
+    let [isOpenSensitivity, setIsOpenSensitivity] = useState(false);
 
     const handleResize=()=>{
         let width=window.innerWidth;
@@ -65,6 +61,12 @@ const Main = () => {
             }
         }
     }, [canvasSaveOpen])
+
+    useEffect( () => {
+        if (!smartToolsOpen){
+            setIsOpenSensitivity(false)
+        }
+    }, [smartToolsOpen])
     
     return (
         <div className="whole-container">
@@ -72,6 +74,8 @@ const Main = () => {
                 SmartToolsPosition = {SmartToolsPosition}
                 setSmartToolsOpen = {setSmartToolsOpen}
                 smartToolsOpen = {smartToolsOpen}
+                setIsOpenSensitivity = {setIsOpenSensitivity}
+                isOpenSensitivity = {isOpenSensitivity}
             />
             {
                 smartToolsOpen ?
@@ -84,6 +88,8 @@ const Main = () => {
                     imgBuffer={imgBuffer}
                     SmartToolsPosition = {SmartToolsPosition}
                     setSmartToolsOpen = {setSmartToolsOpen}
+                    isOpenSensitivity = {isOpenSensitivity}
+                    setIsOpenSensitivity = {setIsOpenSensitivity}
                 />
                 :
                 <></>
