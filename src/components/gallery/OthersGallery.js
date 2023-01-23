@@ -34,6 +34,9 @@ const OthersGallery = (props) => {
     }, [props.modifyCardOpen])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         switch(props.publicGalleryMode){
             case "public":
                 getOtherPicturesCount()
@@ -75,6 +78,9 @@ const OthersGallery = (props) => {
     },[props.isMyGallery, props.page, props.publicGalleryMode, galleryUpdateState])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         let publicPicturesDiv = []
         publicPictures.map( (picture, index) => {
             publicPicturesDiv.push(

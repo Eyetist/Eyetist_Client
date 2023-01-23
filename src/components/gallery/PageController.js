@@ -38,7 +38,7 @@ const PageController = (props) => {
                         clickColor="inherit"
                         hoverFontColor = "pink"
                         onClick={() => {
-                            if (props.modifyCardOpen){
+                            if (!props.modifyCardOpen){
                                 props.setPage(index)
                             }
                         }}
@@ -50,13 +50,13 @@ const PageController = (props) => {
     }, [props.page, props.imageCount])
 
     function clickPagePrevButton(){
-        if (props.page > 0 && props.modifyCardOpen){
+        if (props.page > 0 && !props.modifyCardOpen){
             props.setPage(props.page - 1)
         }
     }
 
     function clickPageNextButton(){
-        if (props.page < props.imageCount / 10 - 1 && props.modifyCardOpen){
+        if (props.page < props.imageCount / 10 - 1 && !props.modifyCardOpen){
             props.setPage(props.page + 1)
         }
     }

@@ -35,6 +35,9 @@ const MyGallery = (props) => {
     }, [props.modifyCardOpen])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         getMyPictures(localStorage.getItem('loginMemberId'),)
         .then( (res) => {
             if (res.status !== 200) return
@@ -46,6 +49,9 @@ const MyGallery = (props) => {
     },[props.isMyGallery, galleryUpdateState])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         setPrivatePictureCount(privatePictures.length)
         setPublicPictureCount(publicPictures.length)
         let privatePicturesDiv = []
@@ -104,6 +110,9 @@ const MyGallery = (props) => {
     }, [props.page, publicPictures, privatePictures])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         if(props.visibility === "private"){
             props.setImageCount(privatePictureCount)
         }
@@ -113,6 +122,9 @@ const MyGallery = (props) => {
     }, [privatePictureCount, publicPictureCount])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         if(props.visibility === "private"){
             props.setImageCount(privatePictureCount)
             privateControls.start({

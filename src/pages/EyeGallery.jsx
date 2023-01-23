@@ -124,8 +124,10 @@ const EyeGallery = () => {
                     hoverColor="gray"
                     clickColor="black"
                     onClick={() => {
-                        setIsMyGallery(true) 
-                        setPage(0)
+                        if (!modifyCardOpen){
+                            setIsMyGallery(true) 
+                            setPage(0)
+                        }
                     }}
                 />
                 <EyeButton 
@@ -134,9 +136,10 @@ const EyeGallery = () => {
                     hoverColor="gray"
                     clickColor="black"
                     onClick={() => {
-                        setIsMyGallery(false)
-                        setPage(0)
-
+                        if (!modifyCardOpen){
+                            setIsMyGallery(false)
+                            setPage(0)
+                        }
                     }}
                 />
             </div>
@@ -151,8 +154,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setVisibility("private")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setVisibility("private")
+                                        setPage(0)}
+                                }}
                             />
                             <EyeButton 
                                 style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:visibility === "public" ? "black" : "inherit", color:visibility === "public" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
@@ -160,8 +166,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setVisibility("public")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setVisibility("public")
+                                        setPage(0)}}
+                                }
                             />
                         </div>
                     </div>
@@ -185,8 +194,10 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setPublicGalleryMode("weekly")
-                                                setPage(0)}}
+                                onClick={() => {if (!modifyCardOpen){
+                                    setPublicGalleryMode("weekly")
+                                    setPage(0)}}
+                                }
                             />
                             <EyeButton 
                                 style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:publicGalleryMode === "rank" ? "black" : "inherit", color:publicGalleryMode === "rank" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
@@ -194,8 +205,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setPublicGalleryMode("rank")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setPublicGalleryMode("rank")
+                                        setPage(0)}}
+                                    }
                             />
                             <EyeButton 
                                 style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:publicGalleryMode === "public" ? "black" : "inherit", color:publicGalleryMode === "public" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
@@ -203,8 +217,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setPublicGalleryMode("public")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setPublicGalleryMode("public")
+                                        setPage(0)}}
+                                    }
                             />
                         </div>
                     </div>
