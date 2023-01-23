@@ -33,6 +33,9 @@ const ToolSelections = (props) => {
         marginTop: "5px",
         marginBottom: "5px",
     }
+    const diagramImage = {
+        diagram: require('../shapes/diagram.png')
+    }
 
     useEffect( () => {
         selectDraw()
@@ -168,7 +171,7 @@ const ToolSelections = (props) => {
 
             <EyeButton 
                 style={toolButtonStyle}
-                text="diagram"
+                text={<img src={diagramImage.diagram} style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
                 hoverColor="pink"
                 clickColor="black"
                 onClick={() => {

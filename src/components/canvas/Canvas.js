@@ -59,28 +59,28 @@ export function Canvas(props) {
     useEffect(() => {
         let Img = new Image();
         switch (selectedShape) {
-            case "circle":
+            case "Circle":
                 Img.src = cursorImage.circle;
                 break;
-            case "square":
+            case "Square":
                 Img.src = cursorImage.square;
                 break;
-            case "heart":
+            case "Heart":
                 Img.src = cursorImage.heart;
                 break;
-            case "triangle":
+            case "Triangle":
                 Img.src = cursorImage.triangle;
                 break;
-            case "upArrow":
+            case "UpArrow":
                 Img.src = cursorImage.upArrow;
                 break;
-            case "downArrow":
+            case "DownArrow":
                 Img.src = cursorImage.downArrow;
                 break;
-            case "leftArrow":
+            case "LeftArrow":
                 Img.src = cursorImage.leftArrow;
                 break;
-            case "rightArrow":
+            case "RightArrow":
                 Img.src = cursorImage.rightArrow;
                 break;
             default:
@@ -173,7 +173,15 @@ export function Canvas(props) {
                     }
                     else {
                         dragging();
-                        contextRef.current.drawImage(shapeImg, 0, 0, shapeImg.width, shapeImg.height, startPosX, startPosY, currentX - startPosX, currentY - startPosY);
+                        if(selectedShape==="Line"){
+                            contextRef.current.beginPath();
+                            contextRef.current.moveTo(startPosX,startPosY);
+                            contextRef.current.lineTo(currentX,currentY);
+                            contextRef.current.stroke();
+                        }
+                        else{
+                            contextRef.current.drawImage(shapeImg, 0, 0, shapeImg.width, shapeImg.height, startPosX, startPosY, currentX - startPosX, currentY - startPosY);
+                        }
                     }
                     isLock.current = true;
                 }
@@ -183,10 +191,18 @@ export function Canvas(props) {
                         let currentY = posY + props.canvasDivRef.current.scrollTop;
                         // ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
                         dragging();
-                        drawImage(currentX, currentY).then(() => {
+                        if (selectedShape==="Line"){
+                            contextRef.current.beginPath();
+                            contextRef.current.moveTo(startPosX,startPosY);
+                            contextRef.current.lineTo(currentX,currentY);
+                            contextRef.current.stroke();
                             save();
-                            // canvasRef.current.re
-                        });
+                        }
+                        else{
+                            drawImage(currentX, currentY).then(() => {
+                                save();
+                            });
+                        }
                     }
                     isLock.current = false;
                 }
