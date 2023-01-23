@@ -123,7 +123,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="fill"){
-                if(isLeftEyeBlink&&!isMouseOpen&& !props.smartToolsOpen){
+                if(isLeftEyeBlink && !props.smartToolsOpen){
                     isLock.current=true;
                 }
                 else{
@@ -135,7 +135,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="zoom in"){
-                if(isLeftEyeBlink&&!isMouseOpen){
+                if(isLeftEyeBlink){
                     isLock.current=true;
                 }
                 else{
@@ -146,7 +146,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="zoom out"){
-                if(isLeftEyeBlink&&!isMouseOpen){
+                if(isLeftEyeBlink){
                     isLock.current=true;
                 }
                 else{
@@ -157,7 +157,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="shape"){
-                if(isLeftEyeBlink&&!isMouseOpen){
+                if(isMouseOpen && !props.smartToolsOpen){
                     let currentX=posX+props.canvasDivRef.current.scrollLeft;
                     let currentY=posY+props.canvasDivRef.current.scrollTop;
                     if(!isLock.current){//좌표 저장

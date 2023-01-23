@@ -7,6 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { SCROLL_POS, CURRENT_FUNCTION } from '../recoil/Atoms';
 import { motion, useAnimationControls } from "framer-motion"
 import EyeButton from '../components/atoms/EyeButton';
+import ModifyCard from '../components/atoms/ModifyCard'
 import PageController from '../components/gallery/PageController';
 import MoveSelections from '../components/functionDetails/MoveSelection';
 import GallerySmartTools from '../components/functionDetails/GallerySmartTools';
@@ -26,6 +27,10 @@ const EyeGallery = () => {
     let [publicGalleryMode, setPublicGalleryMode] = useState("weekly")
     const controls = useAnimationControls()
     const targetRef = useRef(null);  
+
+    let [clickedImageInfo, setClickedImageInfo] = useState()
+    let [modifyCardOpen, setModifyCardOpen] = useState(false)
+    let imageCardActionRef = useRef(modifyCardOpen)
 
     // const checkOverFlow = () => {
     //     return targetRef.current.offsetHeight < targetRef.current.scrollHeight
@@ -84,6 +89,16 @@ const EyeGallery = () => {
                     setIsMyGallery = {setIsMyGallery}
                     visibility = {visibility}
                     setVisibility ={setVisibility}
+                />
+                :
+                <></>
+            }
+            {
+                modifyCardOpen ?
+                <ModifyCard  
+                    isMyGallery = {isMyGallery}
+                    clickedImageInfo = {clickedImageInfo}
+                    setModifyCardOpen = {setModifyCardOpen}
                 />
                 :
                 <></>
@@ -155,6 +170,7 @@ const EyeGallery = () => {
                             page = {page}
                             setPage = {setPage}
                             imageCount = {imageCount}
+                            modifyCardOpen = {modifyCardOpen}
                         />
                     </div>
                 </div>
@@ -205,7 +221,7 @@ const EyeGallery = () => {
                 {
                     isMyGallery ? 
                     <motion.div animate={controls} style={{width:"100%", height:"100%"}}>
-                        <MyGallery 
+                        <MyGallery       
                             isMyGallery = {isMyGallery}
                             targetRef = {targetRef}
                             visibility = {visibility}
@@ -213,6 +229,11 @@ const EyeGallery = () => {
                             setPage = {setPage}
                             imageCount = {imageCount}
                             setImageCount = {setImageCount}
+                            clickedImageInfo = {clickedImageInfo}
+                            setClickedImageInfo = {setClickedImageInfo}
+                            setModifyCardOpen = {setModifyCardOpen}
+                            modifyCardOpen = {modifyCardOpen} 
+                            imageCardActionRef = {imageCardActionRef}  
                         />
                     </motion.div>
                     :
@@ -225,6 +246,11 @@ const EyeGallery = () => {
                             imageCount = {imageCount}
                             setImageCount = {setImageCount}
                             publicGalleryMode = {publicGalleryMode}
+                            clickedImageInfo = {clickedImageInfo}
+                            setClickedImageInfo = {setClickedImageInfo}
+                            setModifyCardOpen = {setModifyCardOpen}
+                            modifyCardOpen = {modifyCardOpen}   
+                            imageCardActionRef = {imageCardActionRef}
                         />
                     </motion.div>
                 }

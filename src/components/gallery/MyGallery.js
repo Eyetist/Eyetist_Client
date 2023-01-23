@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import EyeImageCard from '../atoms/EyeImageCard';
 import { motion, useAnimationControls } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
@@ -29,6 +29,10 @@ const MyGallery = (props) => {
         setPrivatePictures(pictureViewModel.getPictures(localStorage.getItem('loginMemberId'), "private"))
         setPublicPictures(pictureViewModel.getPictures(localStorage.getItem('loginMemberId'), "public"))
     }
+
+    useEffect( () => {
+        props.imageCardActionRef.current = props.modifyCardOpen
+    }, [props.modifyCardOpen])
 
     useEffect( () => {
         getMyPictures(localStorage.getItem('loginMemberId'),)
@@ -63,6 +67,9 @@ const MyGallery = (props) => {
                         date={picture.date}
                         heart={picture.heart}
                         setGalleryUpdateState = {setGalleryUpdateState}
+                        setClickedImageInfo = {props.setClickedImageInfo}
+                        setModifyCardOpen = {props.setModifyCardOpen}
+                        imageCardActionRef = {props.imageCardActionRef}     
                     />
                 )
             }
@@ -85,6 +92,9 @@ const MyGallery = (props) => {
                         date={picture.date}
                         heart={picture.heart}
                         setGalleryUpdateState = {setGalleryUpdateState}
+                        setClickedImageInfo = {props.setClickedImageInfo}
+                        setModifyCardOpen = {props.setModifyCardOpen}
+                        imageCardActionRef = {props.imageCardActionRef}        
                     />
                 )
             }

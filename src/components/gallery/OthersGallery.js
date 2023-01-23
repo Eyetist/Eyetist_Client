@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import EyeImageCard from '../atoms/EyeImageCard';
 import { motion } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
@@ -28,6 +28,10 @@ const OthersGallery = (props) => {
     //         props.setImageCount(res.data)
     //     })
     // }, [])
+
+    useEffect( () => {
+        props.imageCardActionRef.current = props.modifyCardOpen
+    }, [props.modifyCardOpen])
 
     useEffect( () => {
         switch(props.publicGalleryMode){
@@ -87,6 +91,9 @@ const OthersGallery = (props) => {
                     date={picture.date}
                     heart={picture.heart}
                     setGalleryUpdateState = {setGalleryUpdateState}
+                    setClickedImageInfo = {props.setClickedImageInfo}
+                    setModifyCardOpen = {props.setModifyCardOpen}
+                    imageCardActionRef = {props.imageCardActionRef}   
                 />
             )
         })
