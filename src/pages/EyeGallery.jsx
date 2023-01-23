@@ -213,6 +213,7 @@ const EyeGallery = () => {
                             page = {page}
                             setPage = {setPage}
                             imageCount = {imageCount}
+                            modifyCardOpen = {modifyCardOpen}
                         />
                     </div>
                 </div>

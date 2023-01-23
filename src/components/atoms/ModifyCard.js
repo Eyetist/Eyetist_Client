@@ -4,6 +4,7 @@ import EyeKeyboard from "../keyboard/EyeKeyboard";
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import './ModifyCard.css'
+import { Link } from "@material-ui/core";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -31,6 +32,15 @@ const ModifyCard = (props) => {
         setExtention("png")
         setVisible(props.clickedImageInfo.visibility)
     }, [props.clickedImageInfo])
+
+    function download(){
+        const image = (props.clickedImageInfo.imageLink)
+        const link = document.createElement("a");
+        link.href = image;
+        link.download = props.clickedImageInfo.title;
+        console.log(Link)
+        // link.click();
+    }
 
     return(
         <div className="modify-container" style={{ paddingTop: modifyContainerRef.current ? (window.innerHeight - modifyContainerRef.current.offsetHeight) / 2 : 0,
@@ -198,6 +208,24 @@ const ModifyCard = (props) => {
                                         />
                                     </div>
                                 </div>
+                                <div className="modify-option">
+                                    <div className="option-text" style={{color :"red"}}>WARNING</div>
+                                    <div style={{display:'flex'}}>
+                                        <EyeButton 
+                                            style={{    
+                                                height : "5vh",
+                                                width: "12vw",
+                                                backgroundColor: "gainsboro",
+                                                border: "none",
+                                                borderRadius: "10px",
+                                            }}
+                                            text="DELETE"
+                                            hoverColor="red"
+                                            clickColor="black"
+                                            onClick={() => {}}
+                                        />
+                                    </div>
+                                </div>
                             </>
                             :
                             <>
@@ -226,7 +254,7 @@ const ModifyCard = (props) => {
                                             text="DOWNLOAD"
                                             hoverColor="gray"
                                             clickColor="black"
-                                            onClick={() => {}}
+                                            onClick={() => {download()}}
                                         />
         
                                     </div>
