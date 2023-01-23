@@ -12,6 +12,7 @@ import { FaRedoAlt, FaUndoAlt } from "react-icons/fa"
 import { RiEraserFill, RiCloseCircleFill } from "react-icons/ri"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill } from "react-icons/bs"
 import { IoColorPalette } from "react-icons/io5"
+import ShapeSelection from "../../components/functionDetails/ShapeSelection";
 
 const TOOL_BUTTON_SIZE = window.innerWidth * 0.04
 const TOOL_BUTTON_FONT_SIZE = window.innerWidth * 0.02
@@ -27,6 +28,10 @@ const toolButtonStyle = {
     marginLeft: "10px",
     marginTop: "5px",
     marginBottom: "5px",
+}
+
+const diagramImage = {
+    diagram: require('../shapes/diagram.png')
 }
 
 const SmartTools = (props) => {
@@ -93,6 +98,7 @@ const SmartTools = (props) => {
         props.setSelectedButton(
             <ColorSelection/>
         )
+        props.setSmartToolsOpen(false)
     }
 
     function zoomOut(){
@@ -100,7 +106,16 @@ const SmartTools = (props) => {
         props.setSelectedButton(
             <ColorSelection/>
         )
-    } 
+        props.setSmartToolsOpen(false)
+    }
+    
+    function selectShape(){
+        setCurrentFunction("shape")
+        props.setSelectedButton(
+            <ShapeSelection/>
+        )
+        props.setSmartToolsOpen(false)
+    }
 
     return(
         <div style={toolContainerStyle}>
@@ -203,6 +218,16 @@ const SmartTools = (props) => {
                             hoverColor="pink"
                             clickColor="black"
                             onClick={() => {props.setSmartToolsOpen(false)}}
+                        />
+
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<img src={diagramImage.diagram} style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {
+                                selectShape();
+                            }}
                         />
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 import EyeButton from "../atoms/EyeButton"
 import ColorSelection from "../../components/functionDetails/ColorSelection";
-import WidthSelection from "../../components/functionDetails/WidthSelection";
 import ShapeSelection from "../../components/functionDetails/ShapeSelection";
 import { useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
