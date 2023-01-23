@@ -116,3 +116,35 @@ export const setLikePicture = async(blobName, member, heart) =>{
     });
     return data
 }
+
+export const modifyPictrue = async(blobName, title, visibility) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/canvas/modify",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "azureBlobName" : blobName,
+            "title" : title,
+            "visibility" : visibility, 
+        }
+    });
+    return data
+}
+
+export const deletePictrue = async(blobName) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/canvas/delete",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "azureBlobName" : blobName,
+        }
+    });
+    return data
+}
