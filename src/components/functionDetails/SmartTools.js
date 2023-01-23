@@ -9,7 +9,7 @@ import { BiRefresh } from "react-icons/bi"
 import { FaPowerOff } from "react-icons/fa"
 import { BiLogOut } from "react-icons/bi"
 import { FaRedoAlt, FaUndoAlt } from "react-icons/fa"
-import { RiEraserFill, RiCloseCircleFill } from "react-icons/ri"
+import { RiEraserFill, RiCloseCircleFill, RiMouseFill } from "react-icons/ri"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill } from "react-icons/bs"
 import { IoColorPalette } from "react-icons/io5"
 import ShapeSelection from "../../components/functionDetails/ShapeSelection";
@@ -133,6 +133,13 @@ const SmartTools = (props) => {
                             hoverColor="pink"
                             clickColor="black"
                             onClick={() => {clearCanvas(props.setImgBuffer,props.imgBuffer,props.setBufferIdx,props.bufferIdx)}}
+                        />
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<RiMouseFill />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {props.setIsOpenSensitivity(!props.isOpenSensitivity)}}
                         />
                     </div>
                     <div style={{display:'flex'}}>

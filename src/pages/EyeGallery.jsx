@@ -7,6 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { SCROLL_POS, CURRENT_FUNCTION } from '../recoil/Atoms';
 import { motion, useAnimationControls } from "framer-motion"
 import EyeButton from '../components/atoms/EyeButton';
+import ModifyCard from '../components/atoms/ModifyCard'
 import PageController from '../components/gallery/PageController';
 import MoveSelections from '../components/functionDetails/MoveSelection';
 import GallerySmartTools from '../components/functionDetails/GallerySmartTools';
@@ -26,6 +27,10 @@ const EyeGallery = () => {
     let [publicGalleryMode, setPublicGalleryMode] = useState("weekly")
     const controls = useAnimationControls()
     const targetRef = useRef(null);  
+
+    let [clickedImageInfo, setClickedImageInfo] = useState()
+    let [modifyCardOpen, setModifyCardOpen] = useState(false)
+    let imageCardActionRef = useRef(modifyCardOpen)
 
     // const checkOverFlow = () => {
     //     return targetRef.current.offsetHeight < targetRef.current.scrollHeight
@@ -88,6 +93,16 @@ const EyeGallery = () => {
                 :
                 <></>
             }
+            {
+                modifyCardOpen ?
+                <ModifyCard  
+                    isMyGallery = {isMyGallery}
+                    clickedImageInfo = {clickedImageInfo}
+                    setModifyCardOpen = {setModifyCardOpen}
+                />
+                :
+                <></>
+            }
             <div className="gallery-top-container" style={{marginBottom:'-30px'}}>
                 <div className='gallery-top-buttons'>
                     <MoveSelections 
@@ -109,8 +124,10 @@ const EyeGallery = () => {
                     hoverColor="gray"
                     clickColor="black"
                     onClick={() => {
-                        setIsMyGallery(true) 
-                        setPage(0)
+                        if (!modifyCardOpen){
+                            setIsMyGallery(true) 
+                            setPage(0)
+                        }
                     }}
                 />
                 <EyeButton 
@@ -119,9 +136,10 @@ const EyeGallery = () => {
                     hoverColor="gray"
                     clickColor="black"
                     onClick={() => {
-                        setIsMyGallery(false)
-                        setPage(0)
-
+                        if (!modifyCardOpen){
+                            setIsMyGallery(false)
+                            setPage(0)
+                        }
                     }}
                 />
             </div>
@@ -136,8 +154,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setVisibility("private")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setVisibility("private")
+                                        setPage(0)}
+                                }}
                             />
                             <EyeButton 
                                 style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:visibility === "public" ? "black" : "inherit", color:visibility === "public" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
@@ -145,8 +166,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setVisibility("public")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setVisibility("public")
+                                        setPage(0)}}
+                                }
                             />
                         </div>
                     </div>
@@ -155,6 +179,7 @@ const EyeGallery = () => {
                             page = {page}
                             setPage = {setPage}
                             imageCount = {imageCount}
+                            modifyCardOpen = {modifyCardOpen}
                         />
                     </div>
                 </div>
@@ -169,8 +194,10 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setPublicGalleryMode("weekly")
-                                                setPage(0)}}
+                                onClick={() => {if (!modifyCardOpen){
+                                    setPublicGalleryMode("weekly")
+                                    setPage(0)}}
+                                }
                             />
                             <EyeButton 
                                 style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:publicGalleryMode === "rank" ? "black" : "inherit", color:publicGalleryMode === "rank" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
@@ -178,8 +205,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setPublicGalleryMode("rank")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setPublicGalleryMode("rank")
+                                        setPage(0)}}
+                                    }
                             />
                             <EyeButton 
                                 style={{width:"auto", height:"30px", fontSize:"30px", backgroundColor:publicGalleryMode === "public" ? "black" : "inherit", color:publicGalleryMode === "public" ? "pink" : "gray", borderRadius:"10px", paddingLeft:"10px", paddingRight:"10px"}}
@@ -187,8 +217,11 @@ const EyeGallery = () => {
                                 hoverColor="gray"
                                 clickColor="black"
                                 hoverFontColor = "pink"
-                                onClick={() => {setPublicGalleryMode("public")
-                                                setPage(0)}}
+                                onClick={() => {
+                                    if (!modifyCardOpen){
+                                        setPublicGalleryMode("public")
+                                        setPage(0)}}
+                                    }
                             />
                         </div>
                     </div>
@@ -197,6 +230,7 @@ const EyeGallery = () => {
                             page = {page}
                             setPage = {setPage}
                             imageCount = {imageCount}
+                            modifyCardOpen = {modifyCardOpen}
                         />
                     </div>
                 </div>
@@ -205,7 +239,7 @@ const EyeGallery = () => {
                 {
                     isMyGallery ? 
                     <motion.div animate={controls} style={{width:"100%", height:"100%"}}>
-                        <MyGallery 
+                        <MyGallery       
                             isMyGallery = {isMyGallery}
                             targetRef = {targetRef}
                             visibility = {visibility}
@@ -213,6 +247,11 @@ const EyeGallery = () => {
                             setPage = {setPage}
                             imageCount = {imageCount}
                             setImageCount = {setImageCount}
+                            clickedImageInfo = {clickedImageInfo}
+                            setClickedImageInfo = {setClickedImageInfo}
+                            setModifyCardOpen = {setModifyCardOpen}
+                            modifyCardOpen = {modifyCardOpen} 
+                            imageCardActionRef = {imageCardActionRef}  
                         />
                     </motion.div>
                     :
@@ -225,6 +264,11 @@ const EyeGallery = () => {
                             imageCount = {imageCount}
                             setImageCount = {setImageCount}
                             publicGalleryMode = {publicGalleryMode}
+                            clickedImageInfo = {clickedImageInfo}
+                            setClickedImageInfo = {setClickedImageInfo}
+                            setModifyCardOpen = {setModifyCardOpen}
+                            modifyCardOpen = {modifyCardOpen}   
+                            imageCardActionRef = {imageCardActionRef}
                         />
                     </motion.div>
                 }

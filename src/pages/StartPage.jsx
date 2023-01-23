@@ -6,7 +6,6 @@ import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { useNavigate } from "react-router-dom";
-import { useStopwatch } from 'react-timer-hook';
 import './StartPage.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -21,7 +20,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const StartPage = () =>{
     let navigate = useNavigate();
     const [openTutorial, setOpenTutorial] = useState(false)
-    const {seconds} = useStopwatch({ autoStart: true });
 
     let tutorialContent = [
         "Before we get started, We provide tutorial",
@@ -35,10 +33,6 @@ const StartPage = () =>{
     let galleryContent = [
         "Access the gallery and share your images with others!"
     ]
-
-    useEffect( () => {
-        console.log(seconds)
-    }, [seconds])
 
     return(
         <div className = "information-main-container">
@@ -85,12 +79,10 @@ const StartPage = () =>{
                         hoverColor="#f46969"
                         clickColor="#f45555"
                         onClick={() => {
-                            if (seconds > 1){
-                                setOpenTutorial(true);
-                                setTimeout(function(){
-                                    setOpenTutorial(false);
-                                }, 1500)
-                            }
+                            setOpenTutorial(true);
+                            setTimeout(function(){
+                                setOpenTutorial(false);
+                            }, 1500)
                         }}
                     />
                     <EyeCard 
@@ -107,9 +99,7 @@ const StartPage = () =>{
                         hoverColor="#f46969"
                         clickColor="#f45555"
                         onClick={() => {
-                            if (seconds > 1){
-                                navigate('/paint')
-                            }
+                            navigate('/paint')
                         }}
                     />
                     <EyeCard 
@@ -126,9 +116,7 @@ const StartPage = () =>{
                         hoverColor="#f46969"
                         clickColor="#f45555"
                         onClick={() => {
-                            if (seconds > 1){
-                                navigate('/gallery')
-                            }
+                            navigate('/gallery')
                         }}
                     />
                     <BootstrapDialog

@@ -50,10 +50,13 @@ export function Canvas(props) {
         }
     }
 
-    function dragging() {
-        contextRef.current.fillStyle = "white";
-        contextRef.current.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        contextRef.current.drawImage(props.imgBuffer[props.bufferIdx], 0, 0, props.imgBuffer[props.bufferIdx].width, props.imgBuffer[props.bufferIdx].height, 0, 0, canvasRef.current.width, canvasRef.current.height);
+    function dragging(){
+        if (props.imgBuffer[props.bufferIdx]){
+
+            contextRef.current.fillStyle="white";
+            contextRef.current.fillRect(0,0,canvasRef.current.width,canvasRef.current.height);
+            contextRef.current.drawImage(props.imgBuffer[props.bufferIdx],0,0,props.imgBuffer[props.bufferIdx].width,props.imgBuffer[props.bufferIdx].height,0,0,canvasRef.current.width,canvasRef.current.height);
+        }
     }
 
     useEffect(() => {
@@ -129,9 +132,9 @@ export function Canvas(props) {
                     isStartDrawing.current = false;
                 }
             }
-            else if (currentFunction === "fill") {
-                if (isLeftEyeBlink && !isMouseOpen && !props.smartToolsOpen) {
-                    isLock.current = true;
+            else if(currentFunction==="fill"){
+                if(isLeftEyeBlink && !props.smartToolsOpen){
+                    isLock.current=true;
                 }
                 else {
                     if (isLock.current) {
@@ -141,9 +144,10 @@ export function Canvas(props) {
                     isLock.current = false;
                 }
             }
-            else if (currentFunction === "zoom in") {
-                if (isLeftEyeBlink && !isMouseOpen) {
-                    isLock.current = true;
+
+            else if(currentFunction==="zoom in"){
+                if(isLeftEyeBlink){
+                    isLock.current=true;
                 }
                 else {
                     if (isLock.current) {
@@ -152,9 +156,9 @@ export function Canvas(props) {
                     isLock.current = false;
                 }
             }
-            else if (currentFunction === "zoom out") {
-                if (isLeftEyeBlink && !isMouseOpen) {
-                    isLock.current = true;
+            else if(currentFunction==="zoom out"){
+                if(isLeftEyeBlink){
+                    isLock.current=true;
                 }
                 else {
                     if (isLock.current) {
@@ -163,11 +167,11 @@ export function Canvas(props) {
                     isLock.current = false;
                 }
             }
-            else if (currentFunction === "shape") {
-                if (isMouseOpen) {
-                    let currentX = posX + props.canvasDivRef.current.scrollLeft;
-                    let currentY = posY + props.canvasDivRef.current.scrollTop;
-                    if (!isLock.current) {//좌표 저장
+            else if(currentFunction==="shape"){
+                if(isMouseOpen && !props.smartToolsOpen){
+                    let currentX=posX+props.canvasDivRef.current.scrollLeft;
+                    let currentY=posY+props.canvasDivRef.current.scrollTop;
+                    if(!isLock.current){//좌표 저장
                         setStartPosX(currentX);
                         setStartPosY(currentY);
                     }

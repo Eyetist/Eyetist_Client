@@ -140,7 +140,7 @@ function FaceMeshCam(props) {
                     setIsRightEyeBlick(false)
                 }
 
-                if (mouse[0] - mouse[1] < 0.03){ 
+                if (mouse[0] - mouse[1] < 0.01){ 
                     setIsMouseOpen(false)
                 }
                 else{
@@ -148,8 +148,8 @@ function FaceMeshCam(props) {
                 }
         
 
-                p2_x = Math.round(p2_x - (((window.innerWidth / 2) - p2_x) * mouseSensitivity / 10))
-                p2_y = Math.round(p2_y - (((window.innerHeight / 2) - p2_y) * mouseSensitivity / 10))
+                p2_x = Math.round(p2_x - (((window.innerWidth / 2) - p2_x) / (mouseSensitivity * mouseSensitivity)))
+                p2_y = Math.round(p2_y - (((window.innerHeight / 2) - p2_y) / (mouseSensitivity * mouseSensitivity)))
 
                 if (Math.abs(mousePosXRef.current - p2_x) > 1){
                     mousePosXRef.current = p2_x

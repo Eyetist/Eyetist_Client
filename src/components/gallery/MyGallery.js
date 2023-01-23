@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import EyeImageCard from '../atoms/EyeImageCard';
 import { motion, useAnimationControls } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
@@ -31,6 +31,13 @@ const MyGallery = (props) => {
     }
 
     useEffect( () => {
+        props.imageCardActionRef.current = props.modifyCardOpen
+    }, [props.modifyCardOpen])
+
+    useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         getMyPictures(localStorage.getItem('loginMemberId'),)
         .then( (res) => {
             if (res.status !== 200) return
@@ -42,6 +49,9 @@ const MyGallery = (props) => {
     },[props.isMyGallery, galleryUpdateState])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         setPrivatePictureCount(privatePictures.length)
         setPublicPictureCount(publicPictures.length)
         let privatePicturesDiv = []
@@ -63,6 +73,9 @@ const MyGallery = (props) => {
                         date={picture.date}
                         heart={picture.heart}
                         setGalleryUpdateState = {setGalleryUpdateState}
+                        setClickedImageInfo = {props.setClickedImageInfo}
+                        setModifyCardOpen = {props.setModifyCardOpen}
+                        imageCardActionRef = {props.imageCardActionRef}     
                     />
                 )
             }
@@ -85,6 +98,9 @@ const MyGallery = (props) => {
                         date={picture.date}
                         heart={picture.heart}
                         setGalleryUpdateState = {setGalleryUpdateState}
+                        setClickedImageInfo = {props.setClickedImageInfo}
+                        setModifyCardOpen = {props.setModifyCardOpen}
+                        imageCardActionRef = {props.imageCardActionRef}        
                     />
                 )
             }
@@ -94,6 +110,9 @@ const MyGallery = (props) => {
     }, [props.page, publicPictures, privatePictures])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         if(props.visibility === "private"){
             props.setImageCount(privatePictureCount)
         }
@@ -103,6 +122,9 @@ const MyGallery = (props) => {
     }, [privatePictureCount, publicPictureCount])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         if(props.visibility === "private"){
             props.setImageCount(privatePictureCount)
             privateControls.start({

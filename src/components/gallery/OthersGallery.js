@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import EyeImageCard from '../atoms/EyeImageCard';
 import { motion } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
@@ -30,6 +30,13 @@ const OthersGallery = (props) => {
     // }, [])
 
     useEffect( () => {
+        props.imageCardActionRef.current = props.modifyCardOpen
+    }, [props.modifyCardOpen])
+
+    useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         switch(props.publicGalleryMode){
             case "public":
                 getOtherPicturesCount()
@@ -71,6 +78,9 @@ const OthersGallery = (props) => {
     },[props.isMyGallery, props.page, props.publicGalleryMode, galleryUpdateState])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         let publicPicturesDiv = []
         publicPictures.map( (picture, index) => {
             publicPicturesDiv.push(
@@ -87,6 +97,9 @@ const OthersGallery = (props) => {
                     date={picture.date}
                     heart={picture.heart}
                     setGalleryUpdateState = {setGalleryUpdateState}
+                    setClickedImageInfo = {props.setClickedImageInfo}
+                    setModifyCardOpen = {props.setModifyCardOpen}
+                    imageCardActionRef = {props.imageCardActionRef}   
                 />
             )
         })

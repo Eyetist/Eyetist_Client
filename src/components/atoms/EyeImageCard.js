@@ -31,11 +31,10 @@ const EyeImageCard = (props) => {
 
     let showDate = props.date[0] + props.date[1] + props.date[2] + props.date[3] 
                     + "/" + props.date[4] + props.date[5]   
-                    + "/" + props.date[6] + props.date[7]
-    
+                    + "/" + props.date[6] + props.date[7]    
 
     function isOverlap(){
-        if (buttonRef.current){
+        if (buttonRef.current && !props.imageCardActionRef.current){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = buttonRef.current;
             if (offsetTop !== 0){
                 transTop.current = offsetTop
@@ -57,7 +56,7 @@ const EyeImageCard = (props) => {
     }
 
     function isHeartOverlap(){
-        if (heartRef.current){
+        if (heartRef.current && !props.imageCardActionRef.current){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = heartRef.current;
             if (offsetTop !== imgRef.current.offsetHeight + 3){
                 transTop.current = offsetTop
@@ -102,7 +101,6 @@ const EyeImageCard = (props) => {
     
         if (clickRef.current){
             if (!isRightEyeBlink){
-
                 if (isHeartHover){
                     let isHeart = props.heart;
                     if (!isHeart){
@@ -115,8 +113,12 @@ const EyeImageCard = (props) => {
                         }
                     })
                 }
-                else{
+                else{ // card Click
                     console.log(props)
+                    if (props.setClickedImageInfo && !props.imageCardActionRef.current){
+                        props.setModifyCardOpen(true)
+                        props.setClickedImageInfo(props)
+                    }
                 }
                 clickRef.current = false
             }

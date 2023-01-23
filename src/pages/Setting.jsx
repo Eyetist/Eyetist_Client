@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
-import { useStopwatch } from 'react-timer-hook';
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { SETTING_MODE } from "../recoil/Atoms";
@@ -12,8 +11,7 @@ import './Setting.css'
 const Setting = () =>{
     let navigate = useNavigate();
     let [settingMode, setSettingMode] = useRecoilState(SETTING_MODE)
-    const {seconds} = useStopwatch({ autoStart: true });
-
+    
     let defaultSettingContent = [
         "Enjoy the Eyetist with a preset setting",
         "It's easy to get started quickly, but it may not be very detailed."
@@ -70,10 +68,8 @@ const Setting = () =>{
                             hoverColor={settingMode === "custom" ? "#f46969" : "grey"}
                             clickColor="#f45555"
                             onClick={() => {
-                                if (seconds > 1){
-                                    setSettingMode("custom")
-                                    navigate('/setting/eye')
-                                }
+                                setSettingMode("custom")
+                                navigate('/setting/eye')
                             }}
                         />
                         <EyeCard 
@@ -108,9 +104,7 @@ const Setting = () =>{
                         hoverColor="#f46969"
                         clickColor="#f45555"
                         onClick={() => {
-                            if (seconds > 1){
-                                navigate('/login')
-                            }
+                            navigate('/login')
                         }}
                     />
                 </div>

@@ -30,7 +30,7 @@ const EyeMouse = (props) => {
     } = useStopwatch({ autoStart: false });
 
     useEffect( () => {
-        if (seconds >= 1 && props.SmartToolsPosition && !isMouseOpen){
+        if (seconds >= 1 && props.SmartToolsPosition && !isMouseOpen && !props.isOpenSensitivity){
             props.SmartToolsPosition.current = {x: mousePos.x, y: mousePos.y}
             props.setSmartToolsOpen(!props.smartToolsOpen)
         }
@@ -115,9 +115,11 @@ const EyeMouse = (props) => {
 
     return(
         <>
-        <SensitivityController />
+        <SensitivityController 
+            isOpenSensitivity = {props.isOpenSensitivity}
+        />
         {
-        isMouseOpen ?
+        props.isOpenSensitivity ?
             isRightEyeBlink ? 
                 <img
                     src={cursorImage.plusCursor}
