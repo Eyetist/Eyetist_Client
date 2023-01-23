@@ -1,36 +1,40 @@
 import EyeButton from "../atoms/EyeButton"
 import ColorSelection from "../../components/functionDetails/ColorSelection";
-import WidthSelection from "../../components/functionDetails/WidthSelection";
 import ShapeSelection from "../../components/functionDetails/ShapeSelection";
-import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { CURRENT_FUNCTION } from '../../recoil/Atoms';
+import { useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CURRENT_FUNCTION,WINDOW_SIZE } from '../../recoil/Atoms';
 import { useCanvas } from "../../components/canvas/CanvasContext";
 import { BiRefresh } from "react-icons/bi"
 import { FaRedoAlt, FaUndoAlt } from "react-icons/fa"
 import { RiEraserFill } from "react-icons/ri"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill } from "react-icons/bs"
 
-const TOOL_BUTTON_SIZE = window.innerWidth * 0.04
-const TOOL_BUTTON_FONT_SIZE = window.innerWidth * 0.02
-
-const toolButtonStyle = {
-    width:TOOL_BUTTON_SIZE, 
-    height:TOOL_BUTTON_SIZE, 
-    fontSize:TOOL_BUTTON_FONT_SIZE,
-    borderRadius:"5px", 
-    backgroundColor:"inherit",
-    color: "white",
-    border: "1px solid #B4A5A5",
-    marginLeft: "10px",
-    marginRight: "10px",
-    marginTop: "5px",
-    marginBottom: "5px",
-}
-
 const ToolSelections = (props) => {
+
+    let windowSize=useRecoilValue(WINDOW_SIZE);
     const {clearCanvas, setDrawMode, setEraseMode, ReDoAndUnDo } = useCanvas()
     let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
+
+    const TOOL_BUTTON_SIZE = windowSize.width * 0.04
+    const TOOL_BUTTON_FONT_SIZE = windowSize.width * 0.02
+
+    const toolButtonStyle = {
+        width:TOOL_BUTTON_SIZE, 
+        height:TOOL_BUTTON_SIZE, 
+        fontSize:TOOL_BUTTON_FONT_SIZE,
+        borderRadius:"5px", 
+        backgroundColor:"inherit",
+        color: "white",
+        border: "1px solid #B4A5A5",
+        marginLeft: "10px",
+        marginRight: "10px",
+        marginTop: "5px",
+        marginBottom: "5px",
+    }
+    const diagramImage = {
+        diagram: require('../shapes/diagram.png')
+    }
 
     useEffect( () => {
         selectDraw()
@@ -57,7 +61,6 @@ const ToolSelections = (props) => {
         if(props.bufferIdx>0){
             ReDoAndUnDo(props.imgBuffer[props.bufferIdx-1]);
             props.setBufferIdx(props.bufferIdx-1);
-            console.log(props.bufferIdx);
         }
     }
 
@@ -65,7 +68,6 @@ const ToolSelections = (props) => {
         if(props.bufferIdx<props.imgBuffer.length-1){
             ReDoAndUnDo(props.imgBuffer[props.bufferIdx+1]);
             props.setBufferIdx(props.bufferIdx+1);
-            console.log(props.bufferIdx);
         }
     }
 
@@ -168,7 +170,7 @@ const ToolSelections = (props) => {
 
             <EyeButton 
                 style={toolButtonStyle}
-                text="diagram"
+                text={<img src={diagramImage.diagram} style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
                 hoverColor="pink"
                 clickColor="black"
                 onClick={() => {

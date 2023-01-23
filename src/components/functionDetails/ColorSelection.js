@@ -56,9 +56,9 @@ const ColorSelection=()=>{
                     <ColorButton
                         key={code.key}
                         style={{
-                            width: window.innerWidth / 10 / 5, 
-                            height: window.innerWidth / 10 / 5, 
-                            borderRadius: window.innerWidth / 10 / 5, 
+                            width: windowSize.width / 10 / 5, 
+                            height: windowSize.width / 10 / 5, 
+                            borderRadius: windowSize.width / 10 / 5, 
                             backgroundColor: code.color, 
                             margin:"2px",
                             boxShadow: "0 0 0 2px rgb(32, 33, 35) inset"
@@ -72,7 +72,7 @@ const ColorSelection=()=>{
             })
             setColorButtonList(prevList => [...prevList, <div key={index}>{[...colorButtons]}</div>])
         })
-    }, [])
+    }, [windowSize])
 
     return(
         <div style={{width: "100%", height:"100%"}}>
@@ -100,7 +100,7 @@ const ColorSelection=()=>{
                     <div style={{color:"white", display:"flex", lineHeight:"40px", alignItems:"center", justifyContent:"center"}}>
                         Stroke Color
                         <EyeButton 
-                            style={{width:window.innerWidth / 10 / 7, height: window.innerWidth / 10 / 7, borderRadius: window.innerWidth / 10 / 7, backgroundColor:strokeColor, margin:"5px"}}
+                            style={{width:windowSize.width / 10 / 7, height: windowSize.width / 10 / 7, borderRadius: windowSize.width / 10 / 7, backgroundColor:strokeColor, margin:"5px"}}
                             text=""
                             hoverColor={strokeColor}
                             clickColor={strokeColor}

@@ -13,19 +13,19 @@ const SensitivityController = (props) => {
         setTimeout(function(){
             if (isMouseOpen && isLeftEyeBlink){
                 if (mouseSensitivity <= 1){
-                    setMouseSensitivity(1)
+                    // setMouseSensitivity(1)
                 }
                 else{
-                    setMouseSensitivity(mouseSensitivity - 1)
+                    // setMouseSensitivity(mouseSensitivity - 1)
                 }
             }
 
             if (isMouseOpen && isRightEyeBlink){
                 if (mouseSensitivity >= 10){
-                    setMouseSensitivity(10)
+                    // setMouseSensitivity(10)
                 }
                 else{
-                    setMouseSensitivity(mouseSensitivity + 1)
+                    // setMouseSensitivity(mouseSensitivity + 1)
                 }
             }
         }, 100)
