@@ -61,7 +61,7 @@ export const WINDOW_SIZE=atom({
 
 export const SELECTED_SHAPE=atom({
     key : 'SELECTEDSHAPE',
-    default : 'square'
+    default : 'Line'
 })
 
 export const SETTING_MODE =atom({
