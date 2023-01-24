@@ -1,16 +1,17 @@
 import React, {useState} from "react";
 import EyeButton from "../atoms/EyeButton"
 import ColorSelection from "./ColorSelection";
-import { useSetRecoilState } from "recoil";
-import { CURRENT_FUNCTION } from '../../recoil/Atoms';
+import { useSetRecoilState,useRecoilState } from "recoil";
+import { CURRENT_FUNCTION,IS_DRAWING } from '../../recoil/Atoms';
 import { useCanvas } from "../canvas/CanvasContext";
 import { useNavigate } from 'react-router-dom';
 import { BiRefresh } from "react-icons/bi"
 import { FaPowerOff } from "react-icons/fa"
 import { BiLogOut } from "react-icons/bi"
 import { FaRedoAlt, FaUndoAlt } from "react-icons/fa"
+import { AiOutlinePause } from "react-icons/ai"
 import { RiEraserFill, RiCloseCircleFill, RiMouseFill } from "react-icons/ri"
-import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill } from "react-icons/bs"
+import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill,BsFillPlayFill } from "react-icons/bs"
 import { IoColorPalette } from "react-icons/io5"
 import ShapeSelection from "../../components/functionDetails/ShapeSelection";
 
@@ -37,6 +38,7 @@ const diagramImage = {
 const SmartTools = (props) => {
     const {clearCanvas, setDrawMode, setEraseMode, ReDoAndUnDo } = useCanvas()
     let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
+    let [isDrawing,setIsDrawing]=useRecoilState(IS_DRAWING);
     let [isPaletteMode, setIsPaletteMode] = useState(false)
     let navigate = useNavigate();
 
@@ -116,6 +118,7 @@ const SmartTools = (props) => {
         )
         props.setSmartToolsOpen(false)
     }
+    
 
     return(
         <div style={toolContainerStyle}>
@@ -141,6 +144,25 @@ const SmartTools = (props) => {
                             clickColor="black"
                             onClick={() => {props.setIsOpenSensitivity(!props.isOpenSensitivity)}}
                         />
+                        {
+                            isDrawing?
+                                <EyeButton 
+                                    style={toolButtonStyle}
+                                    text={<AiOutlinePause />}
+                                    hoverColor="pink"
+                                    clickColor="black"
+                                    onClick={() => {setIsDrawing(false)}}
+                                />
+                            :
+                                <EyeButton 
+                                    style={toolButtonStyle}
+                                    text={<BsFillPlayFill />}
+                                    hoverColor="pink"
+                                    clickColor="black"
+                                    onClick={() => {setIsDrawing(true)}}
+                                />
+
+                        }
                     </div>
                     <div style={{display:'flex'}}>
                         <EyeButton id="draw"

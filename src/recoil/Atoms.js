@@ -84,3 +84,8 @@ export const RIGHT_EYE_BLINK_VALUE = atom({
         right : 0.005
     }
 })
+
+export const IS_DRAWING = atom({
+    key : 'isDrawing',
+    default: true
+})

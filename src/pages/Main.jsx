@@ -29,6 +29,7 @@ const Main = () => {
     let [smartToolsOpen, setSmartToolsOpen] = useState(false)
     let setStrokeColor = useSetRecoilState(STROKE_COLOR)
     let [isOpenSensitivity, setIsOpenSensitivity] = useState(false);
+    let [blobName,setBlobName]=useState("");
 
     const handleResize=()=>{
         let width=window.innerWidth;
@@ -40,7 +41,8 @@ const Main = () => {
         if (!localStorage.getItem('loginMemberId') && navigate){
             navigate('/login')
         }
-        setStrokeColor("#000000")
+        setStrokeColor("#000000");
+        console.log(blobName);
         window.addEventListener('resize',handleResize);
         handleResize();
         return()=>{
@@ -61,6 +63,7 @@ const Main = () => {
                 // const context = canvas.getContext("2d");
                 // context.drawImage(imgBuffer[bufferIdx],0,0,imgBuffer[bufferIdx].width,imgBuffer[bufferIdx].height,0,0,canvas.width,canvas.height);
                 canvasSavePageTrigger.current = false;
+                console.log(blobName);
             }
         }
     }, [canvasSaveOpen])
@@ -127,6 +130,8 @@ const Main = () => {
                             <CanvasSave 
                                 setIsOpen={setCanvasSaveOpen}
                                 link={imgBuffer[bufferIdx].src}
+                                blobName={blobName}
+                                setBlobName={setBlobName}
                             />
                         </div>
                     </div>

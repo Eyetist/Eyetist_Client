@@ -110,9 +110,15 @@ const CanvasSave = (props) => {
                     setTimeout(function(){
                         setOpenSaveSuccess(false)
                     }, 2000)
+                    props.setBlobName(res.data);
                 }
             })
         }
+    }
+
+    function overWrite(){
+        props.setBlobName("g");
+        props.setIsOpen(false);
     }
 
     return(
@@ -248,6 +254,26 @@ const CanvasSave = (props) => {
                         <div className="option-container">
                             <div className="option-text">SAVE</div>
                             <div style={{display:'flex'}}>
+                                {
+                                    props.blobName === ""?
+                                        <></>
+                                    :
+                                        <EyeButton 
+                                            style={{    
+                                                height : optionContainerRef.current && optionContainerRef.current.clientHeight / 2,
+                                                width: optionContainerRef.current && optionContainerRef.current.clientWidth ,
+                                                backgroundColor: "gainsboro",
+                                                border: "none",
+                                                borderRadius: "10px",
+                                            }}
+                                            text="OVER WRITE"
+                                            hoverColor="gray"
+                                            clickColor="black"
+                                            onClick={() => saveToServer()}
+                                        />
+                                }
+                            </div>
+                            <div style={{display:'flex'}}>
                                 <EyeButton 
                                     style={{    
                                         height : optionContainerRef.current && optionContainerRef.current.clientHeight / 2,
@@ -256,7 +282,7 @@ const CanvasSave = (props) => {
                                         border: "none",
                                         borderRadius: "10px",
                                     }}
-                                    text="SAVE TO SERVER"
+                                    text="SAVE AS"
                                     hoverColor="gray"
                                     clickColor="black"
                                     onClick={() => saveToServer()}
