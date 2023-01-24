@@ -168,7 +168,7 @@ export const deletePictrue = async(member, blobName) =>{
 export const reSavePicture = async(url, blobName, member, title, visibility) => {
     const data = await axios({
         method: "POST",
-        url: BACK_BASE_URL + "/blob/modify",
+        url: BACK_BASE_URL + "/blob/change",
         mode: "cors",
         headers: {
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.

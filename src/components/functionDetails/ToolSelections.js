@@ -8,7 +8,9 @@ import { useCanvas } from "../../components/canvas/CanvasContext";
 import { BiRefresh } from "react-icons/bi"
 import { FaRedoAlt, FaUndoAlt } from "react-icons/fa"
 import { RiEraserFill } from "react-icons/ri"
+import { VscSaveAs,VscSave } from "react-icons/vsc"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill } from "react-icons/bs"
+import { reSavePicture } from "../../api/member/MemberAPI";
 
 const ToolSelections = (props) => {
 
@@ -90,6 +92,19 @@ const ToolSelections = (props) => {
         )
     }
 
+    function overWrite(){
+        reSavePicture(props.link,props.blobName,localStorage.getItem('loginMemberId'), props.inputName, "inherit")
+        .then( (res) => {
+            console.log(res);
+            if (res.status === 200){
+                props.setShowSaveSuccess(true)
+                setTimeout(function(){
+                    props.setShowSaveSuccess(false)
+                }, 2000)
+            }
+        })
+    }
+
     return(
         <div style={{width:"100%", height:"80%", marginTop:"20%", display:"flex", flexWrap:"wrap", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
             <EyeButton 
@@ -158,7 +173,22 @@ const ToolSelections = (props) => {
 
             <EyeButton 
                 style={toolButtonStyle}
-                text={<BsFillSave2Fill />}
+                text={<VscSave />}
+                hoverColor="pink"
+                clickColor="black"
+                onClick={() => {
+                    if(props.blobName===""){
+                        props.setCanvasSaveOpen(true)
+                    }
+                    else{
+                        overWrite();
+                    }
+                }}
+            />
+
+            <EyeButton 
+                style={toolButtonStyle}
+                text={<VscSaveAs />}
                 hoverColor="pink"
                 clickColor="black"
                 onClick={() => {
