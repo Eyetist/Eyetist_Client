@@ -4,12 +4,19 @@
     height: 100vh;
 }
 
-#tsparticles {
-    background-color: rgb(16, 16, 16);
-    margin: 0;
-    padding: 0;
-    top: 0;
-    left: 0;
+.step-card-content{
+    width: 80%;
+    display: flex;
+    height: auto;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lilita One';
+    font-style: normal;
+    font-weight: bold;
+    font-size: xx-large;
+    word-break: normal;
+    color: #FFFFFF;
 }
 
 .information-top-container{

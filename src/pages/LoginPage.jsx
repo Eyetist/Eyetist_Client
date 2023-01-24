@@ -56,6 +56,7 @@ const LoginPage = () =>{
     }
 
     useEffect( () => {
+        // localStorage.setItem('loginMemberId', "test")
         if (localStorage.getItem('loginMemberId') && navigate){
             navigate('/begin')
         }
@@ -64,7 +65,7 @@ const LoginPage = () =>{
     return(
         <div className = "main-container">
             <EyeMouse />
-            <div className="login-join-top-container">
+            <div className="login-join-top-container">ㄱ
                 <Link to = {`/`} className = "login-join-title">
                     EyeTist
                 </Link>

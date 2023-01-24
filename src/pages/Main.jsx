@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { CURRENT_FUNCTION,WINDOW_SIZE } from '../recoil/Atoms';
+import { useLocation } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { CURRENT_FUNCTION,WINDOW_SIZE, STROKE_COLOR, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE } from '../recoil/Atoms';
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
 import { useCanvas } from "../components/canvas/CanvasContext";
@@ -11,10 +12,21 @@ import SmartTools from "../components/functionDetails/SmartTools";
 import { useNavigate } from 'react-router-dom';
 import ToolSelections from "../components/functionDetails/ToolSelections";
 import MoveSelections from "../components/functionDetails/MoveSelection";
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
 import "./Main.css"
 
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
+
 const Main = () => {
-    const { canvasRef } = useCanvas()
+    const { canvasRef, contextRef } = useCanvas()
     let navigate = useNavigate();
     let SmartToolsPosition = useRef({x:0, y:0})
     let canvasSavePageTrigger = useRef(false)
@@ -27,14 +39,40 @@ const Main = () => {
     let canvasDivRef=useRef(null);
     let setWindowSize=useSetRecoilState(WINDOW_SIZE);
     let [smartToolsOpen, setSmartToolsOpen] = useState(false)
+    let setStrokeColor = useSetRecoilState(STROKE_COLOR)
+    let [isOpenSensitivity, setIsOpenSensitivity] = useState(false);
+    let [blobName,setBlobName]=useState("");
+    let [inputName,setInputName]=useState("");
 
-    // window.addEventListener('resize',function(){
-    //     setWindowSize({width:window.innerWidth,height:window.innerHeight})
-    //     console.log("resize")});
+    let [showSaveSuccess,setShowSaveSuccess]=useState(false);
+
+    const location = useLocation()
+
+    const handleResize=()=>{
+        let width=window.innerWidth;
+        let height=window.innerHeight;
+        setWindowSize({width:width,height:height})
+    }
 
     useEffect( () => {
         if (!localStorage.getItem('loginMemberId') && navigate){
             navigate('/login')
+        }
+        if (location.state){
+            setBlobName(location.state.blobName)
+            setInputName(location.state.inputName)
+            let image = new Image();
+            image.src = location.state.imageLink
+            image.onload = function () {
+                contextRef.current.drawImage(image,0,0,image.width,image.height,0,0,canvasRef.current.width,canvasRef.current.height);
+                setImgBuffer([...[], image]);
+            }
+        }
+        setStrokeColor("#000000");
+        window.addEventListener('resize',handleResize);
+        handleResize();
+        return()=>{
+            window.removeEventListener('resize',handleResize);
         }
     }, [])
 
@@ -45,26 +83,36 @@ const Main = () => {
         }
         else{
             if (canvasSavePageTrigger.current){
-                setRatio(1);
-                const canvas = canvasRef.current;
-                const context = canvas.getContext("2d");
-                const image = new Image();
-
-                image.src = imgBuffer[bufferIdx];
-                image.onload=function(){
-                    context.drawImage(image,0,0);
-                }
-
+                // setRatio(1);
+                // setBufferIdx(0);
+                // const canvas = canvasRef.current;
+                // const context = canvas.getContext("2d");
+                // context.drawImage(imgBuffer[bufferIdx],0,0,imgBuffer[bufferIdx].width,imgBuffer[bufferIdx].height,0,0,canvas.width,canvas.height);
                 canvasSavePageTrigger.current = false;
+                console.log(blobName);
             }
         }
     }, [canvasSaveOpen])
+
+    useEffect( () => {
+        if (!smartToolsOpen){
+            setIsOpenSensitivity(false)
+        }
+    }, [smartToolsOpen])
     
     return (
         <div className="whole-container">
+            <BootstrapDialog
+                aria-labelledby="customized-dialog-title"
+                open={showSaveSuccess}
+                onClose={() =>{setShowSaveSuccess(false)}}
+            >Save is complete!</BootstrapDialog>
             <EyeMouse 
                 SmartToolsPosition = {SmartToolsPosition}
                 setSmartToolsOpen = {setSmartToolsOpen}
+                smartToolsOpen = {smartToolsOpen}
+                setIsOpenSensitivity = {setIsOpenSensitivity}
+                isOpenSensitivity = {isOpenSensitivity}
             />
             {
                 smartToolsOpen ?
@@ -77,6 +125,8 @@ const Main = () => {
                     imgBuffer={imgBuffer}
                     SmartToolsPosition = {SmartToolsPosition}
                     setSmartToolsOpen = {setSmartToolsOpen}
+                    isOpenSensitivity = {isOpenSensitivity}
+                    setIsOpenSensitivity = {setIsOpenSensitivity}
                 />
                 :
                 <></>
@@ -94,7 +144,7 @@ const Main = () => {
                             width = "200px"
                             height = "10px"
                         />
-                    </div>
+                    </div>                    
                 </div>
                 <div style={{display:"flex", height:"100%", width:"20%", alignItems: "center"}}>
                     <MoveSelections 
@@ -110,7 +160,10 @@ const Main = () => {
                         <div style={{width: "100%", height:"100%", display:'flex', alignItems: "center", justifyContent: "center"}}>{/* backgroundColor: "#313336"}}> */}
                             <CanvasSave 
                                 setIsOpen={setCanvasSaveOpen}
-                                link={imgBuffer[bufferIdx]}
+                                link={imgBuffer[bufferIdx].src}
+                                setBlobName={setBlobName}
+                                inputName={inputName}
+                                setInputName={setInputName}
                             />
                         </div>
                     </div>
@@ -131,6 +184,10 @@ const Main = () => {
                             setImgBuffer={setImgBuffer}
                             bufferIdx={bufferIdx}
                             imgBuffer={imgBuffer}
+                            blobName={blobName}
+                            inputName={inputName}
+                            link={imgBuffer[bufferIdx]? imgBuffer[bufferIdx].src : null}
+                            setShowSaveSuccess={setShowSaveSuccess}
                         />
                     </div>
     
@@ -143,13 +200,13 @@ const Main = () => {
                             ratio={ratio}
                             setRatio={setRatio}
                             canvasDivRef={canvasDivRef}
+                            smartToolsOpen = {smartToolsOpen}
                         />
                     </div>
     
                     <div className="right-container">
                         <div className="cam-container" style={{height:window.innerHeight * 0.2}}>
-                            <FaceMeshCam
-                            />
+                            <FaceMeshCam />
                         </div>
 
                         <div className="detail-container">

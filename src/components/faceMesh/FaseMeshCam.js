@@ -5,7 +5,7 @@ import * as cam from "@mediapipe/camera_utils";
 import { drawConnectors } from '@mediapipe/drawing_utils';
 import Webcam from "react-webcam";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { MOUSE_POS, MOUSE_SENSITIVITY, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN} from '../../recoil/Atoms';
+import { MOUSE_POS, MOUSE_SENSITIVITY, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE} from '../../recoil/Atoms';
 
 const faceMesh = new FaceMesh({
     locateFile: (file) => {
@@ -22,6 +22,9 @@ function FaceMeshCam(props) {
     let setIsRightEyeBlick = useSetRecoilState(IS_RIGHT_EYE_BLINK)
     let setIsMouseOpen = useSetRecoilState(IS_MOUSE_OPEN)
     let mouseSensitivity = useRecoilValue(MOUSE_SENSITIVITY)
+
+    let leftEyeBlinkValue = useRecoilValue(LEFT_EYE_BLINK_VALUE)
+    let rightEyeBlinkValue = useRecoilValue(RIGHT_EYE_BLINK_VALUE)
 
     let mousePosXRef = useRef(0)
     let mousePosYRef = useRef(0)
@@ -92,29 +95,61 @@ function FaceMeshCam(props) {
                 const right_eye = [results.multiFaceLandmarks[0][374].y, results.multiFaceLandmarks[0][386].y]
                 const mouse = [results.multiFaceLandmarks[0][14].y, results.multiFaceLandmarks[0][13].y]
 
-                if (left_eye[0] - left_eye[1] < 0.01){ // 왼쪽 눈 클릭
+                if (props.settingMode && props.isStart.current){
+                    switch (props.step.current){
+                        case 1:
+                            props.setIsCorrectValue("true")
+                            props.setReceiveEyeValue(prevList => [...prevList, {left : left_eye[0] - left_eye[1], right: right_eye[0] - right_eye[1]}])
+                            
+                            break
+                        case 2:
+                            if ((left_eye[0] - left_eye[1]) < (right_eye[0] - right_eye[1])){
+                                props.setIsCorrectValue("true")
+                                props.setReceiveEyeValue(prevList => [...prevList, {left : left_eye[0] - left_eye[1], right: right_eye[0] - right_eye[1]}])
+                            }
+                            else{
+                                props.setIsCorrectValue("false")
+                            }
+                            break
+                        case 3:
+                            if ((left_eye[0] - left_eye[1]) > (right_eye[0] - right_eye[1])){
+                                props.setIsCorrectValue("true")
+                                props.setReceiveEyeValue(prevList => [...prevList, {left : left_eye[0] - left_eye[1], right: right_eye[0] - right_eye[1]}])
+                            }
+                            else{
+                                props.setIsCorrectValue("false")
+                            }
+                            break
+                    }
+                    // console.log("------------------------------------------------------")
+                    // console.log("left: " + String(left_eye[0] - left_eye[1]))
+                    // console.log("right: " + String(right_eye[0] - right_eye[1]))
+                    // console.log("------------------------------------------------------")
+                }
+                if (left_eye[0] - left_eye[1] < rightEyeBlinkValue.left){ // 왼쪽 눈 클릭
                     setIsLeftEyeBlink(true)
                 }
                 else{
                     setIsLeftEyeBlink(false)
                 }
 
-                if (right_eye[0] - right_eye[1] < 0.01){ // 오른쪽 눈 클릭
+                if (right_eye[0] - right_eye[1] < leftEyeBlinkValue.right){ // 오른쪽 눈 클릭
                     setIsRightEyeBlick(true)
                 }
                 else{
                     setIsRightEyeBlick(false)
                 }
 
-                if (mouse[0] - mouse[1] < 0.03){ 
+                if (mouse[0] - mouse[1] < 0.01){ 
                     setIsMouseOpen(false)
                 }
                 else{
                     setIsMouseOpen(true)
                 }
+        
 
-                p2_x = Math.round(p2_x - (((window.innerWidth / 2) - p2_x) * mouseSensitivity / 10))
-                p2_y = Math.round(p2_y - (((window.innerHeight / 2) - p2_y) * mouseSensitivity / 10))
+                p2_x = Math.round(p2_x - (((window.innerWidth / 2) - p2_x) / (mouseSensitivity * mouseSensitivity)))
+                p2_y = Math.round(p2_y - (((window.innerHeight / 2) - p2_y) / (mouseSensitivity * mouseSensitivity)))
 
                 if (Math.abs(mousePosXRef.current - p2_x) > 1){
                     mousePosXRef.current = p2_x
@@ -179,7 +214,9 @@ function FaceMeshCam(props) {
         if (typeof webcamRef.current !== "undefined" && webcamRef.current !== null) {
             camera = new cam.Camera(webcamRef.current.video, {
                 onFrame: async () => {
-                await faceMesh.send({ image: webcamRef.current.video });
+                if (webcamRef.current){
+                    await faceMesh.send({ image: webcamRef.current.video });
+                }
                 },
                 width: window.innerWidth,
                 height: window.innerHeight,

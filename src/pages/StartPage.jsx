@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import EyeMouse from "../components/mouse/EyeMouse";
@@ -35,7 +35,19 @@ const StartPage = () =>{
     ]
 
     return(
-        <div className = "main-container">
+        <div className = "information-main-container">
+            <ul className="lines">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
             <EyeMouse />
             <div className="start-page-top-container">
                 <div className='gallery-top-buttons'>
@@ -86,7 +98,9 @@ const StartPage = () =>{
                         content={paintContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {navigate('/paint')}}
+                        onClick={() => {
+                            navigate('/paint')
+                        }}
                     />
                     <EyeCard 
                         style={{
@@ -101,7 +115,9 @@ const StartPage = () =>{
                         content={galleryContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {navigate('/gallery')}}
+                        onClick={() => {
+                            navigate('/gallery')
+                        }}
                     />
                     <BootstrapDialog
                             aria-labelledby="customized-dialog-title"
@@ -111,7 +127,6 @@ const StartPage = () =>{
                 </div>
             </div>
         </div>
-
     );
 }
 export default StartPage;

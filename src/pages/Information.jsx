@@ -13,15 +13,14 @@ const Information = () =>{
         "You can click the button by blinking your right eye.",
         "Also you can draw by closing your left eye."
     ]
-
     let startContent = [
         "Click this button to start EyeTist!",
         "An amazing world awaits you."
     ]
 
     return(
-        <div className = "main-container">
-            {/* <ul className="lines">
+        <div className = "information-main-container">
+            <ul className="lines">
                 <li></li>
                 <li></li>
                 <li></li>
@@ -32,7 +31,7 @@ const Information = () =>{
                 <li></li>
                 <li></li>
                 <li></li>
-            </ul> */}
+            </ul>
             <EyeMouse />
             <div className="information-top-container">
                 <div className = "information-title">
@@ -73,12 +72,11 @@ const Information = () =>{
                         content={startContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {navigate('/login')}}
+                        onClick={() => {navigate('/setting')}}
                     />
                 </div>
             </div>
         </div>
-
     );
 }
 export default Information;

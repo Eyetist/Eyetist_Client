@@ -3,7 +3,7 @@ import EyeButton from "../components/atoms/EyeButton"
 import EyeKeyboard from "../components/keyboard/EyeKeyboard"
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
-import { sendCanvas } from "../api/member/MemberAPI"
+import { sendCanvas,reSavePicture } from "../api/member/MemberAPI"
 import './CanvasSave.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -40,6 +40,7 @@ const CanvasSave = (props) => {
     useEffect(() => {
         setExtention("png")
         setVisible("private")
+        setInputName(props.inputName);
     }, []);
 
     function ClickPngButton(){
@@ -110,6 +111,8 @@ const CanvasSave = (props) => {
                     setTimeout(function(){
                         setOpenSaveSuccess(false)
                     }, 2000)
+                    props.setBlobName(res.data);
+                    props.setInputName(inputName);
                 }
             })
         }
@@ -256,7 +259,7 @@ const CanvasSave = (props) => {
                                         border: "none",
                                         borderRadius: "10px",
                                     }}
-                                    text="SAVE TO SERVER"
+                                    text="SAVE AS"
                                     hoverColor="gray"
                                     clickColor="black"
                                     onClick={() => saveToServer()}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import EyeImageCard from '../atoms/EyeImageCard';
 import { motion, useAnimationControls } from "framer-motion"
 import { Picture } from '../../models/model/Picture';
@@ -16,6 +16,7 @@ const MyGallery = (props) => {
     let [displayPublicPictures, setDisplayPublicPictures] = useState([])
     let [privatePictureCount, setPrivatePictureCount] = useState(0)
     let [publicPictureCount, setPublicPictureCount] = useState(0)
+    let [galleryUpdateState, setGalleryUpdateState] = useState("")
 
     const privateControls = useAnimationControls()
     const publicControls = useAnimationControls()
@@ -30,17 +31,28 @@ const MyGallery = (props) => {
     }
 
     useEffect( () => {
+        props.imageCardActionRef.current = props.modifyCardOpen
+    }, [props.modifyCardOpen])
+
+    useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         getMyPictures(localStorage.getItem('loginMemberId'),)
         .then( (res) => {
+            console.log(res)
             if (res.status !== 200) return
             modelUpdate(res.data)
             .then( () => {
                 setPicture()
             })
         })
-    },[props.isMyGallery])
+    },[props.isMyGallery, galleryUpdateState, props.modifyUpdateState])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         setPrivatePictureCount(privatePictures.length)
         setPublicPictureCount(publicPictures.length)
         let privatePicturesDiv = []
@@ -52,13 +64,19 @@ const MyGallery = (props) => {
                     <EyeImageCard
                         key={index}
                         blobName={picture.blobName}
+                        azureBlobName={picture.azureBlobName}
+                        likesBlobName={picture.likesBlobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
-                        isHeart={0}
+                        heart={picture.heart}
+                        setGalleryUpdateState = {setGalleryUpdateState}
+                        setClickedImageInfo = {props.setClickedImageInfo}
+                        setModifyCardOpen = {props.setModifyCardOpen}
+                        imageCardActionRef = {props.imageCardActionRef}     
                     />
                 )
             }
@@ -71,13 +89,19 @@ const MyGallery = (props) => {
                     <EyeImageCard
                         key={index}
                         blobName={picture.blobName}
+                        azureBlobName={picture.azureBlobName}
+                        likesBlobName={picture.likesBlobName}
                         eyeTist={picture.member}
                         title={picture.title}
                         likes={picture.likes}
                         imageLink={picture.link}
                         visibility={picture.visibility}
                         date={picture.date}
-                        isHeart={1}
+                        heart={picture.heart}
+                        setGalleryUpdateState = {setGalleryUpdateState}
+                        setClickedImageInfo = {props.setClickedImageInfo}
+                        setModifyCardOpen = {props.setModifyCardOpen}
+                        imageCardActionRef = {props.imageCardActionRef}        
                     />
                 )
             }
@@ -87,6 +111,9 @@ const MyGallery = (props) => {
     }, [props.page, publicPictures, privatePictures])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         if(props.visibility === "private"){
             props.setImageCount(privatePictureCount)
         }
@@ -96,6 +123,9 @@ const MyGallery = (props) => {
     }, [privatePictureCount, publicPictureCount])
 
     useEffect( () => {
+        if (props.modifyCardOpen){
+            props.setModifyCardOpen(false)
+        }
         if(props.visibility === "private"){
             props.setImageCount(privatePictureCount)
             privateControls.start({

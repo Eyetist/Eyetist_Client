@@ -2,6 +2,7 @@
 
 Config.js
 .idea
+.vscode
 # dependencies
 /node_modules
 /.pnp
@@ -15,6 +16,7 @@ Config.js
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local

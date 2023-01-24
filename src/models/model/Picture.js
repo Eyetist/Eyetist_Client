@@ -2,12 +2,14 @@ export class Picture{
     #pictures = [{
         member : "",
         blobName : "",
+        likesBlobName : "",
+        azureBlobName : "",
         title : "",
         link : "",
         likes : "",
         visibility : "",
         date : "",
-        isHeart : ""
+        heart : "",
     }]
 
     updateModel(updatedModel){

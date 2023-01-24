@@ -1,6 +1,6 @@
 import axios from "axios"
-import { BACK_BASE_URL } from "../../Config";
 axios.defaults.withCredentials = true;
+const BACK_BASE_URL = process.env.REACT_APP_BACK_URL;
 
 export const sendLogin = async(inputId, inputPw) =>{
     const data = await axios({
@@ -62,11 +62,49 @@ export const getMyPictures = async(userId) =>{
     return data
 }
 
-export const getOthersPictures = async (visibility, page) =>{
+export const getBase64 = async(blobName) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/blob/getImage",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "azureBlobName" : blobName, 
+        }
+    });
+    return data
+}
+
+export const getOthersPictures = async (visibility, page, member) =>{
     const data = await axios.get(BACK_BASE_URL + '/blob/publicImage',{
         params: {
             "visibility" : visibility, 
-            "page" : page
+            "page" : page,
+            "member" : member
+        }
+    })
+    return data;
+}
+
+export const getTopsLikesPictures = async (visibility, page, member) =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/getTopLikes',{
+        params: {
+            "visibility" : visibility, 
+            "page" : page,
+            "member" : member
+        }
+    })
+    return data;
+}
+
+export const getWeeklyLikesPictures = async (visibility, page, member) =>{
+    const data = await axios.get(BACK_BASE_URL + '/blob/getTopLikes',{
+        params: {
+            "visibility" : visibility, 
+            "page" : page,
+            "member" : member
         }
     })
     return data;
@@ -74,15 +112,6 @@ export const getOthersPictures = async (visibility, page) =>{
 
 export const getOtherPicturesCount = async () =>{
     const data = await axios.get(BACK_BASE_URL + '/blob/imageCount')
-    return data;
-}
-
-export const getLikePictureList = async (member) =>{
-    const data = await axios.get(BACK_BASE_URL + '/like/getList',{
-        params: {
-            "member" : member
-        }
-    })
     return data;
 }
 
@@ -95,9 +124,61 @@ export const setLikePicture = async(blobName, member, heart) =>{
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
         },
         data : {
-            "blobName" : blobName,
+            "likesBlobName" : blobName,
             "member" : member,
             "heart" : heart, 
+        }
+    });
+    return data
+}
+
+export const modifyPictrue = async(blobName, title, visibility) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/blob/modify",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "azureBlobName" : blobName,
+            "title" : title,
+            "visibility" : visibility, 
+        }
+    });
+    return data
+}
+
+export const deletePictrue = async(member, blobName) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/blob/deleteImage",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "member" : member,
+            "azureBlobName" : blobName,
+        }
+    });
+    return data
+}
+
+export const reSavePicture = async(url, blobName, member, title, visibility) => {
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/blob/change",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "file" : url,
+            "azureBlobName" : blobName,
+            "member" : member,
+            "title" : title,
+            "visibility" : visibility,
         }
     });
     return data

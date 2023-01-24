@@ -26,12 +26,15 @@ const EyeImageCard = (props) => {
     let [thumbnailImageHeight, setThumbnailImageHeight] = useState();
     let [thumbnailImageWidth, setThumbnailImageWidth] = useState();
 
-
     let transLeft = useRef(0)
     let transTop = useRef(0)
 
+    let showDate = props.date[0] + props.date[1] + props.date[2] + props.date[3] 
+                    + "/" + props.date[4] + props.date[5]   
+                    + "/" + props.date[6] + props.date[7]    
+
     function isOverlap(){
-        if (buttonRef.current){
+        if (buttonRef.current && !props.imageCardActionRef.current){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = buttonRef.current;
             if (offsetTop !== 0){
                 transTop.current = offsetTop
@@ -53,7 +56,7 @@ const EyeImageCard = (props) => {
     }
 
     function isHeartOverlap(){
-        if (heartRef.current){
+        if (heartRef.current && !props.imageCardActionRef.current){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = heartRef.current;
             if (offsetTop !== imgRef.current.offsetHeight + 3){
                 transTop.current = offsetTop
@@ -98,14 +101,23 @@ const EyeImageCard = (props) => {
     
         if (clickRef.current){
             if (!isRightEyeBlink){
-
                 if (isHeartHover){
-                    console.log("click Heart")
-                    setLikePicture(props.blobName, props.member, props.isHeart)
+                    let isHeart = props.heart;
+                    if (!isHeart){
+                        isHeart = 0;
+                    }
+                    setLikePicture(props.azureBlobName, localStorage.getItem("loginMemberId"), isHeart)
+                    .then((res) => {
+                        if(res.status === 200){
+                            props.setGalleryUpdateState(Math.random())
+                        }
+                    })
                 }
-                else{
-                    console.log("click Card")
-                    console.log(props)
+                else{ // card Click
+                    if (props.setClickedImageInfo && !props.imageCardActionRef.current){
+                        props.setModifyCardOpen(true)
+                        props.setClickedImageInfo(props)
+                    }
                 }
                 clickRef.current = false
             }
@@ -134,7 +146,7 @@ const EyeImageCard = (props) => {
             />
             {
                 props.visibility === "public" ?
-                    props.isHeart ? 
+                    props.heart ? 
                     <motion.div animate={controls} ref={heartRef} style={{width:"20px", height:"20px", fontSize:"20px", marginLeft:"15px", backgroundColor:"inherit", color:isHeartHover ? "gray" : "red"}}>
                         <AiFillHeart />
                     </motion.div>
@@ -162,8 +174,7 @@ const EyeImageCard = (props) => {
                     <></>
             }
             <div className="picture-information">
-                Date: {props.date}
-                {/* Date:  */}
+                Date: {showDate}
             </div>
         </motion.div>
     )
