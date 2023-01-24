@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCanvas } from "./CanvasContext.js";
 import { useRecoilValue } from "recoil";
-import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN, CURRENT_FUNCTION, SELECTED_SHAPE } from '../../recoil/Atoms';
+import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN, CURRENT_FUNCTION, SELECTED_SHAPE,IS_DRAWING } from '../../recoil/Atoms';
 
 export function Canvas(props) {
     let mousePos = useRecoilValue(MOUSE_POS)
@@ -12,6 +12,7 @@ export function Canvas(props) {
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let currentFunction = useRecoilValue(CURRENT_FUNCTION)
     let selectedShape = useRecoilValue(SELECTED_SHAPE)
+    let isDrawing=useRecoilValue(IS_DRAWING);
     let [startPosX, setStartPosX] = useState();
     let [startPosY, setStartPosY] = useState();
     let [shapeImg, setShapeImg] = useState();
@@ -108,14 +109,11 @@ export function Canvas(props) {
 
     useEffect(() => {
         let posX = (mousePos.x - (window.innerWidth / 10)) + 15;
-        let posY = (mousePos.y - (window.innerHeight / 10)) + 15
-        //console.log(posY);
+        let posY = (mousePos.y - (window.innerHeight / 10)) + 15;
 
-        // console.log(posX+","+posY);
-        // if(posX > 0 && posY > 0 && posX < canvasRef.current.width && posY < canvasRef.current.height){
-        if (posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight * 0.9 && posX < canvasRef.current.width && posY < canvasRef.current.height) {
+        if (posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight * 0.9 && posX < canvasRef.current.width && posY < canvasRef.current.height&&isDrawing && !props.smartToolsOpen) {
             if (currentFunction === "draw" || currentFunction === "erase") {
-                if (isMouseOpen && !props.smartToolsOpen) {
+                if (isMouseOpen) {
                     isStartDrawing.current = true;
                     contextRef.current.lineTo(posX + props.canvasDivRef.current.scrollLeft, posY + props.canvasDivRef.current.scrollTop);
                     contextRef.current.stroke();
@@ -123,17 +121,13 @@ export function Canvas(props) {
                 else {
                     if (isStartDrawing.current) {
                         contextRef.current.beginPath();
-                        // saveImage(props.setBufferIdx,props.bufferIdx,props.setImgBuffer,props.imgBuffer);
-                        // props.setBufferIdx(props.bufferIdx+1);
-                        // var buffer=[...props.imgBuffer].slice(0,props.bufferIdx+1);
-                        // props.setImgBuffer([...buffer,canvasRef.current.toDataURL()]);
                         save();
                     }
                     isStartDrawing.current = false;
                 }
             }
             else if(currentFunction==="fill"){
-                if(isLeftEyeBlink && !props.smartToolsOpen){
+                if(isLeftEyeBlink){
                     isLock.current=true;
                 }
                 else {
