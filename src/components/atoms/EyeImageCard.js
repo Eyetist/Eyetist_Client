@@ -114,7 +114,6 @@ const EyeImageCard = (props) => {
                     })
                 }
                 else{ // card Click
-                    console.log(props)
                     if (props.setClickedImageInfo && !props.imageCardActionRef.current){
                         props.setModifyCardOpen(true)
                         props.setClickedImageInfo(props)

@@ -30,6 +30,7 @@ const EyeGallery = () => {
 
     let [clickedImageInfo, setClickedImageInfo] = useState()
     let [modifyCardOpen, setModifyCardOpen] = useState(false)
+    const [modifyUpdateState, setModifyUpdateState] = useState()
     let imageCardActionRef = useRef(modifyCardOpen)
 
     // const checkOverFlow = () => {
@@ -99,6 +100,7 @@ const EyeGallery = () => {
                     isMyGallery = {isMyGallery}
                     clickedImageInfo = {clickedImageInfo}
                     setModifyCardOpen = {setModifyCardOpen}
+                    setModifyUpdateState = {setModifyUpdateState}
                 />
                 :
                 <></>
@@ -252,6 +254,7 @@ const EyeGallery = () => {
                             setModifyCardOpen = {setModifyCardOpen}
                             modifyCardOpen = {modifyCardOpen} 
                             imageCardActionRef = {imageCardActionRef}  
+                            modifyUpdateState = {modifyUpdateState}
                         />
                     </motion.div>
                     :
