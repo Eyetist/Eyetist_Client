@@ -59,9 +59,8 @@ const Main = () => {
             navigate('/login')
         }
         if (location.state){
-            // console.log(location.state.blobName)
-            // console.log(location.state.inputName)
-            // console.log(location.state.imageLink)
+            setBlobName(location.state.blobName)
+            setInputName(location.state.inputName)
             let image = new Image();
             image.src = location.state.imageLink
             image.onload = function () {
