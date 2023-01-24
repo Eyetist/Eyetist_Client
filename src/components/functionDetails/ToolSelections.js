@@ -27,8 +27,6 @@ const ToolSelections = (props) => {
         backgroundColor:"inherit",
         color: "white",
         border: "1px solid #B4A5A5",
-        marginLeft: "10px",
-        marginRight: "10px",
         marginTop: "5px",
         marginBottom: "5px",
     }
