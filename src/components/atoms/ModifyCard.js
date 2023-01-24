@@ -3,9 +3,9 @@ import EyeButton from "./EyeButton";
 import EyeKeyboard from "../keyboard/EyeKeyboard";
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
+import { useNavigate } from 'react-router-dom';
 import './ModifyCard.css'
-import { Link } from "@material-ui/core";
-import { modifyPictrue, deletePictrue } from "../../api/member/MemberAPI";
+import { modifyPictrue, deletePictrue, getBase64 } from "../../api/member/MemberAPI";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -17,6 +17,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const ModifyCard = (props) => {
+    let navigate = useNavigate();
     const nameRef = useRef(null)
     const [inputName, setInputName] = useState("")
     const [nameFocused, setNameFocused] = useState(false)
@@ -40,12 +41,30 @@ const ModifyCard = (props) => {
     }, [props.clickedImageInfo])
 
     function download(){
-        const image = (props.clickedImageInfo.imageLink)
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = props.clickedImageInfo.title;
-        console.log(Link)
-        link.click();
+        getBase64(props.clickedImageInfo.azureBlobName)
+        .then( (res) => {
+            if (res.status === 200){
+                const link = document.createElement("a");
+                link.href = res.data.link;
+                link.download = props.clickedImageInfo.title;
+                link.click();
+            }
+        })
+    }
+
+    function drawOver(){
+        getBase64(props.clickedImageInfo.azureBlobName)
+        .then( (res) => {
+            if (res.status === 200){
+                navigate('/paint', {
+                    state: {
+                        blobName: props.clickedImageInfo.azureBlobName,
+                        inputName: props.clickedImageInfo.title,
+                        imageLink : res.data.link
+                    }
+                });
+            }
+        })
     }
 
     function onClickModifyButton(){
@@ -309,7 +328,7 @@ const ModifyCard = (props) => {
                                                 text="DRAW OVER"
                                                 hoverColor="gray"
                                                 clickColor="black"
-                                                onClick={() => {}}
+                                                onClick={() => {drawOver()}}
                                             />
                                         </div>
                                     </div>

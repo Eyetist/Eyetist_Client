@@ -9,7 +9,7 @@ export class Picture{
         likes : "",
         visibility : "",
         date : "",
-        heart : ""
+        heart : "",
     }]
 
     updateModel(updatedModel){

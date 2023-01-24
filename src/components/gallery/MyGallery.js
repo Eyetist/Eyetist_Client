@@ -40,6 +40,7 @@ const MyGallery = (props) => {
         }
         getMyPictures(localStorage.getItem('loginMemberId'),)
         .then( (res) => {
+            console.log(res)
             if (res.status !== 200) return
             modelUpdate(res.data)
             .then( () => {
