@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { CURRENT_FUNCTION,WINDOW_SIZE, STROKE_COLOR, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE } from '../recoil/Atoms';
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
@@ -14,7 +15,7 @@ import MoveSelections from "../components/functionDetails/MoveSelection";
 import "./Main.css"
 
 const Main = () => {
-    const { canvasRef } = useCanvas()
+    const { canvasRef, contextRef } = useCanvas()
     let navigate = useNavigate();
     let SmartToolsPosition = useRef({x:0, y:0})
     let canvasSavePageTrigger = useRef(false)
@@ -31,6 +32,8 @@ const Main = () => {
     let [isOpenSensitivity, setIsOpenSensitivity] = useState(false);
     let [blobName,setBlobName]=useState("");
 
+    const location = useLocation()
+
     const handleResize=()=>{
         let width=window.innerWidth;
         let height=window.innerHeight;
@@ -41,8 +44,19 @@ const Main = () => {
         if (!localStorage.getItem('loginMemberId') && navigate){
             navigate('/login')
         }
+        if (location.state){
+            // console.log(location.state.blobName)
+            // console.log(location.state.inputName)
+            // console.log(location.state.imageLink)
+            let image = new Image();
+            image.src = location.state.imageLink
+            image.onload = function () {
+                contextRef.current.drawImage(image,0,0,image.width,image.height,0,0,canvasRef.current.width,canvasRef.current.height);
+                setImgBuffer([...[], image]);
+            }
+        }
         setStrokeColor("#000000");
-        console.log(blobName);
+        // console.log(blobName);
         window.addEventListener('resize',handleResize);
         handleResize();
         return()=>{

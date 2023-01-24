@@ -62,6 +62,21 @@ export const getMyPictures = async(userId) =>{
     return data
 }
 
+export const getBase64 = async(blobName) =>{
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/blob/getImage",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "azureBlobName" : blobName, 
+        }
+    });
+    return data
+}
+
 export const getOthersPictures = async (visibility, page, member) =>{
     const data = await axios.get(BACK_BASE_URL + '/blob/publicImage',{
         params: {
