@@ -120,7 +120,7 @@ export const setLikePicture = async(blobName, member, heart) =>{
 export const modifyPictrue = async(blobName, title, visibility) =>{
     const data = await axios({
         method: "POST",
-        url: BACK_BASE_URL + "/canvas/modify",
+        url: BACK_BASE_URL + "/blob/modify",
         mode: "cors",
         headers: {
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
@@ -134,16 +134,36 @@ export const modifyPictrue = async(blobName, title, visibility) =>{
     return data
 }
 
-export const deletePictrue = async(blobName) =>{
+export const deletePictrue = async(member, blobName) =>{
     const data = await axios({
         method: "POST",
-        url: BACK_BASE_URL + "/canvas/delete",
+        url: BACK_BASE_URL + "/blob/deleteImage",
         mode: "cors",
         headers: {
           "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
         },
         data : {
+            "member" : member,
             "azureBlobName" : blobName,
+        }
+    });
+    return data
+}
+
+export const reSavePicture = async(url, blobName, member, title, visibility) => {
+    const data = await axios({
+        method: "POST",
+        url: BACK_BASE_URL + "/blob/modify",
+        mode: "cors",
+        headers: {
+          "Content-Type": "multipart/form-data", // Content-Type을 반드시 이렇게 하여야 한다.
+        },
+        data : {
+            "file" : url,
+            "azureBlobName" : blobName,
+            "member" : member,
+            "title" : title,
+            "visibility" : visibility,
         }
     });
     return data
