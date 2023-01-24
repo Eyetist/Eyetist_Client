@@ -3,7 +3,7 @@ import EyeButton from "../components/atoms/EyeButton"
 import EyeKeyboard from "../components/keyboard/EyeKeyboard"
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
-import { sendCanvas } from "../api/member/MemberAPI"
+import { sendCanvas,reSavePicture } from "../api/member/MemberAPI"
 import './CanvasSave.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -40,6 +40,7 @@ const CanvasSave = (props) => {
     useEffect(() => {
         setExtention("png")
         setVisible("private")
+        setInputName(props.inputName);
     }, []);
 
     function ClickPngButton(){
@@ -111,14 +112,10 @@ const CanvasSave = (props) => {
                         setOpenSaveSuccess(false)
                     }, 2000)
                     props.setBlobName(res.data);
+                    props.setInputName(inputName);
                 }
             })
         }
-    }
-
-    function overWrite(){
-        props.setBlobName("g");
-        props.setIsOpen(false);
     }
 
     return(
@@ -253,26 +250,6 @@ const CanvasSave = (props) => {
 
                         <div className="option-container">
                             <div className="option-text">SAVE</div>
-                            <div style={{display:'flex'}}>
-                                {
-                                    props.blobName === ""?
-                                        <></>
-                                    :
-                                        <EyeButton 
-                                            style={{    
-                                                height : optionContainerRef.current && optionContainerRef.current.clientHeight / 2,
-                                                width: optionContainerRef.current && optionContainerRef.current.clientWidth ,
-                                                backgroundColor: "gainsboro",
-                                                border: "none",
-                                                borderRadius: "10px",
-                                            }}
-                                            text="OVER WRITE"
-                                            hoverColor="gray"
-                                            clickColor="black"
-                                            onClick={() => saveToServer()}
-                                        />
-                                }
-                            </div>
                             <div style={{display:'flex'}}>
                                 <EyeButton 
                                     style={{    

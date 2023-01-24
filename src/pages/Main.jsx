@@ -11,7 +11,18 @@ import SmartTools from "../components/functionDetails/SmartTools";
 import { useNavigate } from 'react-router-dom';
 import ToolSelections from "../components/functionDetails/ToolSelections";
 import MoveSelections from "../components/functionDetails/MoveSelection";
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
 import "./Main.css"
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
 
 const Main = () => {
     const { canvasRef } = useCanvas()
@@ -30,6 +41,9 @@ const Main = () => {
     let setStrokeColor = useSetRecoilState(STROKE_COLOR)
     let [isOpenSensitivity, setIsOpenSensitivity] = useState(false);
     let [blobName,setBlobName]=useState("");
+    let [inputName,setInputName]=useState("");
+
+    let [showSaveSuccess,setShowSaveSuccess]=useState(false);
 
     const handleResize=()=>{
         let width=window.innerWidth;
@@ -42,7 +56,6 @@ const Main = () => {
             navigate('/login')
         }
         setStrokeColor("#000000");
-        console.log(blobName);
         window.addEventListener('resize',handleResize);
         handleResize();
         return()=>{
@@ -76,6 +89,11 @@ const Main = () => {
     
     return (
         <div className="whole-container">
+            <BootstrapDialog
+                aria-labelledby="customized-dialog-title"
+                open={showSaveSuccess}
+                onClose={() =>{setShowSaveSuccess(false)}}
+            >Save is complete!</BootstrapDialog>
             <EyeMouse 
                 SmartToolsPosition = {SmartToolsPosition}
                 setSmartToolsOpen = {setSmartToolsOpen}
@@ -130,8 +148,9 @@ const Main = () => {
                             <CanvasSave 
                                 setIsOpen={setCanvasSaveOpen}
                                 link={imgBuffer[bufferIdx].src}
-                                blobName={blobName}
                                 setBlobName={setBlobName}
+                                inputName={inputName}
+                                setInputName={setInputName}
                             />
                         </div>
                     </div>
@@ -152,6 +171,10 @@ const Main = () => {
                             setImgBuffer={setImgBuffer}
                             bufferIdx={bufferIdx}
                             imgBuffer={imgBuffer}
+                            blobName={blobName}
+                            inputName={inputName}
+                            link={imgBuffer[bufferIdx]? imgBuffer[bufferIdx].src : null}
+                            setShowSaveSuccess={setShowSaveSuccess}
                         />
                     </div>
     
