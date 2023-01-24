@@ -214,7 +214,9 @@ function FaceMeshCam(props) {
         if (typeof webcamRef.current !== "undefined" && webcamRef.current !== null) {
             camera = new cam.Camera(webcamRef.current.video, {
                 onFrame: async () => {
-                await faceMesh.send({ image: webcamRef.current.video });
+                if (webcamRef.current){
+                    await faceMesh.send({ image: webcamRef.current.video });
+                }
                 },
                 width: window.innerWidth,
                 height: window.innerHeight,
