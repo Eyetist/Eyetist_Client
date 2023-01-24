@@ -46,7 +46,7 @@ const MyGallery = (props) => {
                 setPicture()
             })
         })
-    },[props.isMyGallery, galleryUpdateState])
+    },[props.isMyGallery, galleryUpdateState, props.modifyUpdateState])
 
     useEffect( () => {
         if (props.modifyCardOpen){
