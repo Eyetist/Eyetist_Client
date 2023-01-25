@@ -39,6 +39,9 @@ const LoginPage = () =>{
     const [openLoginFail, setOpenLoginFail] = useState(false)
 
     function login(){
+        if (inputId === "" && inputPw === ""){
+            return
+        }
         sendLogin(inputId, inputPw)
         .then( (res) => {
             if (res.data === 200){
