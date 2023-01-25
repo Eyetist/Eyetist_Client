@@ -13,7 +13,9 @@ import { AiOutlinePause } from "react-icons/ai"
 import { RiEraserFill, RiCloseCircleFill, RiMouseFill } from "react-icons/ri"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill,BsFillPlayFill } from "react-icons/bs"
 import { IoColorPalette } from "react-icons/io5"
+import { VscSaveAs,VscSave } from "react-icons/vsc"
 import ShapeSelection from "../../components/functionDetails/ShapeSelection";
+import { reSavePicture } from "../../api/member/MemberAPI";
 
 const TOOL_BUTTON_SIZE = window.innerWidth * 0.04
 const TOOL_BUTTON_FONT_SIZE = window.innerWidth * 0.02
@@ -45,15 +47,28 @@ const SmartTools = (props) => {
     const toolContainerStyle = {
         position: 'absolute', 
         display: 'flex',
-        paddingLeft: props.SmartToolsPosition.current.x + 50, 
+        paddingLeft: props.SmartToolsPosition.current.x - TOOL_BUTTON_SIZE * 5, 
         paddingTop: props.SmartToolsPosition.current.y - ((window.innerWidth * 0.04 * 5) / 2), 
         alignItems:"center", 
         justifyContent: "center", 
         zIndex:'100'
     }
 
+    function overWrite(){
+        reSavePicture(props.link,props.blobName,localStorage.getItem('loginMemberId'), props.inputName, "inherit")
+        .then( (res) => {
+            console.log(res);
+            if (res.status === 200){
+                props.setShowSaveSuccess(true)
+                setTimeout(function(){
+                    props.setShowSaveSuccess(false)
+                }, 2000)
+            }
+        })
+    }
+
     function goBack(){
-        navigate('/setting')
+        navigate('/begin')
     }
 
     function logOut(){
@@ -232,25 +247,6 @@ const SmartTools = (props) => {
                     <div style={{display:'flex'}}>
                         <EyeButton 
                             style={toolButtonStyle}
-                            text={<BsFillSave2Fill />}
-                            hoverColor="pink"
-                            clickColor="black"
-                            onClick={() => {
-                                props.setCanvasSaveOpen(true)
-                                props.setSmartToolsOpen(false)
-                            }}
-                        />
-
-                        <EyeButton 
-                            style={toolButtonStyle}
-                            text={<RiCloseCircleFill />}
-                            hoverColor="pink"
-                            clickColor="black"
-                            onClick={() => {props.setSmartToolsOpen(false)}}
-                        />
-
-                        <EyeButton 
-                            style={toolButtonStyle}
                             text={<img src={diagramImage.diagram} style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
                             hoverColor="pink"
                             clickColor="black"
@@ -258,10 +254,37 @@ const SmartTools = (props) => {
                                 selectShape();
                             }}
                         />
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<VscSave />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {
+                                if(props.blobName===""){
+                                    props.setCanvasSaveOpen(true)
+                                    props.setSmartToolsOpen(false)
+                                }
+                                else{
+                                    overWrite();
+                                    props.setSmartToolsOpen(false)
+                                }
+                            }}
+                        />
+
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<VscSaveAs />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {
+                                props.setCanvasSaveOpen(true)
+                                props.setSmartToolsOpen(false)
+                            }}
+                        />
                     </div>
                 </div>
             }
-            <div style={{border: "1px solid #B4A5A5", borderRadius:"30px", paddingRight:"10px"}}>
+            <div style={{border: "1px solid #B4A5A5", borderRadius:"30px", paddingRight:"10px", marginLeft: "100px" }}>
                 <div style={{display:'flex'}}>
                     <EyeButton 
                         style={toolButtonStyle}
@@ -279,18 +302,14 @@ const SmartTools = (props) => {
                         onClick={() => {logOut()}}
                     />
                 </div>
-                {
-                    isPaletteMode ?
-                        <EyeButton 
-                            style={toolButtonStyle}
-                            text={<RiCloseCircleFill />}
-                            hoverColor="pink"
-                            clickColor="black"
-                            onClick={() => {props.setSmartToolsOpen(false)}}
-                        />
-                    :
-                        <></>
-                }
+
+                <EyeButton 
+                    style={toolButtonStyle}
+                    text={<RiCloseCircleFill />}
+                    hoverColor="pink"
+                    clickColor="black"
+                    onClick={() => {props.setSmartToolsOpen(false)}}
+                />
             </div>
         </div>
     )
