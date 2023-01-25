@@ -120,9 +120,10 @@ export function Canvas(props) {
                 }
                 else {
                     if (isStartDrawing.current) {
-                        contextRef.current.beginPath();
+                        // contextRef.current.beginPath();
                         save();
                     }
+                    contextRef.current.beginPath();
                     isStartDrawing.current = false;
                 }
             }
@@ -172,6 +173,7 @@ export function Canvas(props) {
                     else {
                         dragging();
                         if(selectedShape==="Line"){
+                            contextRef.current.strokeStyle="#000000";
                             contextRef.current.beginPath();
                             contextRef.current.moveTo(startPosX,startPosY);
                             contextRef.current.lineTo(currentX,currentY);
@@ -190,6 +192,7 @@ export function Canvas(props) {
                         // ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
                         dragging();
                         if (selectedShape==="Line"){
+                            contextRef.current.strokeStyle="#000000";
                             contextRef.current.beginPath();
                             contextRef.current.moveTo(startPosX,startPosY);
                             contextRef.current.lineTo(currentX,currentY);

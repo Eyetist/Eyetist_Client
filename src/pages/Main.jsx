@@ -59,9 +59,6 @@ const Main = () => {
             navigate('/login')
         }
         if (location.state){
-            // console.log(location.state.blobName)
-            // console.log(location.state.inputName)
-            // console.log(location.state.imageLink)
             let image = new Image();
             image.src = location.state.imageLink
             image.onload = function () {
@@ -84,11 +81,6 @@ const Main = () => {
         }
         else{
             if (canvasSavePageTrigger.current){
-                // setRatio(1);
-                // setBufferIdx(0);
-                // const canvas = canvasRef.current;
-                // const context = canvas.getContext("2d");
-                // context.drawImage(imgBuffer[bufferIdx],0,0,imgBuffer[bufferIdx].width,imgBuffer[bufferIdx].height,0,0,canvas.width,canvas.height);
                 canvasSavePageTrigger.current = false;
                 console.log(blobName);
             }
