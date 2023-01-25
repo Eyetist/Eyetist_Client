@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCanvas } from "./CanvasContext.js";
 import { useRecoilValue } from "recoil";
-import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN, CURRENT_FUNCTION, SELECTED_SHAPE,IS_DRAWING } from '../../recoil/Atoms';
+import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_MOUSE_OPEN, CURRENT_FUNCTION, SELECTED_SHAPE,IS_DRAWING } from '../../recoil/Atoms';
 
 export function Canvas(props) {
     let mousePos = useRecoilValue(MOUSE_POS)
     let isStartDrawing = useRef(false);
     let isLock = useRef(false);
     let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
-    let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let currentFunction = useRecoilValue(CURRENT_FUNCTION)
     let selectedShape = useRecoilValue(SELECTED_SHAPE)
@@ -108,6 +107,10 @@ export function Canvas(props) {
     }, []);
 
     useEffect(() => {
+        isLock.current=false;
+    }, [currentFunction]);
+
+    useEffect(() => {
         let posX = (mousePos.x - (window.innerWidth / 10)) + 15;
         let posY = (mousePos.y - (window.innerHeight / 10)) + 15;
 
@@ -120,7 +123,6 @@ export function Canvas(props) {
                 }
                 else {
                     if (isStartDrawing.current) {
-                        // contextRef.current.beginPath();
                         save();
                     }
                     contextRef.current.beginPath();
@@ -189,7 +191,6 @@ export function Canvas(props) {
                     if (isLock.current) {//그리기
                         let currentX = posX + props.canvasDivRef.current.scrollLeft;
                         let currentY = posY + props.canvasDivRef.current.scrollTop;
-                        // ReDoAndUnDo(props.imgBuffer[props.bufferIdx]);
                         dragging();
                         if (selectedShape==="Line"){
                             contextRef.current.strokeStyle="#000000";
