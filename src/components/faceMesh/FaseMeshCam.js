@@ -43,7 +43,7 @@ function FaceMeshCam(props) {
         faceMesh.onResults(onResults);
     }, [mouseSensitivity])
 
-    function onResults(results, currenPos) {
+    function onResults(results) {
         const videoWidth =  window.innerWidth;
         const videoHeight = window.innerHeight;
 
@@ -55,8 +55,6 @@ function FaceMeshCam(props) {
         const nose_2d = []
         const nose_3d = []
 
-        let p1_x = ""
-        let p1_y = ""
         let p2_x = ""
         let p2_y = ""
 
@@ -97,12 +95,16 @@ function FaceMeshCam(props) {
 
                 if (props.settingMode && props.isStart.current){
                     switch (props.step.current){
-                        case 1:
-                            props.setIsCorrectValue("true")
-                            props.setReceiveEyeValue(prevList => [...prevList, {left : left_eye[0] - left_eye[1], right: right_eye[0] - right_eye[1]}])
-                            
-                            break
                         case 2:
+                            if (mouse[0] - mouse[1] > 0){
+                                props.setIsCorrectValue("true")
+                                props.setReceiveMouthValue(prevList => [...prevList, mouse[0] - mouse[1]])
+                            }
+                            else{
+                                props.setIsCorrectValue("false")
+                            }
+                            break
+                        case 4:
                             if ((left_eye[0] - left_eye[1]) < (right_eye[0] - right_eye[1])){
                                 props.setIsCorrectValue("true")
                                 props.setReceiveEyeValue(prevList => [...prevList, {left : left_eye[0] - left_eye[1], right: right_eye[0] - right_eye[1]}])
@@ -111,7 +113,7 @@ function FaceMeshCam(props) {
                                 props.setIsCorrectValue("false")
                             }
                             break
-                        case 3:
+                        case 6:
                             if ((left_eye[0] - left_eye[1]) > (right_eye[0] - right_eye[1])){
                                 props.setIsCorrectValue("true")
                                 props.setReceiveEyeValue(prevList => [...prevList, {left : left_eye[0] - left_eye[1], right: right_eye[0] - right_eye[1]}])
@@ -121,10 +123,6 @@ function FaceMeshCam(props) {
                             }
                             break
                     }
-                    // console.log("------------------------------------------------------")
-                    // console.log("left: " + String(left_eye[0] - left_eye[1]))
-                    // console.log("right: " + String(right_eye[0] - right_eye[1]))
-                    // console.log("------------------------------------------------------")
                 }
                 if (left_eye[0] - left_eye[1] < rightEyeBlinkValue.left){ // 왼쪽 눈 클릭
                     setIsLeftEyeBlink(true)
@@ -140,7 +138,7 @@ function FaceMeshCam(props) {
                     setIsRightEyeBlick(false)
                 }
 
-                if (mouse[0] - mouse[1] < 0.01){ 
+                if (mouse[0] - mouse[1] < 0.02){ 
                     setIsMouseOpen(false)
                 }
                 else{

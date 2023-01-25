@@ -25,7 +25,7 @@ const MoveSelections = (props) => {
     }
 
     function goBack(){
-        navigate('/setting')
+        navigate('/begin')
     }
 
     function logOut(){
