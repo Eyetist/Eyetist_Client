@@ -4,7 +4,7 @@ import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { SETTING_MODE, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE } from "../recoil/Atoms";
+import { SETTING_MODE, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE, MOUTH_OPEN_VALUE } from "../recoil/Atoms";
 import { useStopwatch } from 'react-timer-hook';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -29,19 +29,18 @@ const SettingEyeValue = () =>{
     let [settingMode, setSettingMode] = useRecoilState(SETTING_MODE)
     let [leftEyeBlinkValue, setLeftEyeBlinkValue] = useRecoilState(LEFT_EYE_BLINK_VALUE)
     let [rightEyeBlinkValue, setRightEyeBlinkValue] = useRecoilState(RIGHT_EYE_BLINK_VALUE)
+    let [mouthOpenValue, setMouthOpenValue] = useRecoilState(MOUTH_OPEN_VALUE)
+
     let [isCorrectValue, setIsCorrectValue] = useState("nomal")
+    let [receiveMouthValue, setReceiveMouthValue] = useState([])
     let [receiveEyeValue, setReceiveEyeValue] = useState([])
     let [clickStartButton, setClickStartButton] = useState(false)
+
     const [openGazeTimer, setOpenGazeTimer] = useState(false)
     const checkIconSize = window.innerHeight / 10
 
     let step = useRef(1)
     let isStart = useRef(false)
-
-    let [nomalEyeValue, setNomalEyeValue] = useState({
-        left: 0,
-        right: 0,
-    })
 
     const {
         seconds,
@@ -50,41 +49,22 @@ const SettingEyeValue = () =>{
     } = useStopwatch({ autoStart: false });
 
     let backContent = [
-        "커스텀 셋팅을 마치고 뒤로 돌아가기."
+        "Back out of custom settings"
     ]
     
     let startContent = [
-        "커스텀 셋팅을 단계별로 진행해주세요",
+        "Start custom sets step by step on the right",
     ]
 
     let firstStep = [
-        "양쪽눈을 뜬 상태로 화면을 3초간 응시해주세요",
+        "Keep your mouth open and stare at the screen for 5 seconds.",
     ]
     let secondStep = [
-        "왼쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 3초간 응시해주세요",
+        "With only your left eye closed, please stare at the screen for 5 seconds.",
     ]
     let thirdStep = [
-        "오른쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 3초간 응시해주세요",
+        "With only your right eye closed, please stare at the screen for 5 seconds.",
     ]
-
-    function getEyeValue(){
-        reset()
-        if(!isStart.current, !openGazeTimer){
-            setReceiveEyeValue([])
-            setOpenGazeTimer(true)
-            setTimeout(function(){
-                setOpenGazeTimer(false);
-            }, 5000)
-            isStart.current = true
-        }
-        else{
-            setOpenGazeTimer(true)
-            setTimeout(function(){
-                setOpenGazeTimer(false);
-            }, 2000)
-
-        }
-    }
 
     function getEyeValueAverage(eyeIndex){
         let sum = 0;
@@ -102,49 +82,44 @@ const SettingEyeValue = () =>{
         return sum / receiveEyeValue.length
     }   
 
+    function getMouthValueAverage(){
+        let sum = 0;
+        for (let index = 0; index < receiveMouthValue.length; index++){
+            sum = sum + receiveMouthValue[index]
+        } 
+
+        return receiveMouthValue.length > 0 ? sum / receiveMouthValue.length : 0.02
+    }
+
     useEffect( () => {
-        console.log(seconds)
         if (seconds > 4){
             let leftValue = 0;
             let rightValue = 0;
+            let mouthValue = 0;
             isStart.current = false
             pause()
-            console.log(step.current)
-
+            
             leftValue = getEyeValueAverage(0)
             rightValue = getEyeValueAverage(1)
 
-            // if (leftValue < 0.01){
-            //     leftValue = 0.01
-            // }
-            // else{
-            //     leftValue = leftValue
-            // }
-
-            // if (rightValue < 0.01){
-            //     rightValue = 0.01
-            // }
-            // else{
-            //     rightValue = rightValue
-            // }
             switch(step.current){
-                case 1:
-                    setNomalEyeValue({
-                        left : leftValue,
-                        right : rightValue
-                    })
+                case 2:
+                    mouthValue = getMouthValueAverage()
+                    setMouthOpenValue(mouthValue * 0.8)
                     break
-                case 2: // 왼쪽눈 감은상태
+                case 4: // 왼쪽눈 감은상태
                     setLeftEyeBlinkValue({
                         left : leftValue,
-                        right : rightValue * 0.8
+                        right : rightValue * 0.5
                     })
                     break
-                case 3: // 오른쪽눈 감은상태
+                case 6: // 오른쪽눈 감은상태
                     setRightEyeBlinkValue({
-                        left : leftValue * 0.8,
+                        left : leftValue * 0.5,
                         right : rightValue
                     })
+                    break
+                default:
                     break
             }
             step.current = step.current + 1
@@ -152,10 +127,29 @@ const SettingEyeValue = () =>{
     }, [seconds])
     
     useEffect( () => {
-        if (step.current <= 4 && clickStartButton){
-            getEyeValue()
+        if (step.current < 7 && clickStartButton){
+            reset()
+            // console.log(step.current)
+            switch(step.current){
+                case 2:
+                    setReceiveMouthValue([])
+                    break
+                case 4:
+                case 6:
+                    setReceiveEyeValue([])
+                    break
+            }
+            isStart.current = true
+            setOpenGazeTimer(true)
+
         }
-    },[ leftEyeBlinkValue, rightEyeBlinkValue, nomalEyeValue, clickStartButton ])
+        else if (step.current === 7){
+            setTimeout(function(){
+                setOpenGazeTimer(false)
+                navigate('/setting')
+            }, 2000)
+        }
+    },[ step.current, clickStartButton ])
 
     return(
         <div className = "information-main-container">
@@ -165,16 +159,19 @@ const SettingEyeValue = () =>{
                 onClose={() =>{setOpenGazeTimer(false)}}
             >
                 {
-                    step.current === 1 ?
-                    `양쪽눈을 뜬 상태로 화면을 ${5-seconds}초간 응시해주세요` 
+                    step.current % 2 === 1  && step.current < 7?
+                        `The step ${Math.round(step.current / 2) } will begin soon. Get ready please. ${5-seconds}` 
                     :
-                    step.current === 2 ?
-                    `왼쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 ${5-seconds}초간 응시해주세요`
-                    :
-                    step.current === 3 ?
-                    `오른쪽눈만 감은 상태로 머리로 원을 그리듯이 움직이면서 화면을 ${5-seconds}초간 응시해주세요`
-                    :
-                    "커스텀 셋팅이 완료되었습니다."
+                        step.current === 2 ?
+                            `Keep your mouth open and stare at the screen for ${5-seconds} seconds.` 
+                        :
+                            step.current === 4 ?
+                                `With only your left eye closed, please stare at the screen for ${5-seconds} seconds.`
+                            :
+                                step.current === 6 ?
+                                    `With only your right eye closed, please stare at the screen for ${5-seconds} seconds.`
+                                :
+                                    "Custom settings are complete. "
                 }
             
             </BootstrapDialog>
@@ -207,6 +204,7 @@ const SettingEyeValue = () =>{
                         setIsCorrectValue = {setIsCorrectValue}
                         step = {step}
                         setReceiveEyeValue = {setReceiveEyeValue}
+                        setReceiveMouthValue = {setReceiveMouthValue}
                         isStart = {isStart}
                     />
                 </div>
@@ -263,21 +261,9 @@ const SettingEyeValue = () =>{
                                 marginBottom: "1%",
                             }}
                         >
-                            First Step <br/>{firstStep} {step.current > 1 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< First Step >"} <br/>{firstStep} {step.current > 1 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                         <div
-                            className="step-card-content"
-                            style={{
-                                width: "100%",
-                                height: "30%",
-                                backgroundColor: step.current > 2 ? "green" : step.current === 2 ? "#f79393" : "grey",
-                                borderRadius: "20px",
-                                marginBottom: "1%",
-                            }}
-                        >
-                            Second Step <br/>{secondStep} {step.current > 2 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
-                        </div>
-                        <div 
                             className="step-card-content"
                             style={{
                                 width: "100%",
@@ -287,7 +273,19 @@ const SettingEyeValue = () =>{
                                 marginBottom: "1%",
                             }}
                         >
-                            Third Step <br/>{thirdStep} {step.current > 3 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< Second Step >"} <br/>{secondStep} {step.current > 3 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                        </div>
+                        <div 
+                            className="step-card-content"
+                            style={{
+                                width: "100%",
+                                height: "30%",
+                                backgroundColor: step.current > 5 ? "green" : step.current === 5 ? "#f79393" : "grey",
+                                borderRadius: "20px",
+                                marginBottom: "1%",
+                            }}
+                        >
+                            {"< Third Step >"} <br/>{thirdStep} {step.current > 5 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                     </div>
                 </div>
@@ -295,4 +293,4 @@ const SettingEyeValue = () =>{
         </div>
     );
 }
-export default SettingEyeValue;
+export default SettingEyeValue
