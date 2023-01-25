@@ -83,11 +83,6 @@ const Main = () => {
         }
         else{
             if (canvasSavePageTrigger.current){
-                // setRatio(1);
-                // setBufferIdx(0);
-                // const canvas = canvasRef.current;
-                // const context = canvas.getContext("2d");
-                // context.drawImage(imgBuffer[bufferIdx],0,0,imgBuffer[bufferIdx].width,imgBuffer[bufferIdx].height,0,0,canvas.width,canvas.height);
                 canvasSavePageTrigger.current = false;
                 console.log(blobName);
             }
