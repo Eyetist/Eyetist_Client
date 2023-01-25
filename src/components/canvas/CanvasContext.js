@@ -22,7 +22,7 @@ export const CanvasProvider = ({ children }) => {
         context.fillStyle="white"
         context.fillRect(0,0,canvas.width,canvas.height);
         context.lineCap = "round";
-        context.strokeStyle = "#000000";
+        context.strokeStyle = strokeColor;
         context.lineWidth = 10;
         context.scale(1, 1)
         contextRef.current = context;
