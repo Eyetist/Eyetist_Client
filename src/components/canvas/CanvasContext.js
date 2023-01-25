@@ -33,9 +33,13 @@ export const CanvasProvider = ({ children }) => {
         const context = canvas.getContext("2d")
         context.fillStyle="white"
         context.fillRect(0,0,canvas.width,canvas.height);
-        setBufferIdx(bufferIdx+1);
-        var buffer=[...imgBuffer].slice(0,bufferIdx+1);
-        setImgBuffer([...buffer,canvasRef.current.toDataURL()]);
+        setBufferIdx(bufferIdx + 1);
+        var buffer = [...imgBuffer].slice(0, bufferIdx + 1);
+        var image = new Image();
+        image.src = canvasRef.current.toDataURL();
+        image.onload = function () {
+            setImgBuffer([...buffer, image]);
+        }
     }
 
     const setDrawMode=()=>{
@@ -63,20 +67,12 @@ export const CanvasProvider = ({ children }) => {
         setLineWidth(width);
     }
 
-    const saveImage=(setBufferIdx,bufferIdx,setImgBuffer,imgBuffer)=>{
-        const canvas=canvasRef.current;
-        setBufferIdx(bufferIdx+1);
-        var buffer=[imgBuffer].slice(0,bufferIdx+1);
-        setImgBuffer([...buffer,canvas.toDataURL()]);
-     }
-
     const ReDoAndUnDo=(image)=>{
         const canvas=canvasRef.current;
         const context=canvas.getContext("2d");
         context.fillStyle="white";
         context.fillRect(0,0,canvas.width,canvas.height);
         context.drawImage(image,0,0,image.width,image.height,0,0,canvas.width,canvas.height);
-        
     }
 
     const zoomIn=(image,ratio,setRatio,canvasDivRef,posX,posY)=>{
@@ -227,7 +223,6 @@ export const CanvasProvider = ({ children }) => {
                 zoomIn,
                 zoomOut,
                 fillColor,
-                saveImage,
             }}
         >
         {children}
