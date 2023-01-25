@@ -68,7 +68,7 @@ export const CanvasProvider = ({ children }) => {
         setBufferIdx(bufferIdx+1);
         var buffer=[imgBuffer].slice(0,bufferIdx+1);
         setImgBuffer([...buffer,canvas.toDataURL()]);
-     }
+    }
 
     const ReDoAndUnDo=(image)=>{
         const canvas=canvasRef.current;

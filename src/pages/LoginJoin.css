@@ -52,7 +52,7 @@
     font-size: 50px;
     line-height: 130px;
     text-align: center;
-    font-family: 'Liu Jian Mao Cao';
+    font-family: 'Arita Dotum';
     font-style: normal;
 }
 .loginButtonContainer{
@@ -151,7 +151,7 @@ input[type="checkbox"]:checked::before {
     font-size: 35px;
     margin-right: 5px;
     letter-spacing: 7px;
-    font-family: 'Liu Jian Mao Cao';
+    font-family: 'Arita Dotum';
     font-style: normal;
 }
 .password-container{
@@ -176,9 +176,9 @@ input[type="checkbox"]:checked::before {
 }
 .id-text{
     font-size: 35px;
-    margin-right: 5px;
+    margin-right: 21px;
     letter-spacing: 7px;
-    font-family: 'Liu Jian Mao Cao';
+    font-family: 'Arita Dotum';
     font-style: normal;
 }
 .id{

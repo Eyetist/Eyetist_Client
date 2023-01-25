@@ -8,10 +8,10 @@ import './Information.css'
 const Information = () =>{
     let navigate = useNavigate();
     let informationContent = [
-        "Our service is to draw pictures with our eyes.",
+        "Our service is to draw pictures with our face.",
         "If you move your head, the mouse moves.",
-        "You can click the button by blinking your right eye.",
-        "Also you can draw by closing your left eye."
+        "You can click the button by blinking your right eye. Also you can draw by closing your left eye and mouth.",
+        "If you want to see a short introduction video, please click on it."
     ]
     let startContent = [
         "Click this button to start EyeTist!",
@@ -19,7 +19,7 @@ const Information = () =>{
     ]
 
     return(
-        <div className = "information-main-container">
+        <div className = "information-main-container">x
             <ul className="lines">
                 <li></li>
                 <li></li>
