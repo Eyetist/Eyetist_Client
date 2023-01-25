@@ -85,6 +85,11 @@ export const RIGHT_EYE_BLINK_VALUE = atom({
     }
 })
 
+export const MOUTH_OPEN_VALUE = atom ({
+    key : 'mouthOpenValue',
+    default : 0.02
+})
+
 export const IS_DRAWING = atom({
     key : 'isDrawing',
     default: true

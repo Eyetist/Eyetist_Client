@@ -22,16 +22,16 @@ const StartPage = () =>{
     const [openTutorial, setOpenTutorial] = useState(false)
 
     let tutorialContent = [
-        "Before we get started, We provide tutorial",
+        "If you want to know how to use drawing tools and gallery, please press the button.",
     ]
 
     let paintContent = [
-        "Use your eyes to paint Image!",
+        "Use your face to paint picture!",
         "The aesthetic world awaits you."
     ]
 
     let galleryContent = [
-        "Access the gallery and share your images with others!"
+        "Access the gallery and share your pictures with others!"
     ]
 
     return(
@@ -74,7 +74,7 @@ const StartPage = () =>{
                             marginLeft: "30px",
                             marginRight: "30px"
                         }}
-                        title="Tutorial"
+                        title="How to play"
                         content={tutorialContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"

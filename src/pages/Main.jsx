@@ -122,6 +122,10 @@ const Main = () => {
                     setSmartToolsOpen = {setSmartToolsOpen}
                     isOpenSensitivity = {isOpenSensitivity}
                     setIsOpenSensitivity = {setIsOpenSensitivity}
+                    blobName={blobName}
+                    inputName={inputName}
+                    link={imgBuffer[bufferIdx]? imgBuffer[bufferIdx].src : null}
+                    setShowSaveSuccess={setShowSaveSuccess}
                 />
                 :
                 <></>

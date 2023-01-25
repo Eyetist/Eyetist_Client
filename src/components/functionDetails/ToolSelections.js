@@ -50,6 +50,9 @@ const ToolSelections = (props) => {
 
     function selectFill(){
         setCurrentFunction("fill")
+        props.setSelectedButton(
+            <ColorSelection/>
+        )
     }
 
     function selectErase(){

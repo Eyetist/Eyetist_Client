@@ -95,7 +95,7 @@ const JoinPage = () =>{
                     <div className="loginContainerText">Join</div> 
                 
                         <div className = "id-container">
-                            <div className = "id-text">Id</div>
+                            <div className = "id-text">ID</div>
                             <div>
                                 <EyeButton 
                                     style={{    
@@ -133,7 +133,7 @@ const JoinPage = () =>{
                         </div>
 
                         <div className = "password-container">
-                            <div className = "password-text">Pw</div>
+                            <div className = "password-text">PW</div>
                             <div style={{height:"56px", width:"240px"}}>
                                 <EyeButton 
                                     style={{    
