@@ -2,13 +2,15 @@ import EyeButton from "../atoms/EyeButton"
 import { FaPowerOff } from "react-icons/fa"
 import { BiLogOut } from "react-icons/bi"
 import { useNavigate } from 'react-router-dom';
-import { WINDOW_SIZE } from '../../recoil/Atoms';
-import { useRecoilValue } from "recoil";
+import { WINDOW_SIZE,STROKE_COLOR,CURRENT_FUNCTION } from '../../recoil/Atoms';
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 
 const MoveSelections = (props) => {
     let navigate = useNavigate();
     let windowSize=useRecoilValue(WINDOW_SIZE);
+    let setStrokeColor=useSetRecoilState(STROKE_COLOR);
+    let setCurrentFunction=useSetRecoilState(CURRENT_FUNCTION);
 
     const TOOL_BUTTON_SIZE = windowSize.width * 0.03
     const TOOL_BUTTON_FONT_SIZE = windowSize.width * 0.015
@@ -25,10 +27,14 @@ const MoveSelections = (props) => {
     }
 
     function goBack(){
+        setStrokeColor("#000000");
+        setCurrentFunction("default");
         navigate('/begin')
     }
 
     function logOut(){
+        setStrokeColor("#000000");
+        setCurrentFunction("default");
         localStorage.clear()
         navigate('/')
     }
