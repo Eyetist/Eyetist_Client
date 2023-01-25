@@ -45,7 +45,7 @@ const ModifyCard = (props) => {
         .then( (res) => {
             if (res.status === 200){
                 const link = document.createElement("a");
-                link.href = res.data.link;
+                link.href = (res.data.link).replace("image/png", "image/" + extention);
                 link.download = props.clickedImageInfo.title;
                 link.click();
             }
@@ -307,7 +307,7 @@ const ModifyCard = (props) => {
                                             <EyeButton 
                                                 style={{    
                                                     height : "5vh",
-                                                    width: "12vw",
+                                                    width: "8vw",
                                                     backgroundColor: "gainsboro",
                                                     border: "none",
                                                     borderRadius: "10px",
@@ -320,7 +320,7 @@ const ModifyCard = (props) => {
                                             <EyeButton 
                                                 style={{    
                                                     height : "5vh",
-                                                    width: "12vw",
+                                                    width: "8vw",
                                                     backgroundColor: "gainsboro",
                                                     border: "none",
                                                     borderRadius: "10px",
@@ -329,6 +329,19 @@ const ModifyCard = (props) => {
                                                 hoverColor="gray"
                                                 clickColor="black"
                                                 onClick={() => {drawOver()}}
+                                            />
+                                            <EyeButton 
+                                                style={{    
+                                                    height : "5vh",
+                                                    width: "8vw",
+                                                    backgroundColor: "gainsboro",
+                                                    border: "none",
+                                                    borderRadius: "10px",
+                                                }}
+                                                text="DOWNLOAD"
+                                                hoverColor="gray"
+                                                clickColor="black"
+                                                onClick={() => {download()}}
                                             />
                                         </div>
                                     </div>
@@ -366,6 +379,51 @@ const ModifyCard = (props) => {
                                         <div className="other-eyetist-info-text">Date : {props.clickedImageInfo.date}</div>
                                     </div>
                                     <div className="other-eyetist-option">
+                                        <div className="modify-option">
+                                            <div className="option-text">EXTENTION</div>
+                                            <div style={{display:'flex'}}>
+                                                <EyeButton 
+                                                    style={{    
+                                                        height : "5vh",
+                                                        width: "8vw",
+                                                        backgroundColor: extention === "png" ? "gray" : "gainsboro",
+                                                        border: "none",
+                                                        borderRadius: "10px",
+                                                    }}
+                                                    text="PNG"
+                                                    hoverColor="gray"
+                                                    clickColor="black"
+                                                    onClick={() => setExtention("png")}
+                                                />
+                                                <EyeButton 
+                                                    style={{    
+                                                        height : "5vh",
+                                                        width: "8vw",
+                                                        backgroundColor: extention === "jpeg" ? "gray" : "gainsboro",
+                                                        border: "none",
+                                                        borderRadius: "10px",
+                                                    }}
+                                                    text="JPEG"
+                                                    hoverColor="gray"
+                                                    clickColor="black"
+                                                    onClick={() => setExtention("jpeg")}
+                                                />
+                                                <EyeButton 
+                                                    style={{    
+                                                        height : "5vh",
+                                                        width: "8vw",
+                                                        backgroundColor: extention === "svg" ? "gray" : "gainsboro",
+                                                        border: "none",
+                                                        borderRadius: "10px",
+                                                    }}
+                                                    text="SVG"
+                                                    hoverColor="gray"
+                                                    clickColor="black"
+                                                    onClick={() => setExtention("svg")}
+                                                />
+                                            </div>
+                                        </div>
+
                                         <div style={{display:'flex'}}>
                                             <EyeButton 
                                                 style={{    
