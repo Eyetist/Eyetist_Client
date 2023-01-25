@@ -87,6 +87,9 @@ const SmartTools = (props) => {
 
     function selectFill(){
         setCurrentFunction("fill")
+        props.setSelectedButton(
+            <ColorSelection/>
+        )
         props.setSmartToolsOpen(false)
     }
 
