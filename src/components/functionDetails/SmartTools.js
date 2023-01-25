@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import EyeButton from "../atoms/EyeButton"
 import ColorSelection from "./ColorSelection";
 import { useSetRecoilState,useRecoilState } from "recoil";
-import { CURRENT_FUNCTION,IS_DRAWING } from '../../recoil/Atoms';
+import { CURRENT_FUNCTION,IS_DRAWING,STROKE_COLOR } from '../../recoil/Atoms';
 import { useCanvas } from "../canvas/CanvasContext";
 import { useNavigate } from 'react-router-dom';
 import { BiRefresh } from "react-icons/bi"
@@ -40,6 +40,7 @@ const diagramImage = {
 const SmartTools = (props) => {
     const {clearCanvas, setDrawMode, setEraseMode, ReDoAndUnDo } = useCanvas()
     let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
+    let setStrokeColor=useSetRecoilState(STROKE_COLOR);
     let [isDrawing,setIsDrawing]=useRecoilState(IS_DRAWING);
     let [isPaletteMode, setIsPaletteMode] = useState(false)
     let navigate = useNavigate();
@@ -68,10 +69,14 @@ const SmartTools = (props) => {
     }
 
     function goBack(){
+        setStrokeColor("#000000");
+        setCurrentFunction("default");
         navigate('/begin')
     }
 
     function logOut(){
+        setStrokeColor("#000000");
+        setCurrentFunction("default");
         localStorage.clear()
         navigate('/')
     }
@@ -87,6 +92,9 @@ const SmartTools = (props) => {
 
     function selectFill(){
         setCurrentFunction("fill")
+        props.setSelectedButton(
+            <ColorSelection/>
+        )
         props.setSmartToolsOpen(false)
     }
 
