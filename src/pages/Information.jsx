@@ -1,22 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
+import { Player } from 'video-react';
+
 import './Information.css'
+import { useEffect } from "react";
 
 const Information = () =>{
     let navigate = useNavigate();
+
+    const videos = {
+        introVideo: require('../video/EyeTist_Intro.mp4')
+    }
+
     let informationContent = [
         "Our service is to draw pictures with our face.",
         "If you move your head, the mouse moves.",
-        "You can click the button by blinking your right eye. Also you can draw by closing your left eye and mouth.",
+        "You can click the button by blinking your right eye. Also you can draw by blinking your left eye and opening mouth.",
         "If you want to see a short introduction video, please click on it."
     ]
     let startContent = [
         "Click this button to start EyeTist!",
         "An amazing world awaits you."
     ]
+
+    let [videoPlay, setVideoPlay] = useState(false)
 
     return(
         <div className = "information-main-container">x
@@ -44,21 +54,29 @@ const Information = () =>{
 
             <div className = "start-page-body-container">
                 <div className = "box-container">
-                    <EyeCard 
-                        style={{
-                            width: "70%",
-                            height: "100%",
-                            backgroundColor: "#f79393",
-                            borderRadius: "20px",
-                            marginLeft: "30px",
-                            marginRight: "30px"
-                        }}
-                        title="< What is EyeTist >"
-                        content={informationContent}
-                        hoverColor="#f46969"
-                        clickColor="#f45555"
-                        onClick={() => {}}
-                    />
+                    {
+                        videoPlay ?
+                            <video width="70%" height="100%" autoPlay="autoplay">
+                                <source src={videos.introVideo} type="video/mp4"/>
+                            </video>
+                        :
+                            <EyeCard 
+                                style={{
+                                    width: "70%",
+                                    height: "100%",
+                                    backgroundColor: "#f79393",
+                                    borderRadius: "20px",
+                                    marginLeft: "30px",
+                                    marginRight: "30px"
+                                }}
+                                title="< What is EyeTist >"
+                                content={informationContent}
+                                hoverColor="#f46969"
+                                clickColor="#f45555"
+                                onClick={() => {
+                                    setVideoPlay(true)}}
+                            />
+                    }
                     <EyeCard 
                         style={{
                             width: "30%",
