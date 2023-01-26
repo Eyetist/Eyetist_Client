@@ -262,36 +262,36 @@ const SettingEyeValue = () =>{
                             style={{
                                 width: "100%",
                                 height: "30%",
-                                backgroundColor: step.current > 1 ? "green" : step.current === 1 ? "#f79393" : "grey",
+                                backgroundColor: step.current > 2 ? "green" : step.current === 2 ? "#f79393" : "grey",
                                 borderRadius: "20px",
                                 marginBottom: "1%",
                             }}
                         >
-                            {"< First Step >"} <br/>{firstStep} {step.current > 1 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< First Step >"} <br/>{firstStep} {step.current > 2 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                         <div
                             className="step-card-content"
                             style={{
                                 width: "100%",
                                 height: "30%",
-                                backgroundColor: step.current > 3 ? "green" : step.current === 3 ? "#f79393" : "grey",
+                                backgroundColor: step.current > 4 ? "green" : step.current === 4 ? "#f79393" : "grey",
                                 borderRadius: "20px",
                                 marginBottom: "1%",
                             }}
                         >
-                            {"< Second Step >"} <br/>{secondStep} {step.current > 3 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< Second Step >"} <br/>{secondStep} {step.current > 4 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                         <div 
                             className="step-card-content"
                             style={{
                                 width: "100%",
                                 height: "30%",
-                                backgroundColor: step.current > 5 ? "green" : step.current === 5 ? "#f79393" : "grey",
+                                backgroundColor: step.current > 6 ? "green" : step.current === 6 ? "#f79393" : "grey",
                                 borderRadius: "20px",
                                 marginBottom: "1%",
                             }}
                         >
-                            {"< Third Step >"} <br/>{thirdStep} {step.current > 5 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< Third Step >"} <br/>{thirdStep} {step.current > 6 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                     </div>
                 </div>

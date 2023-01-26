@@ -6,19 +6,20 @@ import { useNavigate } from "react-router-dom";
 import ModeSelection from "../components/functionDetails/ModeSelection";
 import './Information.css'
 
-
 const Information = () =>{
     let navigate = useNavigate();
 
     const videos = {
-        introVideo: require('../video/EyeTist_Intro.mp4')
+        introVideo: require('../video/EyeTistIntroVideo.mp4')
     }
 
     let informationContent = [
         "Our service is to draw pictures with our face.",
         "If you move your head, the mouse moves.",
-        "You can click the button by blinking your right eye. Also you can draw by blinking your left eye and opening mouth.",
-        "If you want to see a short introduction video, please click on it."
+        "You can click mouse through two modes:: your eyes blink or your mouth open.",
+        // "When you select eye mode, you can click the button by blinking right eye and draw by blinking left eye",
+        // "When you select mouth mode, you can click the button and draw by opeing mouth,
+        "If you want to see a short introduction video, please click on it by blinking your right eye."
     ]
     let startContent = [
         "Click this button to start EyeTist!",
