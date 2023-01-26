@@ -9,9 +9,8 @@ import './StartPage.css'
 import { BiRefresh } from "react-icons/bi"
 import { FaRedoAlt, FaUndoAlt } from "react-icons/fa"
 import { AiOutlinePause } from "react-icons/ai"
-import { RiEraserFill, RiCloseCircleFill, RiMouseFill } from "react-icons/ri"
-import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket, BsFillSave2Fill,BsFillPlayFill } from "react-icons/bs"
-import { IoColorPalette } from "react-icons/io5"
+import { RiEraserFill, RiMouseFill } from "react-icons/ri"
+import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket,BsFillPlayFill } from "react-icons/bs"
 import { VscSaveAs,VscSave } from "react-icons/vsc"
 import { useEffect } from "react";
 
@@ -21,7 +20,7 @@ const VideoPage = () =>{
     let [videoSource, setVideoSource] = useState("")
     let videoRef = useRef(null)
 
-    const TOOL_BUTTON_SIZE = window.innerWidth * 0.04
+    const TOOL_BUTTON_SIZE = window.innerWidth * 0.045
     const TOOL_BUTTON_FONT_SIZE = window.innerWidth * 0.02
 
     const toolButtonStyle = {
@@ -42,17 +41,21 @@ const VideoPage = () =>{
     ]
 
     const videos = {
-        pen : require('../video/refresh.mp4'),
-        paint : require('../video/EyeTistIntroVideo.mp4'),
-        erase : require('../video/refresh.mp4'),
-        shape : require('../video/refresh.mp4'),
-        refresh: require('../video/refresh.mp4'),
-        redoUndo : require('../video/refresh.mp4'),
-        zoomInOut : require('../video/refresh.mp4'),
-        save : require('../video/refresh.mp4'),
-        sensitivity : require('../video/refresh.mp4'),
-        pause : require('../video/refresh.mp4'),
-        smartTools : require('../video/refresh.mp4'),
+        pen : require('../video/Pen.mp4'),
+        paint : require('../video/Fill.mp4'),
+        erase : require('../video/Eraser.mp4'),
+        shape : require('../video/Shape.mp4'),
+        refresh: require('../video/Refresh.mp4'),
+        redoUndo : require('../video/RedoUndo.mp4'),
+        zoomInOut : require('../video/ZoomInZoomOut.mp4'),
+        save : require('../video/Save.mp4'),
+        sensitivity : require('../video/Sensitivity.mp4'),
+        pause : require('../video/PausePlay.mp4'),
+        smartTools : require('../video/SmartTools.mp4'),
+
+        myGallery : require('../video/MyGallery.mp4'),
+        othersGallery : require('../video/OthersGallery.mp4'),
+        gallerySmartTools : require('../video/GallerySmartTools.mp4'),
     }
 
     const diagramImage = {
@@ -78,7 +81,7 @@ const VideoPage = () =>{
         <div className = "information-main-container">
             <ModeSelection />
             <MoveSelections 
-                currentPage = "begin"
+                currentPage = "video"
             />
             <ul className="lines">
                 <li></li>
@@ -146,180 +149,254 @@ const VideoPage = () =>{
                             />
                         </div>
 
-                        <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
-                            <EyeButton 
-                                style={toolButtonStyle}
-                                text={<BsPencilFill />}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.pen)
-                                    setVideoPlay(true)
-                                }}
-                            />
+                        {
+                            category === "drawingTools" ?
+                            <>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={toolButtonStyle}
+                                        text={<BsPencilFill />}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.pen)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
 
-                            <EyeButton
-                                style={toolButtonStyle}
-                                text={<BsPaintBucket />}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.paint)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                            <EyeButton 
-                                style={toolButtonStyle}
-                                text={<RiEraserFill />}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.erase)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                            <EyeButton 
-                                style={toolButtonStyle}
-                                text={<img src={diagramImage.diagram} style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.shape)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                        </div>
-                        <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
-                            <EyeButton 
-                                style={toolButtonStyle}
-                                text={<BiRefresh />}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.refresh)
-                                    setVideoPlay(true)
-                                }}
-                            />
+                                    <EyeButton
+                                        style={toolButtonStyle}
+                                        text={<BsPaintBucket />}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.paint)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                    <EyeButton 
+                                        style={toolButtonStyle}
+                                        text={<RiEraserFill />}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.erase)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                    <EyeButton 
+                                        style={toolButtonStyle}
+                                        text={<img src={diagramImage.diagram} style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.shape)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={toolButtonStyle}
+                                        text={<BiRefresh />}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.refresh)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
 
-                            <EyeButton 
-                                style={{
-                                    width:TOOL_BUTTON_SIZE * 2, 
-                                    height:TOOL_BUTTON_SIZE, 
-                                    fontSize:TOOL_BUTTON_FONT_SIZE,
-                                    borderRadius:"5px", 
-                                    backgroundColor:"inherit",
-                                    color: "white",
-                                    border: "1px solid #B4A5A5",
-                                    marginTop: "5px",
-                                    marginBottom: "5px",
-                                }}
-                                text={<><FaUndoAlt />&nbsp;&nbsp;<FaRedoAlt /></>}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.undo)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                        </div>
-                        <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
-                            <EyeButton 
-                                style={{
-                                    width:TOOL_BUTTON_SIZE * 2, 
-                                    height:TOOL_BUTTON_SIZE, 
-                                    fontSize:TOOL_BUTTON_FONT_SIZE,
-                                    borderRadius:"5px", 
-                                    backgroundColor:"inherit",
-                                    color: "white",
-                                    border: "1px solid #B4A5A5",
-                                    marginTop: "5px",
-                                    marginBottom: "5px",
-                                }}
-                                text={<><BsZoomIn />&nbsp;&nbsp;<BsZoomOut /></>}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.zoomIn)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                        </div>
-                        <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
-                            <EyeButton 
-                                style={{
-                                    width:TOOL_BUTTON_SIZE * 2, 
-                                    height:TOOL_BUTTON_SIZE, 
-                                    fontSize:TOOL_BUTTON_FONT_SIZE,
-                                    borderRadius:"5px", 
-                                    backgroundColor:"inherit",
-                                    color: "white",
-                                    border: "1px solid #B4A5A5",
-                                    marginTop: "5px",
-                                    marginBottom: "5px",
-                                }}
-                                text={<><VscSave />&nbsp;&nbsp;<VscSaveAs /></>}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.save)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                        </div>
-                        <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
-                            <EyeButton 
-                                style={toolButtonStyle}
-                                text={<RiMouseFill />}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.sensitivity)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                            <EyeButton 
-                                style={{
-                                    width:TOOL_BUTTON_SIZE * 2, 
-                                    height:TOOL_BUTTON_SIZE, 
-                                    fontSize:TOOL_BUTTON_FONT_SIZE,
-                                    borderRadius:"5px", 
-                                    backgroundColor:"inherit",
-                                    color: "white",
-                                    border: "1px solid #B4A5A5",
-                                    marginTop: "5px",
-                                    marginBottom: "5px",
-                                }}
-                                text={<><BsFillPlayFill />&nbsp;<AiOutlinePause /></>}
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.pause)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                        </div>
-                        <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
-                            <EyeButton 
-                                style={{
-                                    width:TOOL_BUTTON_SIZE * 3, 
-                                    height:TOOL_BUTTON_SIZE, 
-                                    fontSize:TOOL_BUTTON_FONT_SIZE,
-                                    borderRadius:"5px", 
-                                    backgroundColor:"inherit",
-                                    color: "white",
-                                    border: "1px solid #B4A5A5",
-                                    marginTop: "5px",
-                                    marginBottom: "5px",
-                                }}
-                                text="SmartTools"
-                                hoverColor="pink"
-                                clickColor="black"
-                                onClick={() => {
-                                    setVideoSource(videos.smartTools)
-                                    setVideoPlay(true)
-                                }}
-                            />
-                        </div>
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 2, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text={<><FaUndoAlt />&nbsp;&nbsp;<FaRedoAlt /></>}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.redoUndo)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 2, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text={<><BsZoomIn />&nbsp;&nbsp;<BsZoomOut /></>}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.zoomInOut)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 2, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text={<><VscSave />&nbsp;&nbsp;<VscSaveAs /></>}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.save)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 3, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text="SmartTools"
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.smartTools)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={toolButtonStyle}
+                                        text={<RiMouseFill />}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.sensitivity)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 2, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text={<><BsFillPlayFill />&nbsp;<AiOutlinePause /></>}
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.pause)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                            </>
+                            :
+                            <>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 3, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text="MyGallery"
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.myGallery)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 3, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text="OthersGallery"
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.othersGallery)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{width:"100%", display:"flex", backgroundColor:"rgb(49, 51, 54)", alignItems:"center", justifyContent: "center"}}>
+                                    <EyeButton 
+                                        style={{
+                                            width:TOOL_BUTTON_SIZE * 3, 
+                                            height:TOOL_BUTTON_SIZE, 
+                                            fontSize:TOOL_BUTTON_FONT_SIZE,
+                                            borderRadius:"5px", 
+                                            backgroundColor:"inherit",
+                                            color: "white",
+                                            border: "1px solid #B4A5A5",
+                                            marginTop: "5px",
+                                            marginBottom: "5px",
+                                        }}
+                                        text="SmartTools"
+                                        hoverColor="pink"
+                                        clickColor="black"
+                                        onClick={() => {
+                                            setVideoSource(videos.gallerySmartTools)
+                                            setVideoPlay(true)
+                                        }}
+                                    />
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
             </div>

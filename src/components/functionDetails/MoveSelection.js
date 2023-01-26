@@ -2,8 +2,8 @@ import EyeButton from "../atoms/EyeButton"
 import { FaPowerOff } from "react-icons/fa"
 import { BiLogOut } from "react-icons/bi"
 import { useNavigate } from 'react-router-dom';
-import { WINDOW_SIZE,STROKE_COLOR,CURRENT_FUNCTION } from '../../recoil/Atoms';
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { STROKE_COLOR,CURRENT_FUNCTION } from '../../recoil/Atoms';
+import { useSetRecoilState } from "recoil";
 
 
 const MoveSelections = (props) => {
@@ -39,6 +39,9 @@ const MoveSelections = (props) => {
                 navigate('/begin')
                 break
             case "gallery":
+                navigate('/begin')
+                break
+            case "video":
                 navigate('/begin')
                 break
         }
