@@ -44,6 +44,10 @@ const MoveSelections = (props) => {
             case "video":
                 navigate('/begin')
                 break
+            case "login":
+            case "join":
+                navigate('/setting')
+                break
         }
     }
 
@@ -88,7 +92,7 @@ const MoveSelections = (props) => {
                 />
             }
             {
-                props.currentPage === "setting" ||  props.currentPage === "customSetting"?
+                props.currentPage === "setting" ||  props.currentPage === "customSetting" || props.currentPage === "join" || props.currentPage === "login" ?
                 <></>
                 :
                 <EyeButton 
