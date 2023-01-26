@@ -8,6 +8,7 @@ import EyeKeyboard from "../components/keyboard/EyeKeyboard";
 import EyeButton from "../components/atoms/EyeButton";
 import { useNavigate } from "react-router-dom";
 import { sendLogin } from "../api/member/MemberAPI";
+import ModeSelection from "../components/functionDetails/ModeSelection";
 import './LoginJoin.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -67,6 +68,7 @@ const LoginPage = () =>{
 
     return(
         <div className = "main-container">
+            <ModeSelection />
             <EyeMouse />
             <div className="login-join-top-container">ㄱ
                 <Link to = {`/`} className = "login-join-title">

@@ -32,12 +32,12 @@ const EyeMouse = (props) => {
     useEffect( () => {
         if (seconds >= 1 && props.SmartToolsPosition && !isMouseOpen && !props.isOpenSensitivity){
             props.SmartToolsPosition.current = {x: mousePos.x, y: mousePos.y}
-            props.setSmartToolsOpen(!props.smartToolsOpen)
+            props.setSmartToolsOpen(true)
         }
     },[seconds])
 
     useEffect( () => {  
-        if (isRightEyeBlink){
+        if (isRightEyeBlink && isLeftEyeBlink){
             reset()
         }
         else{

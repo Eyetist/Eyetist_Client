@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCanvas } from "./CanvasContext.js";
 import { useRecoilValue } from "recoil";
-import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_MOUSE_OPEN, CURRENT_FUNCTION, SELECTED_SHAPE,IS_DRAWING } from '../../recoil/Atoms';
+import { IS_LEFT_EYE_BLINK, MOUSE_POS, IS_MOUSE_OPEN, CURRENT_FUNCTION, SELECTED_SHAPE,IS_DRAWING, CONTROLL_MODE } from '../../recoil/Atoms';
 
 export function Canvas(props) {
     let mousePos = useRecoilValue(MOUSE_POS)
     let isStartDrawing = useRef(false);
     let isLock = useRef(false);
+    let controllMode = useRecoilValue(CONTROLL_MODE);
     let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let currentFunction = useRecoilValue(CURRENT_FUNCTION)
@@ -116,7 +117,7 @@ export function Canvas(props) {
 
         if (posX > 0 && posY > 0 && posX < window.innerWidth * 0.7 && posY < window.innerHeight * 0.9 && posX < canvasRef.current.width && posY < canvasRef.current.height&&isDrawing && !props.smartToolsOpen) {
             if (currentFunction === "draw" || currentFunction === "erase") {
-                if (isMouseOpen) {
+                if ((controllMode === "mouth" && isMouseOpen && !props.smartToolsOpen) || (controllMode === "eye" && isLeftEyeBlink && !props.smartToolsOpen)) {
                     isStartDrawing.current = true;
                     contextRef.current.lineTo(posX + props.canvasDivRef.current.scrollLeft, posY + props.canvasDivRef.current.scrollTop);
                     contextRef.current.stroke();
@@ -130,7 +131,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="fill"){
-                if(isLeftEyeBlink){
+                if ((controllMode === "mouth" && isMouseOpen && !props.smartToolsOpen) || (controllMode === "eye" && isLeftEyeBlink && !props.smartToolsOpen)) {
                     isLock.current=true;
                 }
                 else {
@@ -143,7 +144,7 @@ export function Canvas(props) {
             }
 
             else if(currentFunction==="zoom in"){
-                if(isLeftEyeBlink){
+                if ((controllMode === "mouth" && isMouseOpen && !props.smartToolsOpen) || (controllMode === "eye" && isLeftEyeBlink && !props.smartToolsOpen)) {
                     isLock.current=true;
                 }
                 else {
@@ -154,7 +155,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="zoom out"){
-                if(isLeftEyeBlink){
+                if ((controllMode === "mouth" && isMouseOpen && !props.smartToolsOpen)  || (controllMode === "eye" && isLeftEyeBlink && !props.smartToolsOpen)) {
                     isLock.current=true;
                 }
                 else {
@@ -165,7 +166,7 @@ export function Canvas(props) {
                 }
             }
             else if(currentFunction==="shape"){
-                if(isMouseOpen && !props.smartToolsOpen){
+                if ((controllMode === "mouth" && isMouseOpen && !props.smartToolsOpen) || (controllMode === "eye" && isLeftEyeBlink && !props.smartToolsOpen)) {
                     let currentX=posX+props.canvasDivRef.current.scrollLeft;
                     let currentY=posY+props.canvasDivRef.current.scrollTop;
                     if(!isLock.current){//좌표 저장

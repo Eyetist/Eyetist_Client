@@ -58,7 +58,6 @@ const SmartTools = (props) => {
     function overWrite(){
         reSavePicture(props.link,props.blobName,localStorage.getItem('loginMemberId'), props.inputName, "inherit")
         .then( (res) => {
-            console.log(res);
             if (res.status === 200){
                 props.setShowSaveSuccess(true)
                 setTimeout(function(){

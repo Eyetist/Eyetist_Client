@@ -131,6 +131,7 @@ function FaceMeshCam(props) {
                     setIsLeftEyeBlink(false)
                 }
 
+                // if (right_eye[0] - right_eye[1] < leftEyeBlinkValue.right){ // 오른쪽 눈 클릭
                 if (right_eye[0] - right_eye[1] < leftEyeBlinkValue.right){ // 오른쪽 눈 클릭
                     setIsRightEyeBlick(true)
                 }

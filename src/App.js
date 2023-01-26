@@ -8,6 +8,7 @@ import BeginPage from './pages/StartPage';
 import LoginPage from './pages/LoginPage'
 import JoinPage from './pages/JoinPage'
 import EyeGallery from "./pages/EyeGallery";
+import VideoPage from './pages/VideoPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/begin" element={<BeginPage />}/>
           <Route path="/paint" element={<MainPage />}/>
           <Route path="/gallery" element={<EyeGallery />}/>
+          <Route path="/explain" element={<VideoPage />}/>
         </Routes>
       </span>
     </BrowserRouter>

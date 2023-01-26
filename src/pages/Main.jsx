@@ -14,6 +14,7 @@ import ToolSelections from "../components/functionDetails/ToolSelections";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
+import ModeSelection from "../components/functionDetails/ModeSelection";
 import "./Main.css"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -84,7 +85,6 @@ const Main = () => {
         else{
             if (canvasSavePageTrigger.current){
                 canvasSavePageTrigger.current = false;
-                console.log(blobName);
             }
         }
     }, [canvasSaveOpen])
@@ -97,6 +97,12 @@ const Main = () => {
     
     return (
         <div className="whole-container">
+            <ModeSelection 
+                currentPage = "paint"
+            />
+            <MoveSelections 
+                currentPage = "paint"
+            />
             <BootstrapDialog
                 aria-labelledby="customized-dialog-title"
                 open={showSaveSuccess}
@@ -144,11 +150,6 @@ const Main = () => {
                             height = "10px"
                         />
                     </div>                    
-                </div>
-                <div style={{display:"flex", height:"100%", width:"20%", alignItems: "center"}}>
-                    <MoveSelections 
-                        currentPage = "main"
-                    />
                 </div>
             </div>
             {
