@@ -26,7 +26,7 @@ const EyeCard = (props) => {
     useEffect( () => {
         let divs = []
         for (let index = 0; index < props.content.length; index++) {
-            divs.push(<div className="eye-card-content">{props.content[index]}</div>)
+            divs.push(<div key={index} className="eye-card-content">{props.content[index]}</div>)
         }
         setContentDiv([...divs])
     }, [])
