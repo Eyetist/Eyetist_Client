@@ -3,7 +3,7 @@ import EyeButton from "./EyeButton";
 import { setLikePicture } from "../../api/member/MemberAPI";
 import { useRecoilValue } from "recoil";
 import { motion, useAnimationControls } from "framer-motion"
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS } from '../../recoil/Atoms';
+import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS, CONTROLL_MODE, IS_MOUSE_OPEN } from '../../recoil/Atoms';
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import "./EyeImageCard.css"
 
@@ -11,11 +11,13 @@ const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight / 5;
 const MAX_THEMBNAIL_IMAGE_WIDTH = window.innerWidth / 6;
 
 const EyeImageCard = (props) => {
+    let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let mousePos = useRecoilValue(MOUSE_POS)
     let scrollPos = useRecoilValue(SCROLL_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let clickRef = useRef(false);
     let [isHeartHover, setIsHeartHover] = useState(false)
+    let controllMode = useRecoilValue(CONTROLL_MODE);
 
     const imgRef = useRef(null);
     const heartRef = useRef(null);
@@ -84,7 +86,7 @@ const EyeImageCard = (props) => {
         if (isOverlap()){
             controls.set({ scale: 1.2 })
 
-            if (isRightEyeBlink){
+            if ((controllMode === "mouth" && isMouseOpen) || (controllMode === "eye" && isRightEyeBlink)) {
                 clickRef.current = true
             }
         }
@@ -100,7 +102,7 @@ const EyeImageCard = (props) => {
         }
     
         if (clickRef.current){
-            if (!isRightEyeBlink){
+            if ((controllMode === "mouth" && !isMouseOpen) || (controllMode === "eye" && !isRightEyeBlink)) {
                 if (isHeartHover){
                     let isHeart = props.heart;
                     if (!isHeart){

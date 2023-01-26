@@ -3,10 +3,9 @@ import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
-import { Player } from 'video-react';
-
+import ModeSelection from "../components/functionDetails/ModeSelection";
 import './Information.css'
-import { useEffect } from "react";
+
 
 const Information = () =>{
     let navigate = useNavigate();
@@ -29,7 +28,8 @@ const Information = () =>{
     let [videoPlay, setVideoPlay] = useState(false)
 
     return(
-        <div className = "information-main-container">x
+        <div className = "information-main-container">
+            <ModeSelection />
             <ul className="lines">
                 <li></li>
                 <li></li>

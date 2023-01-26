@@ -14,6 +14,7 @@ import ToolSelections from "../components/functionDetails/ToolSelections";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
+import ModeSelection from "../components/functionDetails/ModeSelection";
 import "./Main.css"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -97,6 +98,9 @@ const Main = () => {
     
     return (
         <div className="whole-container">
+            <ModeSelection 
+                page = "paint"
+            />
             <BootstrapDialog
                 aria-labelledby="customized-dialog-title"
                 open={showSaveSuccess}

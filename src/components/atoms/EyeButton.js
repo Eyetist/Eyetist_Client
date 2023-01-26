@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK } from '../../recoil/Atoms';
+import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_MOUSE_OPEN, CONTROLL_MODE } from '../../recoil/Atoms';
 import "./EyeButton.css"
 
 const EyeButton = (props) => {
+    let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let mousePos = useRecoilValue(MOUSE_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
+    let controllMode = useRecoilValue(CONTROLL_MODE);
     let clickRef = useRef(false);
     let [buttonStyle, setButtonStyle] =useState(props.style);
     const buttonRef = useRef(null);
@@ -29,7 +31,7 @@ const EyeButton = (props) => {
                 setButtonStyle({...buttonStyle, backgroundColor: props.hoverColor})
             }
 
-            if (isRightEyeBlink){
+            if ((controllMode === "mouth" && isMouseOpen) || (controllMode === "eye" && isRightEyeBlink)) {
                 clickRef.current = true
                 setButtonStyle({...buttonStyle, backgroundColor: props.clickColor})
             }
@@ -39,7 +41,7 @@ const EyeButton = (props) => {
         }
     
         if (clickRef.current){
-            if (!isRightEyeBlink){
+            if ((controllMode === "mouth" && !isMouseOpen) || (controllMode === "eye" && !isRightEyeBlink)) {
                 props.onClick() 
                 clickRef.current = false
             }

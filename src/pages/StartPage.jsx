@@ -6,6 +6,7 @@ import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { useNavigate } from "react-router-dom";
+import ModeSelection from "../components/functionDetails/ModeSelection";
 import './StartPage.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -36,6 +37,7 @@ const StartPage = () =>{
 
     return(
         <div className = "information-main-container">
+            <ModeSelection />
             <ul className="lines">
                 <li></li>
                 <li></li>

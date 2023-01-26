@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCanvas } from "../canvas/CanvasContext";
 import { useRecoilValue } from "recoil";
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK } from '../../recoil/Atoms';
+import { MOUSE_POS, IS_RIGHT_EYE_BLINK , IS_MOUSE_OPEN, CONTROLL_MODE} from '../../recoil/Atoms';
 
 const ColorButton = (props) => {
-
+    let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let mousePos = useRecoilValue(MOUSE_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
+    let controllMode = useRecoilValue(CONTROLL_MODE);
     let clickRef = useRef(false);
     let [buttonStyle, setButtonStyle] =useState(props.style);
     const buttonRef = useRef(null);
@@ -35,7 +36,7 @@ const ColorButton = (props) => {
         if (isOverlap()){
             setButtonStyle({...buttonStyle, boxShadow: props.hoverBoxShadow})
 
-            if (isRightEyeBlink){
+            if ((controllMode === "mouth" && isMouseOpen) || (controllMode === "eye" && isRightEyeBlink)) {
                 clickRef.current = true
                 setButtonStyle({...buttonStyle, boxShadow: props.clickBoxShadow})
             }
@@ -45,7 +46,7 @@ const ColorButton = (props) => {
         }
     
         if (clickRef.current){
-            if (!isRightEyeBlink){
+            if ((controllMode === "mouth" && !isMouseOpen) || (controllMode === "eye" && !isRightEyeBlink)) {
                 setCurrentColor()
                 clickRef.current = false
             }
