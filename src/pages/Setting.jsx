@@ -5,7 +5,8 @@ import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { SETTING_MODE } from "../recoil/Atoms";
-import { AiFillCheckCircle } from "react-icons/ai"
+import ModeSelection from "../components/functionDetails/ModeSelection";
+import MoveSelections from "../components/functionDetails/MoveSelection";
 import './Setting.css'
 
 const Setting = () =>{
@@ -28,6 +29,10 @@ const Setting = () =>{
 
     return(
         <div className = "information-main-container">
+            <ModeSelection />
+            <MoveSelections 
+                currentPage = "setting"
+            />
             <ul className="lines">
                 <li></li>
                 <li></li>

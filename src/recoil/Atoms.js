@@ -94,3 +94,8 @@ export const IS_DRAWING = atom({
     key : 'isDrawing',
     default: true
 })
+
+export const CONTROLL_MODE = atom({
+    key : 'controllMode',
+    default : "eye"
+})

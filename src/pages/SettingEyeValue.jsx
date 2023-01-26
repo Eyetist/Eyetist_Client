@@ -9,6 +9,8 @@ import { useStopwatch } from 'react-timer-hook';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import { AiFillCheckCircle } from "react-icons/ai"
+import ModeSelection from "../components/functionDetails/ModeSelection";
+import MoveSelections from "../components/functionDetails/MoveSelection";
 import { CiFaceSmile } from "react-icons/ci"
 import { FaGrinWink } from "react-icons/fa" //right
 import { ImWink2 } from "react-icons/im" //left 
@@ -129,7 +131,6 @@ const SettingEyeValue = () =>{
     useEffect( () => {
         if (step.current < 7 && clickStartButton){
             reset()
-            // console.log(step.current)
             switch(step.current){
                 case 2:
                     setReceiveMouthValue([])
@@ -153,6 +154,10 @@ const SettingEyeValue = () =>{
 
     return(
         <div className = "information-main-container">
+            <ModeSelection />
+            <MoveSelections 
+                currentPage = "customSetting"
+            />
             <BootstrapDialog
                 aria-labelledby="customized-dialog-title"
                 open={openGazeTimer}
@@ -256,36 +261,36 @@ const SettingEyeValue = () =>{
                             style={{
                                 width: "100%",
                                 height: "30%",
-                                backgroundColor: step.current > 1 ? "green" : step.current === 1 ? "#f79393" : "grey",
+                                backgroundColor: step.current > 2 ? "green" : step.current === 2 ? "#f79393" : "grey",
                                 borderRadius: "20px",
                                 marginBottom: "1%",
                             }}
                         >
-                            {"< First Step >"} <br/>{firstStep} {step.current > 1 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< First Step >"} <br/>{firstStep} {step.current > 2 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                         <div
                             className="step-card-content"
                             style={{
                                 width: "100%",
                                 height: "30%",
-                                backgroundColor: step.current > 3 ? "green" : step.current === 3 ? "#f79393" : "grey",
+                                backgroundColor: step.current > 4 ? "green" : step.current === 4 ? "#f79393" : "grey",
                                 borderRadius: "20px",
                                 marginBottom: "1%",
                             }}
                         >
-                            {"< Second Step >"} <br/>{secondStep} {step.current > 3 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< Second Step >"} <br/>{secondStep} {step.current > 4 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                         <div 
                             className="step-card-content"
                             style={{
                                 width: "100%",
                                 height: "30%",
-                                backgroundColor: step.current > 5 ? "green" : step.current === 5 ? "#f79393" : "grey",
+                                backgroundColor: step.current > 6 ? "green" : step.current === 6 ? "#f79393" : "grey",
                                 borderRadius: "20px",
                                 marginBottom: "1%",
                             }}
                         >
-                            {"< Third Step >"} <br/>{thirdStep} {step.current > 5 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
+                            {"< Third Step >"} <br/>{thirdStep} {step.current > 6 ? <AiFillCheckCircle style={{fontSize:checkIconSize, marginLeft:checkIconSize}}/>: <></>}
                         </div>
                     </div>
                 </div>

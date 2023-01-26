@@ -1,25 +1,14 @@
-import React, {useEffect, useState} from "react";
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
+import React from "react";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { useNavigate } from "react-router-dom";
+import ModeSelection from "../components/functionDetails/ModeSelection";
 import './StartPage.css'
-
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-        padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-        padding: theme.spacing(1),
-    },
-}));
 
 const StartPage = () =>{
     let navigate = useNavigate();
-    const [openTutorial, setOpenTutorial] = useState(false)
 
     let tutorialContent = [
         "If you want to know how to use drawing tools and gallery, please press the button.",
@@ -36,6 +25,10 @@ const StartPage = () =>{
 
     return(
         <div className = "information-main-container">
+            <ModeSelection />
+            <MoveSelections 
+                currentPage = "begin"
+            />
             <ul className="lines">
                 <li></li>
                 <li></li>
@@ -51,9 +44,6 @@ const StartPage = () =>{
             <EyeMouse />
             <div className="start-page-top-container">
                 <div className='gallery-top-buttons'>
-                    <MoveSelections 
-                        currentPage = "begin"
-                    />
                 </div>
                 <div className = "start-page-title">
                     EyeTist
@@ -78,12 +68,7 @@ const StartPage = () =>{
                         content={tutorialContent}
                         hoverColor="#f46969"
                         clickColor="#f45555"
-                        onClick={() => {
-                            setOpenTutorial(true);
-                            setTimeout(function(){
-                                setOpenTutorial(false);
-                            }, 1500)
-                        }}
+                        onClick={() => navigate('/explain')}
                     />
                     <EyeCard 
                         style={{
@@ -119,11 +104,6 @@ const StartPage = () =>{
                             navigate('/gallery')
                         }}
                     />
-                    <BootstrapDialog
-                            aria-labelledby="customized-dialog-title"
-                            open={openTutorial}
-                            onClose={() =>{setOpenTutorial(false)}}
-                        >Tutorial service is not yet ready. <br/> We will start the service soon.</BootstrapDialog>
                 </div>
             </div>
         </div>

@@ -34,7 +34,6 @@ const ModifyCard = (props) => {
     const [showProgress, setShowProgress] = useState(false)
 
     useEffect( () => {
-        console.log(props.clickedImageInfo)
         setInputName(props.clickedImageInfo.title)
         setExtention("png")
         setVisible(props.clickedImageInfo.visibility)

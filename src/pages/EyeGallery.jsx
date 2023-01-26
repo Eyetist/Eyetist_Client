@@ -11,6 +11,7 @@ import ModifyCard from '../components/atoms/ModifyCard'
 import PageController from '../components/gallery/PageController';
 import MoveSelections from '../components/functionDetails/MoveSelection';
 import GallerySmartTools from '../components/functionDetails/GallerySmartTools';
+import ModeSelection from '../components/functionDetails/ModeSelection';
 import { useNavigate } from 'react-router-dom';
 import './EyeGallery.css'
 
@@ -77,6 +78,7 @@ const EyeGallery = () => {
 
     return (
         <div className = "main-container">
+            <ModeSelection />
             <EyeMouse 
                 SmartToolsPosition = {SmartToolsPosition}
                 setSmartToolsOpen = {setSmartToolsOpen}

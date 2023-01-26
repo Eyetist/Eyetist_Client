@@ -47,10 +47,6 @@ const GallerySmartTools = (props) => {
         navigate('/')
     }
 
-    useEffect( () => {
-        console.log(props.isMyGallery)
-    }, [props.setIsMyGallery])
-
     return(
         <div style={toolContainerStyle}>
             <div style={{border: "1px solid #B4A5A5", borderRadius:"30px", paddingRight:"10px"}}>
