@@ -63,15 +63,12 @@ const VideoPage = () =>{
     }
 
     useEffect( () => {
-        console.log(videoSource)
         if (videoRef.current){
             if (!videoRef.current.paused){// -> false 면 재생중
-                console.log("top")
                 videoRef.current.load()
                 videoRef.current.play()
             }
             else{
-                console.log("bottom")
                 videoRef.current.play()
             }
         }

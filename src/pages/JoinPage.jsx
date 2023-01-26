@@ -61,7 +61,6 @@ const JoinPage = () =>{
         else{
             sendJoin(inputId, inputPw)
             .then((res) => {
-                console.log(res)
                 if (res.data === 200){
                     setOpenJoinSuccess(true);
                     setTimeout(function(){

@@ -85,7 +85,6 @@ const Main = () => {
         else{
             if (canvasSavePageTrigger.current){
                 canvasSavePageTrigger.current = false;
-                console.log(blobName);
             }
         }
     }, [canvasSaveOpen])

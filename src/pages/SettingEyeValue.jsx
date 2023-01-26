@@ -131,7 +131,6 @@ const SettingEyeValue = () =>{
     useEffect( () => {
         if (step.current < 7 && clickStartButton){
             reset()
-            // console.log(step.current)
             switch(step.current){
                 case 2:
                     setReceiveMouthValue([])
