@@ -99,7 +99,10 @@ const Main = () => {
     return (
         <div className="whole-container">
             <ModeSelection 
-                page = "paint"
+                currentPage = "paint"
+            />
+            <MoveSelections 
+                currentPage = "paint"
             />
             <BootstrapDialog
                 aria-labelledby="customized-dialog-title"
@@ -148,11 +151,6 @@ const Main = () => {
                             height = "10px"
                         />
                     </div>                    
-                </div>
-                <div style={{display:"flex", height:"100%", width:"20%", alignItems: "center"}}>
-                    <MoveSelections 
-                        currentPage = "main"
-                    />
                 </div>
             </div>
             {

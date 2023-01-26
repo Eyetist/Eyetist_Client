@@ -38,6 +38,9 @@ const StartPage = () =>{
     return(
         <div className = "information-main-container">
             <ModeSelection />
+            <MoveSelections 
+                currentPage = "begin"
+            />
             <ul className="lines">
                 <li></li>
                 <li></li>
@@ -53,9 +56,6 @@ const StartPage = () =>{
             <EyeMouse />
             <div className="start-page-top-container">
                 <div className='gallery-top-buttons'>
-                    <MoveSelections 
-                        currentPage = "begin"
-                    />
                 </div>
                 <div className = "start-page-title">
                     EyeTist

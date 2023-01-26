@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import { AiFillCheckCircle } from "react-icons/ai"
 import ModeSelection from "../components/functionDetails/ModeSelection";
+import MoveSelections from "../components/functionDetails/MoveSelection";
 import { CiFaceSmile } from "react-icons/ci"
 import { FaGrinWink } from "react-icons/fa" //right
 import { ImWink2 } from "react-icons/im" //left 
@@ -155,6 +156,9 @@ const SettingEyeValue = () =>{
     return(
         <div className = "information-main-container">
             <ModeSelection />
+            <MoveSelections 
+                currentPage = "customSetting"
+            />
             <BootstrapDialog
                 aria-labelledby="customized-dialog-title"
                 open={openGazeTimer}

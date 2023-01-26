@@ -12,7 +12,7 @@ const ModeSelection = (props) => {
     const TOOL_BUTTON_FONT_SIZE = windowSize.width * 0.02
 
     return(
-        props.page === "paint" ?
+        props.currentPage === "paint" ?
         <div style={{ position: "absolute", paddingTop: "1%", paddingLeft:"37%", display:"flex"}}>
             <span style={{color:"white", paddingLeft:"40px"}}>
                 MODE SELECTION
@@ -52,7 +52,7 @@ const ModeSelection = (props) => {
             />
         </div>
         :
-        <div style={{ position: "absolute", paddingTop: "3%", paddingLeft:"5%"}}>
+        <div style={{ position: "absolute", paddingTop: "2%", paddingLeft:"17%"}}>
             <span style={{color:"white", paddingLeft:"40px"}}>
                 MODE SELECTION
             </span>

@@ -8,17 +8,13 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 
 const MoveSelections = (props) => {
     let navigate = useNavigate();
-    let windowSize=useRecoilValue(WINDOW_SIZE);
     let setStrokeColor=useSetRecoilState(STROKE_COLOR);
     let setCurrentFunction=useSetRecoilState(CURRENT_FUNCTION);
 
-    const TOOL_BUTTON_SIZE = windowSize.width * 0.03
-    const TOOL_BUTTON_FONT_SIZE = windowSize.width * 0.015
-
     const toolButtonStyle = {
-        width:TOOL_BUTTON_SIZE, 
-        height:TOOL_BUTTON_SIZE, 
-        fontSize:TOOL_BUTTON_FONT_SIZE,
+        width:"50px", 
+        height:"50px", 
+        fontSize:"30px",
         borderRadius:"5px", 
         backgroundColor:"inherit",
         color: "white",
@@ -29,7 +25,23 @@ const MoveSelections = (props) => {
     function goBack(){
         setStrokeColor("#000000");
         setCurrentFunction("default");
-        navigate('/begin')
+        switch(props.currentPage){
+            case "setting":
+                navigate('/')
+                break
+            case "customSetting":
+                navigate('/setting')
+                break
+            case "begin":
+                navigate('/setting')
+                break
+            case "paint":
+                navigate('/begin')
+                break
+            case "gallery":
+                navigate('/begin')
+                break
+        }
     }
 
     function logOut(){
@@ -40,9 +52,28 @@ const MoveSelections = (props) => {
     }
 
     return(
-        <div style={{display:"flex"}}>
+        props.currentPage === "paint" ?
+        <div style={{ display:"flex", position: "absolute", paddingTop: "1%", paddingLeft:"80%"}}>
+            <EyeButton 
+                style={toolButtonStyle}
+                text={<BiLogOut />}
+                hoverColor="pink"
+                clickColor="black"
+                onClick={() => {goBack()}}
+            />
+
+            <EyeButton 
+                style={toolButtonStyle}
+                text={<FaPowerOff />}
+                hoverColor="pink"
+                clickColor="black"
+                onClick={() => {logOut()}}
+            />
+        </div>
+        :
+        <div style={{ display:"flex", position: "absolute", paddingTop: "3%", paddingLeft:"6%"}}>
             {
-                props.currentPage === "begin" ?
+                props.currentPage === "intro"?
                 <></>
                 :
                 <EyeButton 
@@ -53,14 +84,18 @@ const MoveSelections = (props) => {
                     onClick={() => {goBack()}}
                 />
             }
-
-            <EyeButton 
-                style={toolButtonStyle}
-                text={<FaPowerOff />}
-                hoverColor="pink"
-                clickColor="black"
-                onClick={() => {logOut()}}
-            />
+            {
+                props.currentPage === "setting" ||  props.currentPage === "customSetting"?
+                <></>
+                :
+                <EyeButton 
+                    style={toolButtonStyle}
+                    text={<FaPowerOff />}
+                    hoverColor="pink"
+                    clickColor="black"
+                    onClick={() => {logOut()}}
+                />         
+            }
         </div>
     )
 }
