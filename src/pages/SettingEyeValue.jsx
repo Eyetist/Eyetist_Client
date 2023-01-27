@@ -3,18 +3,15 @@ import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { SETTING_MODE, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE, MOUTH_OPEN_VALUE } from "../recoil/Atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { SETTING_MODE, LEFT_EYE_BLINK_VALUE, RIGHT_EYE_BLINK_VALUE, MOUTH_OPEN_VALUE, IS_SMART_TOOLS_OPEN } from "../recoil/Atoms";
 import { useStopwatch } from 'react-timer-hook';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import { AiFillCheckCircle } from "react-icons/ai"
 import ModeSelection from "../components/functionDetails/ModeSelection";
 import MoveSelections from "../components/functionDetails/MoveSelection";
-import { CiFaceSmile } from "react-icons/ci"
-import { FaGrinWink } from "react-icons/fa" //right
-import { ImWink2 } from "react-icons/im" //left 
-import { TbRotate2 } from "react-icons/tb"
+import SensitivitySmartTools from "../components/functionDetails/SensitivitySmartTools";
 import './SettingEyeValue.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -43,6 +40,9 @@ const SettingEyeValue = () =>{
 
     let step = useRef(1)
     let isStart = useRef(false)
+
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
 
     const {
         seconds,
@@ -158,6 +158,18 @@ const SettingEyeValue = () =>{
             <MoveSelections 
                 currentPage = "customSetting"
             />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+            />
+            {
+                smartToolsOpen ?
+                <SensitivitySmartTools 
+                    currentPage = "customSetting"
+                    SmartToolsPosition = {SmartToolsPosition}
+                />
+                :
+                <></>
+            }
             <BootstrapDialog
                 aria-labelledby="customized-dialog-title"
                 open={openGazeTimer}
@@ -192,7 +204,6 @@ const SettingEyeValue = () =>{
                 <li></li>
                 <li></li>
             </ul>
-            <EyeMouse />
             <div className="information-top-container">
                 <div className = "information-title">
                     EyeTist

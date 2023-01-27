@@ -1,14 +1,19 @@
-import React from "react";
+import React, {useRef} from "react";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import MoveSelections from "../components/functionDetails/MoveSelection";
 import { useNavigate } from "react-router-dom";
 import ModeSelection from "../components/functionDetails/ModeSelection";
+import { IS_SMART_TOOLS_OPEN } from "../recoil/Atoms";
+import { useRecoilValue } from "recoil";
+import SensitivitySmartTools from "../components/functionDetails/SensitivitySmartTools";
 import './StartPage.css'
 
 const StartPage = () =>{
     let navigate = useNavigate();
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
 
     let tutorialContent = [
         "If you want to know how to use drawing tools and gallery, please press the button.",
@@ -41,7 +46,18 @@ const StartPage = () =>{
                 <li></li>
                 <li></li>
             </ul>
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+            />
+            {
+                smartToolsOpen ?
+                <SensitivitySmartTools 
+                    currentPage = "begin"
+                    SmartToolsPosition = {SmartToolsPosition}
+                />
+                :
+                <></>
+            }
             <div className="start-page-top-container">
                 <div className='gallery-top-buttons'>
                 </div>

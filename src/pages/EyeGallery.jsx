@@ -3,8 +3,8 @@ import EyeMouse from '../components/mouse/EyeMouse';
 import FaceMeshCam from '../components/faceMesh/FaseMeshCam';
 import MyGallery from '../components/gallery/MyGallery';
 import OthersGallery from '../components/gallery/OthersGallery';
-import { useSetRecoilState } from 'recoil';
-import { SCROLL_POS, CURRENT_FUNCTION } from '../recoil/Atoms';
+import { useSetRecoilState,useRecoilValue } from 'recoil';
+import { SCROLL_POS, CURRENT_FUNCTION, IS_SMART_TOOLS_OPEN } from '../recoil/Atoms';
 import { motion, useAnimationControls } from "framer-motion"
 import EyeButton from '../components/atoms/EyeButton';
 import ModifyCard from '../components/atoms/ModifyCard'
@@ -17,6 +17,7 @@ import './EyeGallery.css'
 
 const EyeGallery = () => {
     let navigate = useNavigate();
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
     let SmartToolsPosition = useRef({x:0, y:0})
     let [isMyGallery, setIsMyGallery] = useState(true);
     let setCurrentFunction = useSetRecoilState(CURRENT_FUNCTION)
@@ -24,7 +25,6 @@ const EyeGallery = () => {
     let [page, setPage] = useState(0)
     let [imageCount, setImageCount] = useState(0)
     let [visibility, setVisibility] = useState("private")
-    let [smartToolsOpen, setSmartToolsOpen] = useState(false)
     let [publicGalleryMode, setPublicGalleryMode] = useState("weekly")
     const controls = useAnimationControls()
     const targetRef = useRef(null);  
@@ -81,13 +81,11 @@ const EyeGallery = () => {
             <ModeSelection />
             <EyeMouse 
                 SmartToolsPosition = {SmartToolsPosition}
-                setSmartToolsOpen = {setSmartToolsOpen}
             />
             {
                 smartToolsOpen ?
                 <GallerySmartTools 
                     SmartToolsPosition = {SmartToolsPosition}
-                    setSmartToolsOpen = {setSmartToolsOpen}
                     isMyGallery = {isMyGallery}
                     setIsMyGallery = {setIsMyGallery}
                     visibility = {visibility}

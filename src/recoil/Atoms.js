@@ -99,3 +99,8 @@ export const CONTROLL_MODE = atom({
     key : 'controllMode',
     default : "eye"
 })
+
+export const IS_SMART_TOOLS_OPEN = atom({
+    key : 'isSmartToolsOpen',
+    default : false
+})

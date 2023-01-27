@@ -1,13 +1,19 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
 import ModeSelection from "../components/functionDetails/ModeSelection";
+import SensitivitySmartTools from "../components/functionDetails/SensitivitySmartTools";
 import './Information.css'
+import { IS_SMART_TOOLS_OPEN } from "../recoil/Atoms";
+import { useRecoilValue } from "recoil";
 
 const Information = () =>{
     let navigate = useNavigate();
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
+    let [videoPlay, setVideoPlay] = useState(false)
 
     const videos = {
         introVideo: require('../video/EyeTistIntroVideo.mp4')
@@ -26,7 +32,6 @@ const Information = () =>{
         "An amazing world awaits you."
     ]
 
-    let [videoPlay, setVideoPlay] = useState(false)
 
     return(
         <div className = "information-main-container">
@@ -43,7 +48,18 @@ const Information = () =>{
                 <li></li>
                 <li></li>
             </ul>
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+            />
+            {
+                smartToolsOpen ?
+                <SensitivitySmartTools 
+                    currentPage = "information"
+                    SmartToolsPosition = {SmartToolsPosition}
+                />
+                :
+                <></>
+            }
             <div className="information-top-container">
                 <div className = "information-title">
                     EyeTist
