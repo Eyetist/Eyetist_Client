@@ -24,7 +24,7 @@ jobs:
         env:
           REACT_APP_BACK_URL: ${{ secrets.REACT_APP_BACK_URL }}
           CI: false
-          NPM_CONFIG_LEGACY_PEER_DEPS: true
+          NPM_CONFIG_FORCE: true
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_KIND_WATER_0E973E400 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
