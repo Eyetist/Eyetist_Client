@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import EyeButton from "../atoms/EyeButton"
 import ColorSelection from "./ColorSelection";
 import { useSetRecoilState,useRecoilState } from "recoil";
-import { CURRENT_FUNCTION,IS_DRAWING,STROKE_COLOR } from '../../recoil/Atoms';
+import { CURRENT_FUNCTION,IS_DRAWING,STROKE_COLOR, IS_SMART_TOOLS_OPEN,MOUSE_SENSITIVITY } from '../../recoil/Atoms';
 import { useCanvas } from "../canvas/CanvasContext";
 import { useNavigate } from 'react-router-dom';
 import { BiRefresh } from "react-icons/bi"
@@ -43,7 +43,9 @@ const SmartTools = (props) => {
     let setStrokeColor=useSetRecoilState(STROKE_COLOR);
     let [isDrawing,setIsDrawing]=useRecoilState(IS_DRAWING);
     let [isPaletteMode, setIsPaletteMode] = useState(false)
+    let setIsSmartToolsOpen = useSetRecoilState(IS_SMART_TOOLS_OPEN)
     let navigate = useNavigate();
+    let [mouseSensitivity, setMouseSensitivity] = useRecoilState(MOUSE_SENSITIVITY)
 
     const toolContainerStyle = {
         position: 'absolute', 
@@ -53,6 +55,24 @@ const SmartTools = (props) => {
         alignItems:"center", 
         justifyContent: "center", 
         zIndex:'100'
+    }
+
+    function minusSensitivity(){
+        if (mouseSensitivity <= 1){
+            setMouseSensitivity(1)
+        }
+        else{
+            setMouseSensitivity(mouseSensitivity - 1)
+        }
+    }
+
+    function plusSensitivity(){
+        if (mouseSensitivity >= 10){
+            setMouseSensitivity(10)
+        }
+        else{
+            setMouseSensitivity(mouseSensitivity + 1)
+        }
     }
 
     function overWrite(){
@@ -68,12 +88,14 @@ const SmartTools = (props) => {
     }
 
     function goBack(){
+        setIsSmartToolsOpen(false);
         setStrokeColor("#000000");
         setCurrentFunction("default");
         navigate('/begin')
     }
 
     function logOut(){
+        setIsSmartToolsOpen(false);
         setStrokeColor("#000000");
         setCurrentFunction("default");
         localStorage.clear()
@@ -86,7 +108,7 @@ const SmartTools = (props) => {
         props.setSelectedButton(
             <ColorSelection/>
         )
-        props.setSmartToolsOpen(false)
+        setIsSmartToolsOpen(false)
     }
 
     function selectFill(){
@@ -94,13 +116,13 @@ const SmartTools = (props) => {
         props.setSelectedButton(
             <ColorSelection/>
         )
-        props.setSmartToolsOpen(false)
+        setIsSmartToolsOpen(false)
     }
 
     function selectErase(){
         setEraseMode();
         setCurrentFunction("erase");
-        props.setSmartToolsOpen(false)
+        setIsSmartToolsOpen(false)
     }
 
     function selectUndo(){
@@ -122,7 +144,7 @@ const SmartTools = (props) => {
         props.setSelectedButton(
             <ColorSelection/>
         )
-        props.setSmartToolsOpen(false)
+        setIsSmartToolsOpen(false)
     }
 
     function zoomOut(){
@@ -130,7 +152,7 @@ const SmartTools = (props) => {
         props.setSelectedButton(
             <ColorSelection/>
         )
-        props.setSmartToolsOpen(false)
+        setIsSmartToolsOpen(false)
     }
     
     function selectShape(){
@@ -138,7 +160,7 @@ const SmartTools = (props) => {
         props.setSelectedButton(
             <ShapeSelection/>
         )
-        props.setSmartToolsOpen(false)
+        setIsSmartToolsOpen(false)
     }
     
 
@@ -161,11 +183,18 @@ const SmartTools = (props) => {
                         />
                         <EyeButton 
                             style={toolButtonStyle}
-                            text={<RiMouseFill />}
+                            text={<img src="https://cdn-icons-png.flaticon.com/512/3368/3368230.png" style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
                             hoverColor="pink"
                             clickColor="black"
-                            onClick={() => {props.setIsOpenSensitivity(!props.isOpenSensitivity)}}
+                            onClick={() => {minusSensitivity()}}
                         />
+                        <EyeButton 
+                            style={toolButtonStyle}
+                            text={<img src="https://cdn-icons-png.flaticon.com/512/3368/3368222.png" style={{width:"100%", height:"auto", color : "white", paddingLeft:"5px" ,paddingRight:"5px",paddingTop:"5px",paddingBottom:"5px"}} />}
+                            hoverColor="pink"
+                            clickColor="black"
+                            onClick={() => {plusSensitivity()}}
+                    />
                         {
                             isDrawing?
                                 <EyeButton 
@@ -269,11 +298,11 @@ const SmartTools = (props) => {
                             onClick={() => {
                                 if(props.blobName===""){
                                     props.setCanvasSaveOpen(true)
-                                    props.setSmartToolsOpen(false)
+                                    setIsSmartToolsOpen(false)
                                 }
                                 else{
                                     overWrite();
-                                    props.setSmartToolsOpen(false)
+                                    setIsSmartToolsOpen(false)
                                 }
                             }}
                         />
@@ -285,7 +314,7 @@ const SmartTools = (props) => {
                             clickColor="black"
                             onClick={() => {
                                 props.setCanvasSaveOpen(true)
-                                props.setSmartToolsOpen(false)
+                                setIsSmartToolsOpen(false)
                             }}
                         />
                     </div>
@@ -315,7 +344,7 @@ const SmartTools = (props) => {
                     text={<RiCloseCircleFill />}
                     hoverColor="pink"
                     clickColor="black"
-                    onClick={() => {props.setSmartToolsOpen(false)}}
+                    onClick={() => {setIsSmartToolsOpen(false)}}
                 />
             </div>
         </div>

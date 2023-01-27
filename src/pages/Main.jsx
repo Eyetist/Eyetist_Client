@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { CURRENT_FUNCTION,WINDOW_SIZE, STROKE_COLOR } from '../recoil/Atoms';
+import { CURRENT_FUNCTION,WINDOW_SIZE, STROKE_COLOR,IS_SMART_TOOLS_OPEN } from '../recoil/Atoms';
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import { Canvas } from '../components/canvas/Canvas'
 import { useCanvas } from "../components/canvas/CanvasContext";
@@ -29,7 +29,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const Main = () => {
     const { canvasRef, contextRef } = useCanvas()
     let navigate = useNavigate();
-    let SmartToolsPosition = useRef({x:0, y:0})
     let canvasSavePageTrigger = useRef(false)
     let [canvasSaveOpen, setCanvasSaveOpen] = useState(false)
     let [imgBuffer,setImgBuffer] = useState([]);
@@ -39,11 +38,13 @@ const Main = () => {
     let [ratio,setRatio] = useState(1);
     let canvasDivRef=useRef(null);
     let setWindowSize=useSetRecoilState(WINDOW_SIZE);
-    let [smartToolsOpen, setSmartToolsOpen] = useState(false)
     let setStrokeColor = useSetRecoilState(STROKE_COLOR)
     let [isOpenSensitivity, setIsOpenSensitivity] = useState(false);
     let [blobName,setBlobName]=useState("");
     let [inputName,setInputName]=useState("");
+
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
 
     let [showSaveSuccess,setShowSaveSuccess]=useState(false);
 
@@ -110,10 +111,6 @@ const Main = () => {
             >Save is complete!</BootstrapDialog>
             <EyeMouse 
                 SmartToolsPosition = {SmartToolsPosition}
-                setSmartToolsOpen = {setSmartToolsOpen}
-                smartToolsOpen = {smartToolsOpen}
-                setIsOpenSensitivity = {setIsOpenSensitivity}
-                isOpenSensitivity = {isOpenSensitivity}
             />
             {
                 smartToolsOpen ?
@@ -125,7 +122,6 @@ const Main = () => {
                     bufferIdx={bufferIdx}
                     imgBuffer={imgBuffer}
                     SmartToolsPosition = {SmartToolsPosition}
-                    setSmartToolsOpen = {setSmartToolsOpen}
                     isOpenSensitivity = {isOpenSensitivity}
                     setIsOpenSensitivity = {setIsOpenSensitivity}
                     blobName={blobName}

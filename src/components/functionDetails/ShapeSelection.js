@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { SELECTED_SHAPE } from '../../recoil/Atoms';
 import EyeButton from "../atoms/EyeButton";
 
 const ShapeSelection=()=>{
-    let [shapeButtonList,setShapeButtonList]=useState([]);
     let [selectedShape,setSelectedShape]=useRecoilState(SELECTED_SHAPE);
 
-    const TOOL_BUTTON_SIZE = window.innerWidth * 0.04
     const TOOL_BUTTON_FONT_SIZE = window.innerWidth * 0.1;
 
     const cursorImage = {

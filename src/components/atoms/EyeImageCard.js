@@ -1,23 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import EyeButton from "./EyeButton";
 import { setLikePicture } from "../../api/member/MemberAPI";
 import { useRecoilValue } from "recoil";
 import { motion, useAnimationControls } from "framer-motion"
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK, SCROLL_POS, CONTROLL_MODE, IS_MOUSE_OPEN } from '../../recoil/Atoms';
+import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_LEFT_EYE_BLINK ,IS_SMART_TOOLS_OPEN, SCROLL_POS, CONTROLL_MODE, IS_MOUSE_OPEN } from '../../recoil/Atoms';
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import "./EyeImageCard.css"
 
-const MAX_THUMBNAIL_IMAGE_HEIGHT = window.innerHeight / 5;
 const MAX_THEMBNAIL_IMAGE_WIDTH = window.innerWidth / 6;
 
 const EyeImageCard = (props) => {
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let mousePos = useRecoilValue(MOUSE_POS)
     let scrollPos = useRecoilValue(SCROLL_POS)
+    let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
     let clickRef = useRef(false);
     let [isHeartHover, setIsHeartHover] = useState(false)
     let controllMode = useRecoilValue(CONTROLL_MODE);
+    let isSmartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
 
     const imgRef = useRef(null);
     const heartRef = useRef(null);
@@ -36,7 +36,7 @@ const EyeImageCard = (props) => {
                     + "/" + props.date[6] + props.date[7]    
 
     function isOverlap(){
-        if (buttonRef.current && !props.imageCardActionRef.current){
+        if (buttonRef.current && !props.imageCardActionRef.current && !isSmartToolsOpen){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = buttonRef.current;
             if (offsetTop !== 0){
                 transTop.current = offsetTop
@@ -58,7 +58,7 @@ const EyeImageCard = (props) => {
     }
 
     function isHeartOverlap(){
-        if (heartRef.current && !props.imageCardActionRef.current){
+        if (heartRef.current && !props.imageCardActionRef.current && !isSmartToolsOpen){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = heartRef.current;
             if (offsetTop !== imgRef.current.offsetHeight + 3){
                 transTop.current = offsetTop
@@ -89,6 +89,9 @@ const EyeImageCard = (props) => {
             if ((controllMode === "mouth" && isMouseOpen) || (controllMode === "eye" && isRightEyeBlink)) {
                 clickRef.current = true
             }
+            if (isRightEyeBlink && isLeftEyeBlink){
+                clickRef.current = false
+            }
         }
         else{
             controls.set({ scale: 1 })
@@ -101,7 +104,7 @@ const EyeImageCard = (props) => {
             setIsHeartHover(false)
         }
     
-        if (clickRef.current){
+        if (clickRef.current && !isSmartToolsOpen){
             if ((controllMode === "mouth" && !isMouseOpen) || (controllMode === "eye" && !isRightEyeBlink)) {
                 if (isHeartHover){
                     let isHeart = props.heart;

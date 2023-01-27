@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { sendLogin } from "../api/member/MemberAPI";
 import ModeSelection from "../components/functionDetails/ModeSelection";
 import MoveSelections from "../components/functionDetails/MoveSelection";
+import { useRecoilValue } from "recoil";
+import SensitivitySmartTools from "../components/functionDetails/SensitivitySmartTools";
+import { IS_SMART_TOOLS_OPEN } from "../recoil/Atoms";
 import './LoginJoin.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -37,6 +40,9 @@ const LoginPage = () =>{
     const [pwFocused, setPwFocused] = useState(false)
     const onPwFocus = () => setPwFocused(true)
     const onPwBlur = () => setPwFocused(false)
+
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
 
     const [openLoginFail, setOpenLoginFail] = useState(false)
 
@@ -73,7 +79,18 @@ const LoginPage = () =>{
             <MoveSelections 
                 currentPage = "login"
             />
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+            />
+            {
+                smartToolsOpen ?
+                <SensitivitySmartTools 
+                    currentPage = "login"
+                    SmartToolsPosition = {SmartToolsPosition}
+                />
+                :
+                <></>
+            }
             <div className="login-join-top-container">ㄱ
                 <Link to = {`/`} className = "login-join-title">
                     EyeTist

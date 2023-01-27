@@ -1,4 +1,4 @@
-import React, { useContext, useRef,useState } from "react";
+import React, { useContext, useRef } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { STROKE_COLOR,LINE_WIDTH,WINDOW_SIZE } from '../../recoil/Atoms';
 

@@ -1,20 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK, CONTROLL_MODE, IS_MOUSE_OPEN} from '../../recoil/Atoms';
+import { MOUSE_POS,IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK, CONTROLL_MODE, IS_MOUSE_OPEN, IS_SMART_TOOLS_OPEN} from '../../recoil/Atoms';
 import "./EyeCard.css"
 
 const EyeCard = (props) => {
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let mousePos = useRecoilValue(MOUSE_POS)
     let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
+    let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
     let clickRef = useRef(false);
     let controllMode = useRecoilValue(CONTROLL_MODE);
     let [buttonStyle, setButtonStyle] = useState(props.style);
     let [contentDiv, setContentDiv] = useState([])
+    let isSmartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
     const buttonRef = useRef(null);
 
     function isOverlap(){
-        if (buttonRef.current){
+        if (buttonRef.current && !isSmartToolsOpen){
             const { offsetTop, offsetLeft, offsetWidth, offsetHeight} = buttonRef.current;
             let posX = mousePos.x + 15 // 15 is mouseCursorSize / 2
             let posY = mousePos.y + 15
@@ -39,12 +41,16 @@ const EyeCard = (props) => {
                 clickRef.current = true
                 setButtonStyle({...buttonStyle, backgroundColor: props.clickColor})
             }
+
+            if (isRightEyeBlink && isLeftEyeBlink){
+                clickRef.current = false
+            }
         }
         else{
             setButtonStyle(props.style)
         }
     
-        if (clickRef.current){
+        if (clickRef.current && !isSmartToolsOpen){
             if ((controllMode === "mouth" && !isMouseOpen) || (controllMode === "eye" && !isRightEyeBlink)) {
                 props.onClick() 
                 clickRef.current = false

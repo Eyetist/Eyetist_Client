@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import EyeButton from "../components/atoms/EyeButton";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
@@ -12,13 +12,18 @@ import { AiOutlinePause } from "react-icons/ai"
 import { RiEraserFill, RiMouseFill } from "react-icons/ri"
 import { BsPencilFill, BsZoomIn, BsZoomOut, BsPaintBucket,BsFillPlayFill } from "react-icons/bs"
 import { VscSaveAs,VscSave } from "react-icons/vsc"
-import { useEffect } from "react";
+import { IS_SMART_TOOLS_OPEN } from "../recoil/Atoms";
+import { useRecoilValue } from "recoil";
+import SensitivitySmartTools from "../components/functionDetails/SensitivitySmartTools";
 
 const VideoPage = () =>{
     let [category, setCategory] = useState("drawingTools")
     let [videoPlay, setVideoPlay] = useState(false)
     let [videoSource, setVideoSource] = useState("")
     let videoRef = useRef(null)
+    
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
 
     const TOOL_BUTTON_SIZE = window.innerWidth * 0.045
     const TOOL_BUTTON_FONT_SIZE = window.innerWidth * 0.02
@@ -92,7 +97,18 @@ const VideoPage = () =>{
                 <li></li>
                 <li></li>
             </ul>
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+            />
+            {
+                smartToolsOpen ?
+                <SensitivitySmartTools 
+                    currentPage = "video"
+                    SmartToolsPosition = {SmartToolsPosition}
+                />
+                :
+                <></>
+            }
             <div className="start-page-top-container">
                 <div className='gallery-top-buttons'>
                 </div>
