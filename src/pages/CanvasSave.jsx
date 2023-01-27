@@ -280,16 +280,19 @@ const CanvasSave = (props) => {
                             </div>
                         </div>
                         <BootstrapDialog
+                            className="MuiPaper-root"
                             aria-labelledby="customized-dialog-title"
                             open={openSaveFail}
                             onClose={() =>{setOpenSaveFail(false)}}
                         >Please enter a name for the image.</BootstrapDialog>
                         <BootstrapDialog
+                            className="MuiPaper-root"                            
                             aria-labelledby="customized-dialog-title"
                             open={openSaveOngoing}
                             onClose={() =>{setOpenSaveOngoing(false)}}
                         >Saving image to server...</BootstrapDialog>
                         <BootstrapDialog
+                            className="MuiPaper-root"
                             aria-labelledby="customized-dialog-title"
                             open={openSaveSuccess}
                             onClose={() =>{setOpenSaveSuccess(false)}}

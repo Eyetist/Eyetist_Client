@@ -171,6 +171,7 @@ const SettingEyeValue = () =>{
                 <></>
             }
             <BootstrapDialog
+                className="MuiPaper-root"
                 aria-labelledby="customized-dialog-title"
                 open={openGazeTimer}
                 onClose={() =>{setOpenGazeTimer(false)}}
