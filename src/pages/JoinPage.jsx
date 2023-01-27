@@ -10,6 +10,9 @@ import EyeKeyboard from '../components/keyboard/EyeKeyboard';
 import { useNavigate } from 'react-router-dom';
 import ModeSelection from '../components/functionDetails/ModeSelection';
 import MoveSelections from '../components/functionDetails/MoveSelection';
+import { IS_SMART_TOOLS_OPEN } from "../recoil/Atoms";
+import { useRecoilValue } from "recoil";
+import SensitivitySmartTools from '../components/functionDetails/SensitivitySmartTools';
 import './LoginJoin.css';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -42,6 +45,10 @@ const JoinPage = () =>{
     const [open, setOpen] = useState(false)
     const [openJoinFail, setOpenJoinFail] = useState(false)
     const [openJoinSuccess, setOpenJoinSuccess] = useState(false)
+
+    let smartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
+
     // 비밀번호 확인 체크
     const check = () =>{
         if(checked === false){
@@ -85,7 +92,18 @@ const JoinPage = () =>{
             <MoveSelections 
                 currentPage = "join"
             />
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+            />
+            {
+                smartToolsOpen ?
+                <SensitivitySmartTools 
+                    currentPage = "join"
+                    SmartToolsPosition = {SmartToolsPosition}
+                />
+                :
+                <></>
+            }
             <div className="login-join-top-container">
                 <Link to = {`/`} className = "login-join-title">
                     EyeTist

@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import EyeMouse from "../components/mouse/EyeMouse";
 import FaceMeshCam from "../components/faceMesh/FaseMeshCam";
 import EyeCard from "../components/atoms/EyeCard";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { SETTING_MODE } from "../recoil/Atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { SETTING_MODE, IS_SMART_TOOLS_OPEN } from "../recoil/Atoms";
 import ModeSelection from "../components/functionDetails/ModeSelection";
 import MoveSelections from "../components/functionDetails/MoveSelection";
+import SensitivitySmartTools from "../components/functionDetails/SensitivitySmartTools";
 import './Setting.css'
 
 const Setting = () =>{
     let navigate = useNavigate();
     let [settingMode, setSettingMode] = useRecoilState(SETTING_MODE)
-    
+    let isSmartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
+    let SmartToolsPosition = useRef({x:0, y:0})
+
     let defaultSettingContent = [
         "Enjoy the Eyetist with a preset setting",
         "It's easy to get started quickly, but it may not be very detailed."
@@ -45,7 +48,18 @@ const Setting = () =>{
                 <li></li>
                 <li></li>
             </ul>
-            <EyeMouse />
+            <EyeMouse 
+                SmartToolsPosition = {SmartToolsPosition}
+            />
+            {
+                isSmartToolsOpen ?
+                <SensitivitySmartTools 
+                    currentPage = "setting"
+                    SmartToolsPosition = {SmartToolsPosition}
+                />
+                :
+                <></>
+            }
             <div className="information-top-container">
                 <div className = "information-title">
                     EyeTist

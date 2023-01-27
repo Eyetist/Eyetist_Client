@@ -1,39 +1,15 @@
-import React, { useEffect } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { MOUSE_POS, MOUSE_SENSITIVITY, IS_LEFT_EYE_BLINK, IS_RIGHT_EYE_BLINK} from '../../recoil/Atoms';
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { MOUSE_POS, MOUSE_SENSITIVITY, IS_SMART_TOOLS_OPEN} from '../../recoil/Atoms';
 
 const SensitivityController = (props) => {
     let mousePos = useRecoilValue(MOUSE_POS)
-    let isLeftEyeBlink = useRecoilValue(IS_LEFT_EYE_BLINK)
-    let isRightEyeBlink = useRecoilValue(IS_RIGHT_EYE_BLINK)
-    let [mouseSensitivity, setMouseSensitivity] = useRecoilState(MOUSE_SENSITIVITY)
-
-    useEffect( () => {
-        setTimeout(function(){
-            if (props.isOpenSensitivity && isLeftEyeBlink){
-                if (mouseSensitivity <= 1){
-                    setMouseSensitivity(1)
-                }
-                else{
-                    setMouseSensitivity(mouseSensitivity - 1)
-                }
-            }
-
-            if (props.isOpenSensitivity && isRightEyeBlink){
-                if (mouseSensitivity >= 10){
-                    setMouseSensitivity(10)
-                }
-                else{
-                    setMouseSensitivity(mouseSensitivity + 1)
-                }
-            }
-        }, 100)
-    }, [mousePos])
-
+    let mouseSensitivity = useRecoilValue(MOUSE_SENSITIVITY)
+    let isSmartToolsOpen = useRecoilValue(IS_SMART_TOOLS_OPEN)
     return(
-        props.isOpenSensitivity ?
+        isSmartToolsOpen ?
         <div
-            style={{position: 'absolute', left: mousePos.x, top: mousePos.y - 60, width:"140px", height:"30px", borderRadius:"5px", backgroundColor:"none", zIndex:999}}
+            style={{position: 'absolute', left: mousePos.x, top: mousePos.y - 60, width:"auto", height:"auto", borderRadius:"5px", backgroundColor:"white", zIndex:999, padding:"5px"}}
         >
             {`sensitivity = ${mouseSensitivity}`}
         </div>

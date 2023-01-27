@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import SensitivityController from "./SensitivityController";
 import { BsCircle,BsPencilFill,BsEraser,BsZoomIn,BsZoomOut,BsPaintBucket } from "react-icons/bs"
 import { RiEraserFill } from "react-icons/ri"
 import { FaRegHandPointUp, FaHandPointUp } from "react-icons/fa"
-import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_LEFT_EYE_BLINK, IS_MOUSE_OPEN, STROKE_COLOR,CURRENT_FUNCTION } from '../../recoil/Atoms';
+import { MOUSE_POS, IS_RIGHT_EYE_BLINK, IS_LEFT_EYE_BLINK, IS_MOUSE_OPEN, STROKE_COLOR,CURRENT_FUNCTION, IS_SMART_TOOLS_OPEN } from '../../recoil/Atoms';
 import { useStopwatch } from 'react-timer-hook';
 
 const cursorImage = {
@@ -23,6 +23,7 @@ const EyeMouse = (props) => {
     let isMouseOpen = useRecoilValue(IS_MOUSE_OPEN)
     let currentFunction=useRecoilValue(CURRENT_FUNCTION)
     let [cursor,setCursor]=useState();
+    let setIsSmartToolsOpen = useSetRecoilState(IS_SMART_TOOLS_OPEN)
     const {
         seconds,
         pause,
@@ -30,9 +31,10 @@ const EyeMouse = (props) => {
     } = useStopwatch({ autoStart: false });
 
     useEffect( () => {
-        if (seconds >= 1 && props.SmartToolsPosition && !isMouseOpen && !props.isOpenSensitivity){
+        if (seconds >= 1 && props.SmartToolsPosition){
             props.SmartToolsPosition.current = {x: mousePos.x, y: mousePos.y}
-            props.setSmartToolsOpen(true)
+            
+            setIsSmartToolsOpen(true)
         }
     },[seconds])
 
@@ -115,28 +117,8 @@ const EyeMouse = (props) => {
 
     return(
         <>
-        <SensitivityController 
-            isOpenSensitivity = {props.isOpenSensitivity}
-        />
+        <SensitivityController />
         {
-        props.isOpenSensitivity ?
-            isRightEyeBlink ? 
-                <img
-                    src={cursorImage.plusCursor}
-                    alt="cursor"
-                    style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
-                />
-            :
-                isLeftEyeBlink ? 
-                    <img
-                        src={cursorImage.minusCursor}
-                        alt="cursor"
-                        style={{ position: 'absolute', left: mousePos.x, top: mousePos.y , width : "50px", height : "50px", zIndex:'999'}}
-                    />
-                :
-                <>{cursor}</>
-
-        :
             mousePos.x < window.innerWidth * 0.1 ? // || mousePos.x > window.innerWidth * 0.79 
                 isRightEyeBlink ? 
                     <>

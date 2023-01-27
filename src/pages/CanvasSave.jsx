@@ -3,7 +3,7 @@ import EyeButton from "../components/atoms/EyeButton"
 import EyeKeyboard from "../components/keyboard/EyeKeyboard"
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
-import { sendCanvas,reSavePicture } from "../api/member/MemberAPI"
+import { sendCanvas } from "../api/member/MemberAPI"
 import './CanvasSave.css'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
