@@ -105,6 +105,7 @@ const Main = () => {
                 currentPage = "paint"
             />
             <BootstrapDialog
+                className="MuiPaper-root"
                 aria-labelledby="customized-dialog-title"
                 open={showSaveSuccess}
                 onClose={() =>{setShowSaveSuccess(false)}}

@@ -231,16 +231,19 @@ const JoinPage = () =>{
                                 onClick={() => alerm()}
                             />
                             <BootstrapDialog
+                                className="MuiPaper-root"
                                 aria-labelledby="customized-dialog-title"
                                 open={open}
                                 onClose={() => {setOpen(false)}}
                             >Please check the <br/>password checkbox.</BootstrapDialog>
                             <BootstrapDialog
+                                className="MuiPaper-root"
                                 aria-labelledby="customized-dialog-title"
                                 open={openJoinFail}
                                 onClose={() =>{setOpenJoinFail(false)}}
                             >This ID is already registered.<br/>Please enter a different ID.</BootstrapDialog>
                             <BootstrapDialog
+                                className="MuiPaper-root"
                                 aria-labelledby="customized-dialog-title"
                                 open={openJoinSuccess}
                                 onClose={() =>{setOpenJoinSuccess(false)}}

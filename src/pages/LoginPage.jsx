@@ -198,6 +198,7 @@ const LoginPage = () =>{
                             onClick={() => login()}
                         />
                         <BootstrapDialog
+                            className="MuiPaper-root"
                             aria-labelledby="customized-dialog-title"
                             open={openLoginFail}
                             onClose={() =>{setOpenLoginFail(false)}}
