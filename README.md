@@ -5,6 +5,8 @@
   <img src="https://img.shields.io/badge/Microsoft Azure-0078D4?style=flat-square&logo=Microsoft Azure&logoColor=white"/>
 </p>
 
+Presentation Video : https://www.youtube.com/watch?v=Tx1zVCJRE8E
+
 # <img width="25" height="25" src="https://cdn-icons-png.flaticon.com/512/5726/5726678.png"> What is EyeTist
 - EyeTist is a web service for people who have difficulty using their hands.
 - It recognizes the user's face information and allows them to draw with only facial movements without using their hands.
